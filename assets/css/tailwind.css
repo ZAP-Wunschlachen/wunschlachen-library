@@ -1,0 +1,283 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+}
+
+body {
+  font-family: "outfit";
+  color: var(--dental-blue-0);
+  margin: 0;
+  padding: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: var(--dental-air--1);
+}
+
+h1 {
+  font-size: 65px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+
+  @media (min-width: 768px) and (max-width: 1200px) {
+    /* Mobile/H1 */
+    font-family: Outfit;
+    font-size: 45px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 120%; /* 54px */
+    letter-spacing: -0.9px;
+  }
+
+  @media (max-width: 768px) {
+    font-family: Outfit;
+    font-size: 45px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 120%; /* 54px */
+    letter-spacing: -0.9px;
+  }
+
+  @media (min-width: 1201px) and (max-width: 2650px) {
+    font-family: Outfit;
+    font-size: 65px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 120%; /* 78px */
+    letter-spacing: -1.3px;
+  }
+}
+
+h2 {
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 120%;
+
+  @media (min-width: 768px) and (max-width: 1200px) {
+    font-family: Outfit;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 120%; /* 38.4px */
+    letter-spacing: -0.64px;
+  }
+
+  @media (max-width: 768px) {
+    font-family: Outfit;
+    font-size: 25px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 120%; /* 30px */
+    letter-spacing: -0.5px;
+  }
+
+  @media (min-width: 1201px) and (max-width: 2650px) {
+    font-family: Outfit;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 120%; /* 38.4px */
+  }
+}
+
+h3 {
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  color: var(--dental-blue-0);
+
+  @media (min-width: 768px) and (max-width: 1200px) {
+    font-family: Outfit;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 120%; /* 21.6px */
+  }
+
+  @media (max-width: 768px) {
+    font-family: Outfit;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 120%; /* 19.2px */
+  }
+
+  @media (min-width: 1201px) and (max-width: 2650px) {
+    font-family: Outfit;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 120%; /* 24px */
+  }
+}
+
+p {
+  @media (min-width: 768px) and (max-width: 1200px) {
+    font-family: Outfit;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 120%; /* 21.6px */
+    letter-spacing: 0.9px;
+  }
+
+  @media (max-width: 768px) {
+    font-family: Outfit;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 120%; /* 19.2px */
+  }
+
+  @media (min-width: 1201px) and (max-width: 2650px) {
+    font-family: Outfit;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 120%; /* 24px */
+    letter-spacing: 1px;
+  }
+}
+
+.custom-list li {
+  position: relative; /* Ensure bullets align correctly */
+  margin-left: 20px;
+}
+
+@media (min-width: 768px) and (max-width: 1200px) {
+  .custom-list li {
+    font-family: Outfit;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 120%; /* 21.6px */
+    letter-spacing: 0.9px;
+  }
+}
+
+@media (max-width: 768px) {
+  .custom-list li {
+    font-family: Outfit;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 120%; /* 19.2px */
+  }
+}
+
+@media (min-width: 1201px) and (max-width: 2650px) {
+  .custom-list li {
+    font-family: Outfit;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 120%; /* 24px */
+    letter-spacing: 1px;
+  }
+}
+
+.custom-list li::before {
+  content: "•"; /* Unicode for bullet */
+  color: #000; /* Bullet color */
+  position: absolute;
+  left: -20px; /* Adjust as needed */
+  top: 0;
+  font-size: 20px; /* Bullet size */
+  line-height: 1; /* Ensure bullet aligns with text */
+}
+
+@layer base {
+  :root {
+    --white: white;
+    --black: black;
+    /* Primary Dental Blue */
+    --dental-blue-0: #172774;
+    --dental-blue-1: #111c54;
+    --dental-blue--1: #4f5b95;
+    --dental-blue--2: #7079a8;
+    --dental-blue--3: #9198bc;
+    --dental-blue--4: #cacdde;
+    --dental-blue--5: #e5e6ee;
+    --dental-blue--6: #f6f6f8;
+
+    /* Primary Dental Light Blue */
+    --dental-light-blue-4: #293e52;
+    --dental-light-blue-3: #69849e;
+    --dental-light-blue-2: #93b1cf;
+    --dental-light-blue-1: #adcbe9;
+    --dental-light-blue-0: #c5e1fc;
+    --dental-light-blue--1: #dcecfc;
+    --dental-light-blue--2: #edf5fc;
+    --dental-light-blue--3: #f8fafd;
+
+    /* Primary Dental Air */
+    --dental-air-5: #2e3133;
+    --dental-air-4: #70767b;
+    --dental-air-3: #99a2a9;
+    --dental-air-2: #c5d1d9;
+    --dental-air-1: #dbe8f1;
+    --dental-air-0: #e4f2fb;
+    --dental-air--1: #f4f9fd;
+    --dental-air--2: #f9fbfd;
+
+    /* CTA */
+    --power-red-3: #1e050f;
+    --power-red-2: #4a0d26;
+    --power-red-1: #891747;
+    --power-red-0: #f4297e;
+    --power-red--1: #f769a5;
+    --power-red--2: #fa9fc5;
+    --power-red--3: #fcc9df;
+    --power-red--4: #feeaf2;
+
+    /* Tertiary Light Gum */
+    --light-gum-4: #1f1c1b;
+    --light-gum-3: #4c4444;
+    --light-gum-2: #b6a3a2;
+    --light-gum-1: #edd4d2;
+    --light-gum-0: #fce2df;
+    --light-gum--1: #fdeeec;
+    --light-gum--2: #fef3f2;
+    --light-gum--3: #fef9f9;
+
+    /* Tertiary Warm Light */
+    --warm-light-5: #10100e;
+    --warm-light-4: #34322e;
+    --warm-light-3: #5c5952;
+    --warm-light-2: #cec7b8;
+    --warm-light-1: #f0e8d6;
+    --warm-light-0: #fff6e4;
+    --warm-light--1: #fff8eb;
+    --warm-light--2: #fffbf4;
+
+    /* Tertiary Warm Light */
+    --soft-concrete-5: #1e1e1e;
+    --soft-concrete-4: #4a4a4b;
+    --soft-concrete-3: #676769;
+    --soft-concrete-2: #c1c1c2;
+    --soft-concrete-1: #dddddf;
+    --soft-concrete-0: #f5f5f7;
+    --soft-concrete--1: #f9f9fb;
+    --soft-concrete--2: #fbfbfc;
+
+    /* Error Red */
+    --error-red-1: #630112;
+    --error-red-0: #b00020;
+    --error-red--1: #e3a6b1;
+
+    /* Success Green */
+    --success-green-1: #037a72;
+    --success-green-0: #03dac6;
+    --success-green--1: #f3fdfc;
+
+    /* Warning */
+    --warning-1: #4f4700;
+    --warning-0: #ffe600;
+    --warning--1: #fff8db;
+  }
+}
