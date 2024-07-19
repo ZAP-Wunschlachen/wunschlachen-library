@@ -5,17 +5,6 @@
 @layer utilities {
 }
 
-body {
-  font-family: "outfit";
-  color: var(--dental-blue-0);
-  margin: 0;
-  padding: 0;
-  top: 0;
-  left: 0;
-  right: 0;
-  background-color: var(--dental-air--1);
-}
-
 h1 {
   font-size: 65px;
   font-style: normal;
@@ -89,7 +78,6 @@ h3 {
   font-style: normal;
   font-weight: 700;
   line-height: normal;
-  color: var(--dental-blue-0);
 
   @media (min-width: 768px) and (max-width: 1200px) {
     font-family: Outfit;
@@ -121,7 +109,7 @@ p {
     font-family: Outfit;
     font-size: 18px;
     font-style: normal;
-    font-weight: 400;
+    font-weight: 300;
     line-height: 120%; /* 21.6px */
     letter-spacing: 0.9px;
   }
@@ -130,7 +118,7 @@ p {
     font-family: Outfit;
     font-size: 16px;
     font-style: normal;
-    font-weight: 400;
+    font-weight: 300;
     line-height: 120%; /* 19.2px */
   }
 
@@ -138,7 +126,7 @@ p {
     font-family: Outfit;
     font-size: 20px;
     font-style: normal;
-    font-weight: 400;
+    font-weight: 300;
     line-height: 120%; /* 24px */
     letter-spacing: 1px;
   }
@@ -154,7 +142,7 @@ p {
     font-family: Outfit;
     font-size: 18px;
     font-style: normal;
-    font-weight: 400;
+    font-weight: 300;
     line-height: 120%; /* 21.6px */
     letter-spacing: 0.9px;
   }
@@ -165,7 +153,7 @@ p {
     font-family: Outfit;
     font-size: 16px;
     font-style: normal;
-    font-weight: 400;
+    font-weight: 300;
     line-height: 120%; /* 19.2px */
   }
 }
@@ -175,7 +163,7 @@ p {
     font-family: Outfit;
     font-size: 20px;
     font-style: normal;
-    font-weight: 400;
+    font-weight: 300;
     line-height: 120%; /* 24px */
     letter-spacing: 1px;
   }
@@ -189,6 +177,17 @@ p {
   top: 0;
   font-size: 20px; /* Bullet size */
   line-height: 1; /* Ensure bullet aligns with text */
+}
+
+h5 {
+  color: var(--Dental-Blue--1, #4f5b95);
+  text-align: center;
+  font-family: Outfit;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 120%; /* 15.6px */
+  letter-spacing: -0.13px;
 }
 
 @layer base {
@@ -280,4 +279,15 @@ p {
     --warning-0: #ffe600;
     --warning--1: #fff8db;
   }
+}
+
+.focus-border {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-shadow: inset 0 0 0 50px green;
+}
+
+.bg-red-bruv {
+  background: red;
 }

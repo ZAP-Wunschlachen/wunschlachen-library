@@ -2,6 +2,11 @@
   <div class="flex mx-auto flex-col max-w-[1200px]">
     <div class="p-4"></div>
 
+    <AppointmentRegistrationStartScreen
+      class="mb-4"
+    ></AppointmentRegistrationStartScreen>
+    <AppointmentRegistrationInsertMail></AppointmentRegistrationInsertMail>
+
     <GenericBulletList
       text="Welche Vorteile haben festsitzende Zähne an einem Tag gegenüber Prothesen?"
     >

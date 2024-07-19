@@ -13,6 +13,10 @@
     "@fontsource/outfit": "^5.0.13",
     "@nuxtjs/tailwindcss": "^6.12.0",
     "nuxt": "^3.12.2",
-    "vue": "latest"
+    "vue": "latest",
+    "@directus/sdk": "^11.0.3",
+    "nuxt-directus": "^5.5.0",
+    "@nuxt/image": "^1.0.0-rc.1",
+    "nuxt-icon": "^0.6.5"
   }
 }
