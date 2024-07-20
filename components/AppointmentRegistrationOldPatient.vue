@@ -11,32 +11,44 @@
           <p>Loading logo...</p>
         </template>
       </div>
-      <div
-        class="flex flex-col justify-center items-center gap-[40px] self-stretch"
-      >
-        <div class="flex flex-col justify-center items-center">
-          <h2 class="max-w-[300px] text-center">
-            Geben Sie Ihre E-Mail-Adresse oder Telefonnummer ein
-          </h2>
+      <div class="flex flex-col justify-center items-center self-stretch">
+        <div
+          class="flex flex-col text-center justify-center max-w-[400px] items-center gap-[10px]"
+        >
+          <h2>Sind Sie bereits Patient?</h2>
+          <span>Gewisse Terminarten sind nicht für Neupatienten verfügbar</span>
         </div>
-
-        <GenericInput
-          class="w-full"
-          :prependIcon="mailIcon"
-          id="default"
-          placeholder="Default Input"
-        />
       </div>
-      <GenericButton
-        :outlined="true"
-        :plain="false"
-        class="min-w-[290px]"
-        :disabled="false"
-        style="margin: 10px"
-        label="dsads"
+
+      <div
+        class="flex border mx-auto rounded-[4px] h-[266px] max-w-[350px] p-[24px_20px] flex-col items-center gap-[24px] self-stretch"
       >
-        <template #label> Eingloggen </template>
-      </GenericButton>
+        <div class="flex flex-col gap-[32px] self-stretch">
+          <span class="text-left px-[12px]"
+            >Haben Sie einen Arzt oder Ärztin in dieser Einrichtung bereits
+            besucht?</span
+          >
+          <div class="flex flex-col gap-[16px]">
+            <GenericButton
+              :outlined="true"
+              :plain="false"
+              :disabled="false"
+              label="dsads"
+            >
+              <template #label> Ja </template>
+            </GenericButton>
+
+            <GenericButton
+              :outlined="true"
+              :plain="false"
+              :disabled="false"
+              label="dsads"
+            >
+              <template #label> Nein </template>
+            </GenericButton>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>

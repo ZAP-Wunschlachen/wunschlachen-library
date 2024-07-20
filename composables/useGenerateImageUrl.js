@@ -1,7 +1,7 @@
 // src/composables/useGenerateImageUrl.js
 
 export function useGenerateImageUrl() {
-  const baseUrl = "https://app.wunschlachen.de/assets";
+  const baseUrl = useDirectusUrl() + "/assets";
 
   const generateImageUrl = (image) => {
     if (!image || !image.filename_download) return "";
@@ -29,16 +29,28 @@ export function useGenerateImageUrl() {
     };
 
     const sanitizedFilename = sanitizeUrlString(image.filename_download);
+
     return `${baseUrl}/${image.id}/${sanitizedFilename}`;
   };
 
   const generateSimpleImageUrl = (image) => {
     if (!image) return "";
-
     return `${baseUrl}/${image}`;
   };
 
+  const getSvgContent = async (image) => {
+    const response = await fetch(generateSimpleImageUrl(image));
+    if (response.ok) {
+      let svgContent = await response.text();
+
+      return svgContent;
+    } else {
+      console.error("Failed to fetch SVG");
+    }
+  };
+
   return {
+    getSvgContent,
     generateImageUrl,
     generateSimpleImageUrl,
   };

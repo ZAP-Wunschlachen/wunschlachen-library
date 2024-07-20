@@ -15,24 +15,18 @@
         class="flex flex-col justify-center items-center gap-[40px] self-stretch"
       >
         <div class="flex flex-col justify-center items-center">
-          <h2 class="max-w-[300px] text-center">
-            Geben Sie Ihre E-Mail-Adresse oder Telefonnummer ein
+          <h2 class="text-center">
+            Bitte den per E-Mail gesendeten Code eingeben
           </h2>
         </div>
 
-        <GenericInput
-          class="w-full"
-          :prependIcon="mailIcon"
-          id="default"
-          placeholder="Default Input"
-        />
+        <GenericOtpInput />
       </div>
       <GenericButton
-        :outlined="true"
+        :outlined="false"
         :plain="false"
-        class="min-w-[290px]"
+        class="max-w-[290px]"
         :disabled="false"
-        style="margin: 10px"
         label="dsads"
       >
         <template #label> Eingloggen </template>

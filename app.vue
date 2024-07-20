@@ -11,4 +11,8 @@ import "@fontsource/outfit/400.css"; // Specify weight
 body {
   color: var(--dental-blue-0);
 }
+
+svg path {
+  stroke: var(--dental-blue-0);
+}
 </style>

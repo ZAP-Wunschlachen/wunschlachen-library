@@ -1,7 +1,7 @@
 <template>
   <div
     :class="[
-      'button relative flex items-center justify-center font-normal text-center text-base border-0 w-full h-10 leading-5 px-4 rounded-lg outline-none cursor-pointer',
+      'button relative flex items-center justify-center font-normal text-center text-base border-0 w-full h-10 leading-5 p-[20px] rounded-lg outline-none cursor-pointer',
       baseClass,
       { 'cursor-not-allowed': disabled },
       { 'opacity-0': sending },
@@ -20,7 +20,7 @@
       class="absolute top-1/2 left-1/2 -mt-1 -ml-1 w-3 h-3 border-2 border-solid rounded-full border-current border-t-transparent animate-spin"
     ></div>
     <div
-      class="button-content flex items-center justify-center"
+      class="button-content sm:text-[16px] md:text-[18px] lg:text-[20px] flex items-center justify-center"
       v-if="!sending"
     >
       <div class="flex flex-col">
@@ -33,6 +33,8 @@
 </template>
 
 <script setup>
+import { computed } from "vue";
+
 const props = defineProps({
   disabled: {
     type: Boolean,
@@ -50,6 +52,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  default: {
+    type: Boolean,
+    default: false,
+  },
   iconName: {
     type: String,
     default: "",
@@ -57,6 +63,13 @@ const props = defineProps({
 });
 
 const baseClass = computed(() => {
+  if (props.default) {
+    if (props.disabled) {
+      return "bg-soft-concrete-2 text-white border-2 border-soft-concrete-2";
+    }
+    return "bg-dental-blue-0 text-white border-2 border-dental-blue-0 hover:bg-dental-blue--3 active:bg-dental-blue-1";
+  }
+
   if (props.plain) {
     if (props.disabled) {
       return "bg-transparent text-soft-concrete-2";

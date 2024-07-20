@@ -1,6 +1,6 @@
 <template>
   <label
-    class="flex items-center gap-3 text-sm font-normal sm:leading-[15.6px] lg:text-[14px] md:text-[14px] md:leading-[15.6px] lg:leading-[15.6px] tracking-[-0.13px]"
+    class="flex items-center gap-3 text-sm sm:leading-[15.6px] lg:text-[14px] md:text-[14px] md:leading-[15.6px] lg:leading-[15.6px] tracking-[-0.13px]"
     :class="{
       'text-success-green-1': success,
       'text-error-red-0': error,
@@ -14,13 +14,13 @@
         :checked="modelValue"
         @change="updateValue"
         :class="[
-          'appearance-none bg-white m-0 p-0 w-5 h-5 border rounded transform -translate-y-[0.075em] grid place-content-center',
+          'appearance-none bg-white m-0 p-0 w-7 h-7 border-[1px]  bor rounded transform -translate-y-[0.075em] grid place-content-center',
           {
-            'border-success-green-0 text-success-green-0 hover:border-success-green-0 hover:bg-success-green-minus-1':
+            'border-success-green-0 text-success-green-0 border-[2px] hover:border-success-green-0 hover:bg-success-green-minus-1':
               success,
-            'border-error-red-0 hover:border-error-red-0 hover:bg-error-red-minus-1':
+            'border-error-red-0 hover:border-error-red-0  border-[2px]  hover:bg-error-red-minus-1':
               error,
-            'border-soft-concrete-2 hover:border-dental-blue-minus-1 hover:bg-dental-light-blue-minus-2':
+            'border-soft-concrete-2 hover:border-dental-blue-minus-1   hover:bg-dental-light-blue-minus-2':
               !success && !error,
             'opacity-50 cursor-not-allowed': disabled,
           },
@@ -28,7 +28,9 @@
         :disabled="disabled"
       />
     </span>
-    {{ label }}
+    <span style="font-weight: 300">
+      {{ label }}
+    </span>
   </label>
 </template>
 
@@ -72,17 +74,19 @@ const updateValue = (event) => {
 
 <style>
 .checkbox-container {
-  width: 1.25rem; /* Width of the checkbox (e.g., 20px) */
-  height: 1.25rem; /* Height of the checkbox (e.g., 20px) */
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
+input[type="checkbox"]:checked {
+  border-width: 2px;
+}
+
 input[type="checkbox"]::before {
   content: "";
-  width: 0.8em;
-  height: 0.8em;
+  width: 16px;
+  height: 16px;
   transform: scale(0);
   transition: 120ms transform ease-in-out;
   box-shadow: inset 1em 1em var(--form-control-color);

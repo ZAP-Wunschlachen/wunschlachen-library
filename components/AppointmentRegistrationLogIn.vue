@@ -15,27 +15,40 @@
         class="flex flex-col justify-center items-center gap-[40px] self-stretch"
       >
         <div class="flex flex-col justify-center items-center">
-          <h2 class="max-w-[300px] text-center">
-            Geben Sie Ihre E-Mail-Adresse oder Telefonnummer ein
-          </h2>
+          <h2 class="text-center">Geben Sie Ihr Passwort ein</h2>
         </div>
 
-        <GenericInput
-          class="w-full"
-          :prependIcon="mailIcon"
-          id="default"
-          placeholder="Default Input"
-        />
+        <div class="flex flex-col gap-4 w-full">
+          <GenericInput
+            class="w-full"
+            :prependIcon="mailIcon"
+            id="default"
+            placeholder="Default Input"
+          />
+          <GenericInput
+            class="w-full"
+            :prependIcon="mailIcon"
+            id="default"
+            placeholder="Default Input"
+          />
+          <GenericCheckbox label="Benutzernamen speichern" />
+
+          <NuxtLink>
+            <div class="flex items-start">
+              <h5>Passwort vergessen?</h5>
+            </div>
+          </NuxtLink>
+        </div>
       </div>
       <GenericButton
-        :outlined="true"
+        :outlined="false"
         :plain="false"
         class="min-w-[290px]"
         :disabled="false"
         style="margin: 10px"
         label="dsads"
       >
-        <template #label> Eingloggen </template>
+        <template #label> Weiter </template>
       </GenericButton>
     </div>
   </div>
