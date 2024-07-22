@@ -1,5 +1,15 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  hooks: {
+    "components:dirs": (dirs) => {
+      const { resolve } = createResolver(import.meta.url);
+      // Add ./components dir to the list
+      dirs.push({
+        path: resolve("./components"),
+        prefix: "Wunschlachen",
+      });
+    },
+  },
   devtools: {
     enabled: true,
 
