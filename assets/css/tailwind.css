@@ -112,31 +112,71 @@ h3 {
   }
 }
 
+h4 {
+  font-family: Outfit;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 120%; /* 19.2px */
+}
+
+/* Base styles for paragraphs */
 p {
-  @media (min-width: 768px) and (max-width: 1200px) {
-    font-family: Outfit;
+  font-family: Outfit;
+  font-style: normal;
+  font-weight: 300;
+  line-height: 120%;
+}
+
+/* Small paragraph styles */
+.p-small {
+  font-size: 14px;
+  letter-spacing: 0.7px;
+}
+
+@media (min-width: 768px) and (max-width: 1200px) {
+  .p-small {
+    font-size: 16px;
+    letter-spacing: 0.8px;
+  }
+}
+
+@media (min-width: 1201px) and (max-width: 2650px) {
+  .p-small {
     font-size: 18px;
-    font-style: normal;
-    font-weight: 300;
-    line-height: 120%; /* 21.6px */
     letter-spacing: 0.9px;
   }
+}
 
-  @media (max-width: 768px) {
-    font-family: Outfit;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 300;
-    line-height: 120%; /* 19.2px */
+@media (max-width: 767px) {
+  .p-small {
+    font-size: 14px;
   }
+}
 
-  @media (min-width: 1201px) and (max-width: 2650px) {
-    font-family: Outfit;
+/* Large paragraph styles */
+.p-large {
+  font-size: 18px;
+  letter-spacing: 0.9px;
+}
+
+@media (min-width: 768px) and (max-width: 1200px) {
+  .p-large {
     font-size: 20px;
-    font-style: normal;
-    font-weight: 300;
-    line-height: 120%; /* 24px */
     letter-spacing: 1px;
+  }
+}
+
+@media (min-width: 1201px) and (max-width: 2650px) {
+  .p-large {
+    font-size: 22px;
+    letter-spacing: 1.1px;
+  }
+}
+
+@media (max-width: 767px) {
+  .p-large {
+    font-size: 16px;
   }
 }
 

@@ -2,6 +2,11 @@
   <div class="flex mx-auto flex-col max-w-[1200px]">
     <div class="p-4"></div>
 
+    <AppointmentRegistrationError class="mb-4" />
+    <AppointmentRegistrationSuccessful class="mb-4" />
+    <AppointmentRegistrationPickDate class="mb-4" />
+    <AppointmentRegistrationChooseDentist class="mb-4" />
+    <AppointmentRegistrationChooseLocation class="mb-4" />
     <AppointmentRegistrationChooseTemplate class="mb-4" />
     <AppointmentRegistrationOldPatient class="mb-4" />
     <AppointmentRegistrationInsertCode class="mb-4" />

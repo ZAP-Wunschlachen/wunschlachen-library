@@ -12,14 +12,18 @@
       <div>
         <button
           type="button"
-          class="flex items-center justify-between w-full py-[24px] font-medium text-dental-blue-0 focus:outline-none hover:dental-blue--4 gap-[24px]"
+          class="flex items-center justify-between w-full py-[24px] font-medium text-dental-blue-0 focus:outline-none hover:bg-dental-blue-minus-6 gap-[24px]"
           @click="toggleAccordion"
           :aria-expanded="isOpen"
           aria-controls="accordion-body"
         >
           <span> <slot name="title"></slot></span>
           <svg
-            :class="isOpen ? 'rotate-180' : ''"
+            :class="
+              isOpen
+                ? 'rotate-180 transition-transform duration-500 ease-in-out'
+                : 'transition-transform duration-500 ease-in-out'
+            "
             aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -39,10 +43,14 @@
       </div>
       <div
         id="accordion-body"
-        :class="isOpen ? '' : 'hidden'"
+        :class="
+          isOpen
+            ? 'max-h-[1000px] transition-max-height duration-500 ease-in-out'
+            : 'max-h-0 transition-max-height duration-500 ease-in-out overflow-hidden'
+        "
         aria-labelledby="accordion-heading"
       >
-        <div class="pb-[24px] pt-[0px]">
+        <div class="py-[24px]">
           <slot name="content"></slot>
         </div>
       </div>
@@ -52,6 +60,9 @@
 
 <script setup>
 import { ref, defineProps } from "vue";
+
+const slots = useSlots();
+const hasContenteSlot = ref(!!slots.title);
 
 const props = defineProps({
   isFirst: {
@@ -67,11 +78,16 @@ const props = defineProps({
 const isOpen = ref(false);
 
 const toggleAccordion = () => {
+  console.log("hasContenteSlot", hasContenteSlot.value);
   isOpen.value = !isOpen.value;
 };
 </script>
 
 <style scoped>
+.transition-max-height {
+  transition: max-height 0.5s ease;
+}
+
 .accordion {
   border: 2px solid var(--dental-blue-0);
   border-left: none;

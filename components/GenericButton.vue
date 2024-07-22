@@ -1,7 +1,7 @@
 <template>
   <div
     :class="[
-      'button relative flex items-center justify-center font-normal text-center text-base border-0 w-full h-10 leading-5 p-[20px] rounded-lg outline-none cursor-pointer',
+      'button relative flex items-center justify-center font-normal text-center text-base border-0 w-full h-10 leading-5  rounded-lg outline-none cursor-pointer',
       baseClass,
       { 'cursor-not-allowed': disabled },
       { 'opacity-0': sending },

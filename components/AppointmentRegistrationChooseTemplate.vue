@@ -123,6 +123,5 @@ if (error.value) {
   console.error("Error fetching item:", error.value);
 } else {
   item.value = data.value;
-  console.log("item", item.value);
 }
 </script>
