@@ -4,25 +4,26 @@ export default defineNuxtModule({
   hooks: {
     "components:dirs": (dirs) => {
       const { resolve } = createResolver(import.meta.url);
-      // Add ./components directory to the list
+      // Add ./components dir to the list
       dirs.push({
         path: resolve("./components"),
-        prefix: "awesome",
+        prefix: "Wunschlachen",
       });
     },
-    "autoImports:dirs": (dirs) => {
-      const { resolve } = createResolver(import.meta.url);
-      // Add ./composables directory to the list
+  },
+  setup(options, nuxt) {
+    const { resolve } = createResolver(import.meta.url);
+
+    // Add CSS file
+    nuxt.options.css.push(resolve("./styles/index.css"));
+
+    // Add Tailwind CSS configuration
+    nuxt.options.tailwindcss = nuxt.options.tailwindcss || {};
+    nuxt.options.tailwindcss.configPath = resolve("./tailwind.config.js");
+
+    // Add composables directory to auto import
+    nuxt.hook("imports:dirs", (dirs) => {
       dirs.push(resolve("./composables"));
-    },
-    "autoImports:sources": (sources) => {
-      const { resolve } = createResolver(import.meta.url);
-      // Ensure composables can be imported directly
-      sources.push({
-        from: resolve("./composables/useIcons"),
-        name: "useIcons",
-        as: "useIcons",
-      });
-    },
+    });
   },
 });
