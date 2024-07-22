@@ -4,11 +4,16 @@ export default defineNuxtModule({
   hooks: {
     "components:dirs": (dirs) => {
       const { resolve } = createResolver(import.meta.url);
-      // Add ./components dir to the list
+      // Add ./components directory to the list
       dirs.push({
         path: resolve("./components"),
-        prefix: "Wunschlachen",
+        prefix: "awesome",
       });
+    },
+    "autoImports:dirs": (dirs) => {
+      const { resolve } = createResolver(import.meta.url);
+      // Add ./composables directory to the list
+      dirs.push(resolve("./composables"));
     },
   },
 });
