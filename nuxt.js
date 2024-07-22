@@ -15,7 +15,7 @@ export default defineNuxtModule({
     const { resolve } = createResolver(import.meta.url);
 
     // Add CSS file
-    nuxt.options.css.push(resolve("./styles/index.css"));
+    nuxt.options.css.push(resolve("./assets/css/tailwind.css"));
 
     // Add Tailwind CSS configuration
     nuxt.options.tailwindcss = nuxt.options.tailwindcss || {};
