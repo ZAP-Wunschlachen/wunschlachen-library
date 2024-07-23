@@ -15,9 +15,13 @@
       </template>
     </AppointmentRegistrationSuccessful> -->
     <!-- components/AppointmentRegistrationPickDate.vue -->
-    <AppointmentRegistrationPickDate
+    <!-- <AppointmentRegistrationPickDate
       :available-appointments="availableAppointments"
-    ></AppointmentRegistrationPickDate>
+    ></AppointmentRegistrationPickDate> -->
+
+    <AppointmentRegistrationError
+      :appointment="appointment"
+    ></AppointmentRegistrationError>
   </div>
 </template>
 
@@ -34,6 +38,10 @@ const appointment = ref<Appointment>({
     name: "Dr. Werner",
   },
 });
+
+const handleChoice = (choice: string) => {
+  alert(`Choice is ${choice}`);
+};
 
 const availableAppointments = ref<Appointment[]>([
   { ...appointment.value },
