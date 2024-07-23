@@ -19,9 +19,9 @@
       :available-appointments="availableAppointments"
     ></AppointmentRegistrationPickDate> -->
 
-    <AppointmentRegistrationOldPatient
-      @pick-choice="handleChoice"
-    ></AppointmentRegistrationOldPatient>
+    <AppointmentRegistrationError
+      :appointment="appointment"
+    ></AppointmentRegistrationError>
   </div>
 </template>
 
