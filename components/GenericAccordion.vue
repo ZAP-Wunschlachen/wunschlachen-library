@@ -53,7 +53,6 @@ const props = defineProps({
 const isOpen = ref(false);
 
 const toggleAccordion = () => {
-  console.log("hasContenteSlot", hasContenteSlot.value);
   isOpen.value = !isOpen.value;
 };
 </script>

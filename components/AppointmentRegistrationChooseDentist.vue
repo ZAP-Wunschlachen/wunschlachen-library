@@ -11,13 +11,13 @@
 
         <div class="locations">
           <div
-            v-for="(dentist, index) in dentistArray"
-            :key="index"
+            v-for="(dentist, dentistIndex) in dentistArray"
+            :key="dentistIndex"
             class="location-card"
           >
             <div class="location-header">
               <div>
-                <slot name="favicon" :image="dentist.favicon"></slot>
+                <img :src="dentist.favicon" width="90px" />
               </div>
               <div class="location-details">
                 <h4>{{ dentist.name }}</h4>
@@ -33,7 +33,13 @@
                   :key="dateIndex"
                   :plain="false"
                   :disabled="false"
-                  class="appointment-button"
+                  :class="[
+                    'appointment-button',
+                    selectedButtons[dentistIndex] === dateIndex
+                      ? 'selected'
+                      : '',
+                  ]"
+                  @click="selectButton(dentistIndex, dateIndex)"
                 >
                   <template #label>
                     <h4>{{ date }}</h4>
@@ -42,7 +48,12 @@
               </div>
             </div>
 
-            <GenericButton :outlined="false" :plain="false" :disabled="false">
+            <GenericButton
+              :outlined="false"
+              :plain="false"
+              :disabled="false"
+              @click="chooseDentist(dentistIndex)"
+            >
               <template #label>
                 <h4 class="button-text">Auswählen</h4>
               </template>
@@ -55,12 +66,34 @@
 </template>
 
 <script setup>
+import { ref, defineEmits } from "vue";
+
 const props = defineProps({
   dentistArray: {
     type: Array,
     required: true,
   },
 });
+
+const emit = defineEmits(["choose-dentist"]);
+
+const selectedButtons = ref({});
+
+const selectButton = (dentistIndex, dateIndex) => {
+  selectedButtons.value[dentistIndex] = dateIndex;
+};
+
+const chooseDentist = (dentistIndex) => {
+  const selectedDateIndex = selectedButtons.value[dentistIndex];
+  if (selectedDateIndex !== undefined) {
+    const selectedDate =
+      props.dentistArray[dentistIndex].appointmentDates[selectedDateIndex];
+    const dentist = props.dentistArray[dentistIndex];
+    emit("choose-dentist", { dentist, selectedDate });
+  } else {
+    alert("Bitte wählen Sie einen Termin aus.");
+  }
+};
 </script>
 
 <style scoped>
@@ -71,8 +104,7 @@ const props = defineProps({
   height: 100%;
   padding-top: 144px;
   padding-bottom: 280px;
-  padding-left: 0;
-  padding-right: 0;
+  min-width: 100%;
   align-items: center;
   justify-content: center;
   gap: 8px;
@@ -151,6 +183,11 @@ const props = defineProps({
   border-radius: 12px;
   background-color: var(--dental-light-blue-0);
   color: var(--dental-blue-0);
+}
+
+.appointment-button.selected {
+  background-color: var(--dental-blue-0);
+  color: white;
 }
 
 .button-text {

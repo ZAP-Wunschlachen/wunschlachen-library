@@ -68,6 +68,7 @@ const handleSignInClick = () => {
   padding-bottom: 280px;
   padding-left: 0;
   padding-right: 0;
+  min-width: 100%;
   align-items: center;
   justify-content: center;
   gap: 8px;
