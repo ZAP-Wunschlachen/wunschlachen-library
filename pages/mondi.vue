@@ -321,7 +321,7 @@ const validateInputs = () => {
 
 const handleForgotPassword = () => {
   console.log("rememberUsername", rememberUsername.value);
-  console.log("handleForgotPassword");
+  alert("handleForgotPassword");
 };
 
 const dentistArray = ref([

@@ -17,8 +17,8 @@
           placeholder="Default Input"
           v-model="inputValue"
         >
-          <template #prependIcon
-            ><svg
+          <template #prependIcon>
+            <svg
               xmlns="http://www.w3.org/2000/svg"
               width="25"
               height="26"
@@ -31,8 +31,9 @@
                 stroke-width="1.5"
                 stroke-linecap="round"
                 stroke-linejoin="round"
-              /></svg
-          ></template>
+              />
+            </svg>
+          </template>
         </GenericInput>
       </div>
       <GenericButton
@@ -40,7 +41,9 @@
         :disabled="false"
         @click="handleSignInClick"
       >
-        <template #label> Eingloggen </template>
+        <template #label>
+          <p class="p-large">Eingloggen</p>
+        </template>
       </GenericButton>
     </div>
   </div>
@@ -61,7 +64,6 @@ const handleSignInClick = () => {
 <style scoped>
 .container {
   display: flex;
-  border: 2px solid;
   width: 100%;
   height: 100%;
   padding-top: 144px;

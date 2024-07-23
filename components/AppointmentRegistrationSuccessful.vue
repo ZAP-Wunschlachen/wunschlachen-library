@@ -1,54 +1,76 @@
 <template>
-  <div class="container">
-    <div class="content-wrapper">
-      <div class="logo-container">
-        <!-- <p>Loading logo...</p> -->
-        <slot name="logo"></slot>
+  <div
+    class="flex border-2 w-full h-full pt-[144px] pb-[280px] px-0 items-center justify-center g-[8px]"
+  >
+    <div class="flex flex-col items-center gap-[48px]">
+      <div>
+        <template v-if="item && item.Logo">
+          <DirectusImg :image="item.Logo" width="170px" height="170px" />
+        </template>
+        <template v-else>
+          <p>Loading logo...</p>
+        </template>
       </div>
-      <div class="details-wrapper">
-        <div class="confirmation-message">
-          <div class="icon-message-wrapper">
-            <div class="favicon-container">
-              <!-- Add favicon image here -->
-              <slot name="favicon"></slot>
+      <div
+        class="flex flex-col justify-center items-center gap-[61px] self-stretch"
+      >
+        <div class="flex flex-col justify-center items-center">
+          <div class="flex flex-row pt-0 pl-[7px] pr-[32px] gap-[32px]">
+            <div>
+              <DirectusImg :image="item.favicon" width="52px" height="52px" />
             </div>
-            <div class="message-container">
+            <div
+              class="flex flex-col self-stretch gap-[8px] text-[var(--success-green-0)]"
+            >
               <h3>Der Termin ist gebucht</h3>
-              <h4 class="light-text">{{ formattedDentist }}</h4>
+              <h4
+                style="font-weight: 300"
+                class="text-light pl-6 flex flex-col"
+              >
+                Frau Steltenkamp | Zahnärztin
+              </h4>
             </div>
           </div>
         </div>
-        <div class="appointment-details">
-          <div class="appointment-card">
-            <div class="appointment-info">
-              <div class="info-row">
-                <div class="icon-container">
-                  <!-- Add clock icon here -->
-                  <slot name="clock-icon"></slot>
+
+        <div class="flex flex-col gap-[40px]">
+          <div
+            class="flex min-w-[350px] max-w-[350px] flex-col p-[24px] border-2 rounded-lg"
+          >
+            <div class="flex flex-col gap-[24px]">
+              <div class="flex flex-row items-start gap-[8px]">
+                <div>
+                  <div v-if="clockIcon">
+                    <span v-html="clockIcon"></span>
+                  </div>
                 </div>
-                <div class="text-container">
-                  <h3>{{ formattedDate }}</h3>
-                  <p>Ggf. bitte rechtzeitig absagen</p>
+                <div class="flex flex-col gap-[8px]">
+                  <h3>Am 11.Juli 2024 | um 11:45 Uhr</h3>
+                  <p>Ggf. bitte rechtzeitig absagenr</p>
                 </div>
               </div>
-              <div class="separator"></div>
-              <div class="info-row">
-                <div class="icon-container">
-                  <!-- Add map icon here -->
-                  <slot name="map-icon"></slot>
+              <div
+                class="w-full h-[2px] flex-shrink-0 bg-[var(--dental-blue-0)]"
+              ></div>
+              <div class="flex flex-row items-start gap-[8px]">
+                <div>
+                  <div v-if="mapIcon">
+                    <span v-html="mapIcon"></span>
+                  </div>
                 </div>
-                <div class="text-container">
-                  <h3>Zahnarztpraxis Berlin - {{ formattedLocation }}</h3>
-                  <p>{{ formattedAddress }}</p>
+                <div class="flex flex-col gap-[8px]">
+                  <h3>Zahnarztpraxis Berlin - Reinickendorf</h3>
+                  <p>Gotthardstr. 27 | 13407 Berlin</p>
                 </div>
               </div>
             </div>
-            <p class="confirmation-note">
+
+            <p class="mt-[40px]">
               Sie erhalten in Kürze eine Bestätigungs via E-Mail. Wir freuen uns
               auf Sie!
             </p>
-            <div class="svg-container">
-              <!-- Add SVG here -->
+
+            <div class="mx-auto mt-[32px]">
               <svg
                 width="158"
                 height="164"
@@ -106,16 +128,16 @@
                 />
               </svg>
             </div>
+
             <GenericButton
               :outlined="false"
               :plain="false"
               :disabled="false"
               label="Auswählen"
-              style="margin-top: 24px"
-              @click="handleClick()"
+              class="mt-[24px]"
             >
               <template #label>
-                <h4 style="font-weight: 300; color: white">
+                <h4 class="text-white" style="font-weight: 300">
                   Zurück zur Übersicht
                 </h4>
               </template>
@@ -127,203 +149,75 @@
   </div>
 </template>
 
-<script setup lang="ts">
-import type { Appointment } from "~/types/types";
+<script setup>
+import { ref } from "vue";
 
-const props = defineProps<{
-  appointment: Appointment;
-}>();
+const { getSingletonItem } = useDirectusItems();
+const item = ref(null);
 
-const item = ref<Appointment>(props.appointment);
+import { useIcons } from "@/composables/useIcons";
+const { getDirectusIcon } = useIcons();
 
-const emit = defineEmits(["close"]);
+const emit = defineEmits(["update:modelValue", "input-error"]);
 
-const handleClick = () => {
-  emit("close");
-};
-
-const formattedLocation = computed(() => {
-  return item.value.location ? item.value.location.branch : "Kein Standort";
+const { data: clockIcon } = await useAsyncData("clockIcon", async () => {
+  return await getDirectusIcon("clock_icon");
 });
 
-const formattedAddress = computed(() => {
-  return item.value.location ? item.value.location.address : "Keine Adresse";
+const { data: mapIcon } = await useAsyncData("mapIcon", async () => {
+  return await getDirectusIcon("map_pin_icon");
 });
 
-const formattedDate = computed(() => {
-  const date = item.value.date;
-
-  const optionsDate: Intl.DateTimeFormatOptions = {
-    weekday: "long",
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  };
-
-  const optionsTime: Intl.DateTimeFormatOptions = {
-    hour: "2-digit",
-    minute: "2-digit",
-  };
-
-  const datePart = date.toLocaleDateString("de-DE", optionsDate);
-  const timePart = date.toLocaleTimeString("de-DE", optionsTime);
-
-  return `Am ${datePart} | um ${timePart} Uhr`;
+const { data, error } = await useAsyncData("item", async () => {
+  return await getSingletonItem({
+    collection: "CMS",
+    params: {
+      fields: [
+        "*,Logo.*,Logo.title,Logo.filename_download, favicon.id, favicon.filename_download,favicon.type",
+      ],
+    },
+  });
 });
 
-const formattedDentist = computed(() => {
-  return item.value.dentist ? item.value.dentist.name : "Kein Zahnarzt";
-});
+const accordionArray = [
+  {
+    title: "Montag, 11. Juli",
+    content: ["9:30", "11:45", "16:15"],
+  },
+  {
+    title: "Dienstag, 12. Juli",
+    content: ["9:30", "11:45", "16:15"],
+  },
+  {
+    title: "Dienstag, 13. Juli",
+    content: [
+      "9:30",
+      "11:45",
+      "16:15",
+      "9:30",
+      "11:45",
+      "16:15",
+      "9:30",
+      "11:45",
+      "16:15",
+      "9:30",
+      "11:45",
+    ],
+  },
+];
 
-// if (!item.value) {
-//   console.error("Error fetching item:");
-// } else {
-//   console.log("item", item.value);
-// }
+if (error.value) {
+  console.error("Error fetching item:", error.value);
+} else {
+  item.value = data.value;
+  console.log("item", item.value);
+}
 </script>
 
-<style scoped>
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  height: 100vh;
-}
-
-.container {
-  display: flex;
-  width: 100%;
-  min-width: 100%;
-  height: 100%;
-  margin: auto;
-  justify-content: center;
-  align-items: center;
-}
-
-.content-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 48px;
-}
-
-.logo-container {
-  text-align: center;
-}
-
-.details-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 61px;
-  width: 100%;
-}
-
-.confirmation-message {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.icon-message-wrapper {
-  display: flex;
-  gap: 32px;
-}
-
-.favicon-container {
-  width: 52px;
-  height: 52px;
-  background-color: #ccc;
-}
-
-.message-container {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  color: var(--success-green-0);
-}
-
-.light-text {
-  font-weight: 300;
-}
-
-.appointment-details {
-  display: flex;
-  flex-direction: column;
-  gap: 40px;
-}
-
-.appointment-card {
-  display: flex;
-  flex-direction: column;
-  min-width: 350px;
-  max-width: 350px;
-  padding: 24px;
-  border: 2px solid #000;
-  border-radius: 8px;
-}
-
-.appointment-info {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-
-.info-row {
-  display: flex;
-  gap: 8px;
-}
-
-.icon-container {
-  width: 24px;
-  height: 24px;
-  background-color: #ccc;
-}
-
-.text-container {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.separator {
-  width: 100%;
-  height: 2px;
-  background-color: var(--dental-blue-0);
-}
-
-.confirmation-note {
-  margin-top: 40px;
-}
-
-.svg-container {
-  margin-top: 32px;
-  display: flex;
-  justify-content: center;
-}
-
-.generic-button {
-  margin-top: 24px;
-  padding: 10px 20px;
-  background-color: #172774;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.button-label {
-  font-weight: 300;
-  margin: 0;
-}
-
+<style>
 .h4-with-space::before {
   content: "";
   display: inline-block;
-  width: 5px;
+  width: 5px; /* Adjust the width to the desired spacing */
 }
 </style>

@@ -10,9 +10,8 @@
         :disabled="disabled"
       />
     </span>
-    <span class="label-text">
-      {{ label }}
-    </span>
+
+    <slot name="label"> </slot>
   </label>
 </template>
 
@@ -20,10 +19,6 @@
 import { defineProps, defineEmits, computed } from "vue";
 
 const props = defineProps({
-  label: {
-    type: String,
-    default: "Checkbox",
-  },
   success: {
     type: Boolean,
     default: false,

@@ -1,47 +1,38 @@
 <template>
-  <div
-    class="flex border-2 w-full h-full pt-[144px] pb-[280px] px-0 items-center justify-center g-[8px]"
-  >
-    <div class="flex flex-col items-center gap-[62px]">
+  <div class="container">
+    <div class="content-wrapper">
       <div>
-        <template v-if="item && item.Logo">
-          <DirectusImg :image="item.Logo" width="170px" height="170px" />
-        </template>
-        <template v-else>
-          <p>Loading logo...</p>
-        </template>
+        <slot name="logo"></slot>
       </div>
-      <div class="flex flex-col items-center gap-[32px] self-stretch">
+      <div class="header">
         <h2>Registrieren Sie sich oder loggen Sie sich ein</h2>
       </div>
-      <div class="flex flex-col items-center gap-[32px] self-stretch">
-        <div class="flex flex-col items-center gap-[16px] self-stretch">
-          <h5>Neu bei Wunschlachen?</h5>
+      <div class="section">
+        <div class="sub-section">
+          <p class="p-large">Neu bei Wunschlachen?</p>
           <div>
             <GenericButton
               :outlined="false"
               :plain="false"
-              class="min-w-[290px]"
+              class="register-button"
               :disabled="false"
-              style="margin: 10px"
-              label="dsads"
+              @click="handleRegister"
             >
-              <template #label> Registrieren </template>
+              <template #label> <p class="p-large">Registrieren</p></template>
             </GenericButton>
           </div>
         </div>
-        <div class="flex flex-col items-center gap-[16px] self-stretch">
-          <h5>Ich habe bereits ein Wunschlachen-Konto</h5>
+        <div class="sub-section">
+          <p class="p-large">Ich habe bereits ein Wunschlachen-Konto</p>
           <div>
             <GenericButton
-              :outlined="true"
+              :outlined="false"
               :plain="false"
-              class="min-w-[290px]"
+              class="login-button"
               :disabled="false"
-              style="margin: 10px"
-              label="dsads"
+              @click="handleLogin"
             >
-              <template #label> Eingloggen </template>
+              <template #label> <p class="p-large">Eingloggen</p></template>
             </GenericButton>
           </div>
         </div>
@@ -50,26 +41,79 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from "vue";
+import { defineEmits } from "vue";
 
-const { getSingletonItem } = useDirectusItems();
-const item = ref(null);
+const emit = defineEmits(["register", "login"]);
 
-const { data, error } = await useAsyncData("item", async () => {
-  return await getSingletonItem({
-    collection: "CMS",
-    params: {
-      fields: [
-        "*,Logo.*,Logo.title,Logo.filename_download, favicon.id, favicon.filename_download,favicon.type",
-      ],
-    },
-  });
-});
+const handleRegister = () => {
+  emit("register");
+};
 
-if (error.value) {
-  console.error("Error fetching item:", error.value);
-} else {
-  item.value = data.value;
-}
+const handleLogin = () => {
+  emit("login");
+};
 </script>
+
+<style scoped>
+.container {
+  display: flex;
+
+  width: 100%;
+  height: 100%;
+  padding-top: 144px;
+  padding-bottom: 280px;
+  padding-left: 0;
+  padding-right: 0;
+  min-width: 100%;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: var(--dental-light-blue-3);
+}
+
+.content-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 62px;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  width: 100%;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  width: 100%;
+}
+
+.sub-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+}
+
+.register-button {
+  min-width: 290px;
+  margin: 10p;
+  color: white;
+}
+
+.login-button {
+  min-width: 290px;
+  margin: 10p;
+  background: var(--Dental-Light-Blue-0, #c5e1fc);
+  color: var(--dental-blue-0);
+}
+</style>

@@ -35,14 +35,15 @@
               </div>
             </template>
           </GenericInput>
-          <GenericCheckbox
-            v-model="rememberUsername"
-            label="Benutzernamen speichern"
-          />
+          <GenericCheckbox v-model="rememberUsername">
+            <template #label
+              ><p class="p-small">Benutzernamen speichern</p>
+            </template></GenericCheckbox
+          >
 
           <NuxtLink @click.prevent="forgotPassword">
             <div class="link-container">
-              <h5>Passwort vergessen?</h5>
+              <a class="a-small">Passwort vergessen?</a>
             </div>
           </NuxtLink>
         </div>
@@ -134,7 +135,6 @@ const handleSubmit = () => {
 <style scoped>
 .container {
   display: flex;
-  border: 2px solid;
   width: 100%;
   height: 100%;
   padding-top: 144px;

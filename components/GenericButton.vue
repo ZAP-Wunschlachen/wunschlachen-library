@@ -88,7 +88,7 @@ const buttonClasses = computed(() => {
 .button-disabled {
   cursor: not-allowed;
   background-color: var(--soft-concrete-2);
-  color: var(--soft-concrete-2);
+  color: white;
 }
 
 .button-sending {
