@@ -14,7 +14,7 @@
       {{ label }}
     </label>
     <div class="input-container">
-      <div v-if="hasPrependIcon" class="input-icon left">
+      <div class="input-icon left">
         <slot name="prependIcon"></slot>
       </div>
       <input
@@ -33,9 +33,13 @@
           error ? 'input-error' : '',
         ]"
         :disabled="isDisabled"
-        :style="inputStyle"
+        :style="
+          prependIcon || appendIcon
+            ? 'padding-left: 2.5rem; padding-right: 2.5rem;'
+            : ''
+        "
       />
-      <div v-if="hasAppendIcon" class="input-icon right">
+      <div class="input-icon right">
         <slot name="appendIcon"></slot>
       </div>
     </div>
@@ -82,10 +86,9 @@
 </template>
 
 <script setup>
-import { defineProps, defineEmits, ref, computed, useSlots } from "vue";
+import { defineProps, defineEmits, ref } from "vue";
 
 const emit = defineEmits(["update:modelValue", "input-error"]);
-const slots = useSlots();
 
 const props = defineProps({
   id: {
@@ -132,19 +135,18 @@ const props = defineProps({
     type: String,
     default: "",
   },
+  prependIcon: {
+    type: Boolean,
+    default: false,
+  },
+  appendIcon: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const inputValue = ref(props.modelValue);
-
-const hasPrependIcon = computed(() => !!slots.prependIcon);
-const hasAppendIcon = computed(() => !!slots.appendIcon);
-
-const inputStyle = computed(() => {
-  let style = "";
-  if (hasPrependIcon.value) style += "padding-left: 2.5rem; ";
-  if (hasAppendIcon.value) style += "padding-right: 2.5rem; ";
-  return style;
-});
+const isTouched = ref(false);
 
 const updateValue = (event) => {
   inputValue.value = event.target.value;
@@ -153,6 +155,7 @@ const updateValue = (event) => {
 };
 
 const checkEmpty = () => {
+  isTouched.value = true;
   emit("input-error", { id: props.id, isError: !inputValue.value.trim() });
 };
 </script>
@@ -203,6 +206,8 @@ const checkEmpty = () => {
   border-radius: 0.375rem;
   box-shadow: 0 0 0 1px var(--dental-blue--4);
   color: var(--dental-blue--4);
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
 }
 
 .input:focus {
@@ -225,25 +230,13 @@ const checkEmpty = () => {
 }
 
 .input-success {
-  box-shadow: 0 0 0 2px var(--success-green-1);
+  box-shadow: 0 0 0 2px var(--success-green-0);
   color: var(--success-green-1);
   background-color: #e6ffed; /* Equivalent to bg-green-50 */
   placeholder: var(--success-green-1);
 }
 
-.input-success:focus {
-  box-shadow: 0 0 0 2px var(--success-green-1);
-  color: var(--success-green-1);
-  background-color: #e6ffed; /* Equivalent to bg-green-50 */
-}
-
 .input-error {
-  box-shadow: 0 0 0 2px var(--error-red-0);
-  background-color: #ffe5e5; /* Equivalent to bg-red-50 */
-  placeholder: var(--error-red-0);
-}
-
-.input-error:focus {
   box-shadow: 0 0 0 2px var(--error-red-0);
   background-color: #ffe5e5; /* Equivalent to bg-red-50 */
   placeholder: var(--error-red-0);
@@ -281,7 +274,7 @@ const checkEmpty = () => {
 }
 
 .text-warning {
-  color: var(--warm-light-3);
+  color: var (--warm-light-3);
 }
 
 .text-disabled {

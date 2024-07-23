@@ -1,69 +1,100 @@
 <template>
-  <div
-    class="flex border-2 w-full h-full pt-[144px] pb-[280px] px-0 items-center justify-center g-[8px]"
-  >
-    <div class="flex flex-col items-center gap-[62px]">
-      <div>
-        <template v-if="item && item.Logo">
-          <DirectusImg :image="item.Logo" width="170px" height="170px" />
-        </template>
-        <template v-else>
+  <div class="container">
+    <div class="content-wrapper">
+      <div class="logo-slot">
+        <slot name="logo">
           <p>Loading logo...</p>
-        </template>
+        </slot>
       </div>
-      <div
-        class="flex flex-col justify-center items-center gap-[40px] self-stretch"
-      >
-        <div class="flex flex-col justify-center items-center">
-          <h2 class="text-center">
-            Bitte den per E-Mail gesendeten Code eingeben
-          </h2>
-        </div>
+      <div class="otp-section">
+        <h2>Bitte den per E-Mail gesendeten Code eingeben</h2>
+        <GenericOtpInput
+          :isSuccess="otpState === 'success'"
+          :isError="otpState === 'error'"
+          :isDisabled="otpState === 'disabled'"
+          v-model="otpValue"
+        />
+      </div>
 
-        <GenericOtpInput />
-      </div>
+      <slot name="error"> </slot>
+      <slot name="success"> </slot>
       <GenericButton
         :outlined="false"
         :plain="false"
-        class="max-w-[290px]"
-        :disabled="false"
-        label="dsads"
+        class="submit-button"
+        :disabled="otpValue.length < 4"
+        @click="handleSubmit"
       >
-        <template #label> Eingloggen </template>
+        <template #label>
+          <p class="p-large">Einloggen</p>
+        </template>
       </GenericButton>
     </div>
   </div>
 </template>
 
-<script setup>
-import { ref } from "vue";
+<script setup lang="ts">
+import { ref, defineProps, defineEmits, watch } from "vue";
 
-const { getSingletonItem } = useDirectusItems();
-const item = ref(null);
-
-import { useIcons } from "@/composables/useIcons";
-const { getDirectusIcon } = useIcons();
-
-const emit = defineEmits(["update:modelValue", "input-error"]);
-
-const { data: mailIcon } = await useAsyncData("mailIcon", async () => {
-  return await getDirectusIcon("mail_icon");
-});
-
-const { data, error } = await useAsyncData("item", async () => {
-  return await getSingletonItem({
-    collection: "CMS",
-    params: {
-      fields: [
-        "*,Logo.*,Logo.title,Logo.filename_download, favicon.id, favicon.filename_download,favicon.type",
-      ],
-    },
-  });
-});
-
-if (error.value) {
-  console.error("Error fetching item:", error.value);
-} else {
-  item.value = data.value;
+interface Props {
+  otpState: string;
 }
+
+const props = defineProps<Props>();
+const emit = defineEmits(["validate"]);
+
+const otpValue = ref("");
+
+const handleSubmit = () => {
+  console.log("OTP submitted:", otpValue.value);
+  emit("validate", otpValue.value);
+};
+
+watch(otpValue, (newValue) => {
+  console.log("OTP Value Updated:", newValue);
+});
 </script>
+
+<style scoped>
+.container {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  padding-top: 144px;
+  padding-bottom: 280px;
+  padding-left: 0;
+  padding-right: 0;
+  min-width: 100%;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: var(--dental-light-blue-3);
+}
+
+.content-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 62px;
+}
+
+.logo-slot {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.otp-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+  align-self: stretch;
+  text-align: center;
+}
+
+.submit-button {
+  max-width: 290px;
+  margin: 10px;
+}
+</style>
