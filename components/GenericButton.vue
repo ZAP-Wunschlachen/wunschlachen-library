@@ -1,28 +1,18 @@
 <template>
   <div
     :class="[
-      'button relative flex items-center justify-center font-normal text-center text-base border-0 w-full h-10 leading-5  rounded-lg outline-none cursor-pointer',
+      'button',
       baseClass,
-      { 'cursor-not-allowed': disabled },
-      { 'opacity-0': sending },
-      {
-        'border-2 border-dental-blue-0 text-dental-blue-0 active:text-white active:bg-dental-blue--3 active:border-dental-blue-0 hover:text-dental-blue-0 hover:bg-dental-blue--4 hover:border-dental-blue-0':
-          outlined && !disabled,
-        'border-2 bg-white border-soft-concrete-2 text-soft-concrete-2':
-          outlined && disabled,
-      },
-      { 'bg-transparent': plain && !disabled },
-      { 'bg-transparent text-soft-concrete-2 ': plain && disabled },
+      { 'button-disabled': disabled },
+      { 'button-sending': sending },
+      { 'button-outlined-enabled': outlined && !disabled },
+      { 'button-outlined-disabled': outlined && disabled },
+      { 'button-plain-enabled': plain && !disabled },
+      { 'button-plain-disabled': plain && disabled },
     ]"
   >
-    <div
-      v-if="sending"
-      class="absolute top-1/2 left-1/2 -mt-1 -ml-1 w-3 h-3 border-2 border-solid rounded-full border-current border-t-transparent animate-spin"
-    ></div>
-    <div
-      class="button-content sm:text-[16px] md:text-[18px] lg:text-[20px] flex items-center justify-center"
-      v-if="!sending"
-    >
+    <div v-if="sending" class="spinner"></div>
+    <div class="button-content" v-if="!sending">
       <div class="flex flex-col">
         <slot name="prependIcon" />
         <slot name="label" />
@@ -65,41 +55,157 @@ const props = defineProps({
 const baseClass = computed(() => {
   if (props.default) {
     if (props.disabled) {
-      return "bg-soft-concrete-2 text-white border-2 border-soft-concrete-2";
+      return "button-default-disabled";
     }
-    return "bg-dental-blue-0 text-white border-2 border-dental-blue-0 hover:bg-dental-blue--3 active:bg-dental-blue-1";
+    return "button-default-enabled";
   }
 
   if (props.plain) {
     if (props.disabled) {
-      return "bg-transparent text-soft-concrete-2";
+      return "button-plain-disabled";
     }
-    return "bg-transparent text-dental-blue-0 hover:text-dental-blue--3 active:text-dental-blue-1";
+    return "button-plain-enabled";
   }
 
   if (props.outlined) {
     if (props.disabled) {
-      return "border-2 border-soft-concrete-2 text-soft-concrete-2";
+      return "button-outlined-disabled";
     }
-    return "border-2 border-dental-blue-0 text-dental-blue-0 active:text-white active:bg-dental-blue--3 active:border-dental-blue-0 hover:text-dental-blue-0 hover:bg-dental-blue--4 hover:border-dental-blue-0";
+    return "button-outlined-enabled";
   }
 
   if (props.disabled) {
-    return "bg-soft-concrete-2 text-white";
+    return "button-disabled";
   }
 
-  return "bg-dental-blue-0 text-white hover:bg-dental-blue--3 active:bg-dental-blue-1";
+  return "button-enabled";
 });
 </script>
 
 <style scoped>
-.icon {
+.button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: normal;
+  text-align: center;
+  font-size: 1rem;
+  border: 0;
+  width: 100%;
+  height: 2.5rem;
+  line-height: 1.25rem;
+  border-radius: 0.5rem;
+  outline: none;
   cursor: pointer;
+  background: var(--dental-blue-0);
 }
-.icon:hover {
-  color: #5c8df6; /* example color, replace with actual */
+
+.button-disabled {
+  cursor: not-allowed;
+  background-color: var(--soft-concrete-2);
+  color: var(--soft-concrete-2);
 }
-.icon:active {
-  color: #2b6cc4; /* example color, replace with actual */
+
+.button-sending {
+  opacity: 0;
+}
+
+.button-default-enabled {
+  background-color: var(--dental-blue-0);
+  color: white;
+  border: 2px solid var(--dental-blue-0);
+}
+.button-default-enabled:hover {
+  background-color: var(--dental-blue--3);
+}
+.button-default-enabled:active {
+  background-color: var(--dental-blue-1);
+}
+
+.button-default-disabled {
+  background-color: var(--soft-concrete-2);
+  color: white;
+  border: 2px solid var(--soft-concrete-2);
+}
+
+.button-plain-enabled {
+  background-color: transparent;
+  color: var(--dental-blue-0);
+}
+.button-plain-enabled:hover {
+  color: var(--dental-blue--3);
+}
+.button-plain-enabled:active {
+  color: var(--dental-blue-1);
+}
+
+.button-plain-disabled {
+  background-color: transparent;
+  color: var(--soft-concrete-2);
+}
+
+.button-outlined-enabled {
+  border: 2px solid var(--dental-blue-0);
+  color: var(--dental-blue-0);
+}
+.button-outlined-enabled:hover {
+  background-color: var(--dental-blue--4);
+  color: var(--dental-blue-0);
+}
+.button-outlined-enabled:active {
+  background-color: var(--dental-blue--3);
+  color: white;
+  border-color: var(--dental-blue-0);
+}
+
+.button-outlined-disabled {
+  border: 2px solid var(--soft-concrete-2);
+  color: var(--soft-concrete-2);
+}
+
+.spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -0.125rem;
+  margin-left: -0.125rem;
+  width: 0.75rem;
+  height: 0.75rem;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.button-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem; /* Default size */
+}
+
+@media (min-width: 640px) {
+  .button-content {
+    font-size: 1rem; /* sm:text-[16px] */
+  }
+}
+
+@media (min-width: 768px) {
+  .button-content {
+    font-size: 1.125rem; /* md:text-[18px] */
+  }
+}
+
+@media (min-width: 1024px) {
+  .button-content {
+    font-size: 1.25rem; /* lg:text-[20px] */
+  }
 }
 </style>
