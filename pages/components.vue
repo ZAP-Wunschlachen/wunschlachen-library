@@ -2,7 +2,7 @@
   <div class="flex mx-auto flex-col max-w-[1200px]">
     <div class="p-4"></div>
 
-    <AppointmentRegistrationError class="mb-4" />
+    <!--     <AppointmentRegistrationError class="mb-4" />
     <AppointmentRegistrationSuccessful class="mb-4" />
     <AppointmentRegistrationPickDate class="mb-4" />
     <AppointmentRegistrationChooseDentist class="mb-4" />
@@ -15,7 +15,7 @@
       class="mb-4"
     ></AppointmentRegistrationStartScreen>
     <AppointmentRegistrationInsertMail></AppointmentRegistrationInsertMail>
-
+ -->
     <GenericBulletList
       text="Welche Vorteile haben festsitzende Zähne an einem Tag gegenüber Prothesen?"
     >
@@ -440,6 +440,8 @@
             :iconName="button.iconName"
             style="margin: 10px"
           >
+            <template #logo>Logo bruv</template>
+
             <tempalte #prependIcon>
               <svg
                 xmlns="http://www.w3.org/2000/svg"

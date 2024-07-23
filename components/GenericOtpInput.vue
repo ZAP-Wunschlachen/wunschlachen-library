@@ -1,11 +1,11 @@
 <template>
   <form @submit.prevent="handleSubmit" id="otp-form">
-    <div class="flex items-center justify-center gap-3">
+    <div class="otp-container">
       <input
         v-for="(digit, index) in digits"
         :key="index"
         type="text"
-        class="w-14 h-14 text-center text-2xl font-extrabold text-slate-900 border-[1px] rounded p-[8px] outline-none focus:bg-white focus:border-[2px] focus:border-[var(--dental-light-blue-1)]"
+        class="otp-input"
         v-model="digits[index]"
         @keydown="handleKeyDown"
         @input="handleInput(index)"
@@ -81,5 +81,31 @@ onMounted(() => {
 </script>
 
 <style scoped>
-/* Add any additional scoped styles here */
+.otp-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem; /* Equivalent to gap-3 in Tailwind */
+}
+
+.otp-input {
+  width: 3.5rem; /* Equivalent to w-14 in Tailwind */
+  height: 3.5rem; /* Equivalent to h-14 in Tailwind */
+  text-align: center;
+  font-size: 1.5rem; /* Equivalent to text-2xl in Tailwind */
+  font-weight: 800; /* Equivalent to font-extrabold in Tailwind */
+  color: #0f172a; /* Equivalent to text-slate-900 in Tailwind */
+  border: 1px solid; /* Equivalent to border-[1px] in Tailwind */
+  border-radius: 0.375rem; /* Equivalent to rounded in Tailwind */
+  padding: 0.5rem; /* Equivalent to p-2 in Tailwind */
+  outline: none;
+}
+
+.otp-input:focus {
+  background-color: white;
+  border-width: 2px; /* Equivalent to focus:border-[2px] in Tailwind */
+  border-color: var(
+    --dental-light-blue-1
+  ); /* Equivalent to focus:border-[var(--dental-light-blue-1)] in Tailwind */
+}
 </style>
