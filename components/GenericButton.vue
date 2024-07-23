@@ -1,19 +1,8 @@
 <template>
-  <div
-    :class="[
-      'button',
-      baseClass,
-      { 'button-disabled': disabled },
-      { 'button-sending': sending },
-      { 'button-outlined-enabled': outlined && !disabled },
-      { 'button-outlined-disabled': outlined && disabled },
-      { 'button-plain-enabled': plain && !disabled },
-      { 'button-plain-disabled': plain && disabled },
-    ]"
-  >
+  <div :class="buttonClasses">
     <div v-if="sending" class="spinner"></div>
-    <div class="button-content" v-if="!sending">
-      <div class="flex flex-col">
+    <div v-if="!sending">
+      <div class="button-content">
         <slot name="prependIcon" />
         <slot name="label" />
         <slot name="appendIcon" />
@@ -52,33 +41,27 @@ const props = defineProps({
   },
 });
 
-const baseClass = computed(() => {
-  if (props.default) {
-    if (props.disabled) {
-      return "button-default-disabled";
-    }
-    return "button-default-enabled";
-  }
+const buttonClasses = computed(() => {
+  let classes = ["button"];
 
-  if (props.plain) {
-    if (props.disabled) {
-      return "button-plain-disabled";
-    }
-    return "button-plain-enabled";
-  }
+  if (props.disabled) classes.push("button-disabled");
+  if (props.sending) classes.push("button-sending");
+  if (props.default)
+    classes.push(
+      props.disabled ? "button-default-disabled" : "button-default-enabled"
+    );
+  if (props.plain)
+    classes.push(
+      props.disabled ? "button-plain-disabled" : "button-plain-enabled"
+    );
+  if (props.outlined)
+    classes.push(
+      props.disabled ? "button-outlined-disabled" : "button-outlined-enabled"
+    );
+  if (!props.disabled && !props.default && !props.plain && !props.outlined)
+    classes.push("button-enabled");
 
-  if (props.outlined) {
-    if (props.disabled) {
-      return "button-outlined-disabled";
-    }
-    return "button-outlined-enabled";
-  }
-
-  if (props.disabled) {
-    return "button-disabled";
-  }
-
-  return "button-enabled";
+  return classes;
 });
 </script>
 
@@ -98,7 +81,8 @@ const baseClass = computed(() => {
   border-radius: 0.5rem;
   outline: none;
   cursor: pointer;
-  background: var(--dental-blue-0);
+  background-color: var(--dental-blue-0);
+  color: white;
 }
 
 .button-disabled {
@@ -188,6 +172,8 @@ const baseClass = computed(() => {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: row;
+  gap: 8px;
   font-size: 1rem; /* Default size */
 }
 

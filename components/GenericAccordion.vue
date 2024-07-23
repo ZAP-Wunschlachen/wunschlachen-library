@@ -2,55 +2,30 @@
   <div
     :class="[
       'accordion',
-      { 'border-t-none': isLast },
-      { 'border-b-none': isFirst },
+      { 'border-t-none': isLast, 'border-b-none': isFirst },
     ]"
   >
-    <div
-      class="rounded-sm border-t-dental-blue-0 border-b-dental-blue-0 border-l-0 border-r-0"
-    >
+    <div class="accordion-container">
       <div>
         <button
           type="button"
-          class="flex items-center justify-between w-full py-[24px] font-medium text-dental-blue-0 focus:outline-none hover:bg-dental-blue-minus-6 gap-[24px]"
+          class="accordion-button"
           @click="toggleAccordion"
           :aria-expanded="isOpen"
           aria-controls="accordion-body"
         >
-          <span> <slot name="title"></slot></span>
-          <svg
-            :class="
-              isOpen
-                ? 'rotate-180 transition-transform duration-500 ease-in-out'
-                : 'transition-transform duration-500 ease-in-out'
-            "
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            width="24"
-            height="25"
-            viewBox="0 0 24 25"
-          >
-            <path
-              d="M4.5 16.25L12 8.75L19.5 16.25"
-              stroke="#172774"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
+          <span><slot name="title"></slot></span>
+          <span :class="isOpen ? 'icon-rotate' : 'icon'">
+            <slot name="icon"></slot>
+          </span>
         </button>
       </div>
       <div
         id="accordion-body"
-        :class="
-          isOpen
-            ? 'max-h-[1000px] transition-max-height duration-500 ease-in-out'
-            : 'max-h-0 transition-max-height duration-500 ease-in-out overflow-hidden'
-        "
+        :class="isOpen ? 'accordion-body-open' : 'accordion-body-closed'"
         aria-labelledby="accordion-heading"
       >
-        <div class="py-[24px]">
+        <div class="accordion-content">
           <slot name="content"></slot>
         </div>
       </div>
@@ -84,10 +59,6 @@ const toggleAccordion = () => {
 </script>
 
 <style scoped>
-.transition-max-height {
-  transition: max-height 0.5s ease;
-}
-
 .accordion {
   border: 2px solid var(--dental-blue-0);
   border-left: none;
@@ -101,7 +72,58 @@ const toggleAccordion = () => {
 .border-b-none {
   border-bottom: none;
 }
-button:focus {
+
+.accordion-container {
+  border-top: 2px solid var(--dental-blue-0);
+  border-bottom: 2px solid var(--dental-blue-0);
+  border-left: 0;
+  border-right: 0;
+  border-radius: 0.125rem; /* rounded-sm */
+}
+
+.accordion-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding-top: 24px;
+  padding-bottom: 24px;
+  font-weight: 500; /* medium */
+  color: var(--dental-blue-0);
+  background: none;
+  border: none;
+  cursor: pointer;
   outline: none;
+  gap: 24px;
+  transition: background-color 0.3s ease;
+}
+
+.accordion-button:hover {
+  background-color: var(--dental-blue-minus-6);
+}
+
+.icon {
+  transition: transform 0.5s ease-in-out;
+}
+
+.icon-rotate {
+  transform: rotate(180deg);
+  transition: transform 0.5s ease-in-out;
+}
+
+.accordion-body-open {
+  max-height: 1000px;
+  transition: max-height 0.5s ease-in-out;
+}
+
+.accordion-body-closed {
+  max-height: 0;
+  transition: max-height 0.5s ease-in-out;
+  overflow: hidden;
+}
+
+.accordion-content {
+  padding-top: 24px;
+  padding-bottom: 24px;
 }
 </style>

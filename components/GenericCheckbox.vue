@@ -1,41 +1,23 @@
 <template>
-  <label
-    class="flex items-center gap-3 text-sm sm:leading-[15.6px] lg:text-[14px] md:text-[14px] md:leading-[15.6px] lg:leading-[15.6px] tracking-[-0.13px]"
-    :class="{
-      'text-success-green-1': success,
-      'text-error-red-0': error,
-      'opacity-50 cursor-not-allowed text-soft-concrete-2': disabled,
-    }"
-  >
+  <label :class="labelClasses">
     <span class="checkbox-container">
       <input
         type="checkbox"
         :name="checkbox"
         :checked="modelValue"
         @change="updateValue"
-        :class="[
-          'appearance-none bg-white m-0 p-0 w-7 h-7 border-[1px]  bor rounded transform -translate-y-[0.075em] grid place-content-center',
-          {
-            'border-success-green-0 text-success-green-0 border-[2px] hover:border-success-green-0 hover:bg-success-green-minus-1':
-              success,
-            'border-error-red-0 hover:border-error-red-0  border-[2px]  hover:bg-error-red-minus-1':
-              error,
-            'border-soft-concrete-2 hover:border-dental-blue-minus-1   hover:bg-dental-light-blue-minus-2':
-              !success && !error,
-            'opacity-50 cursor-not-allowed': disabled,
-          },
-        ]"
+        :class="inputClasses"
         :disabled="disabled"
       />
     </span>
-    <span style="font-weight: 300">
+    <span class="label-text">
       {{ label }}
     </span>
   </label>
 </template>
 
 <script setup>
-import { defineProps, defineEmits } from "vue";
+import { defineProps, defineEmits, computed } from "vue";
 
 const props = defineProps({
   label: {
@@ -70,20 +52,64 @@ const updateValue = (event) => {
   emit("update:modelValue", event.target.checked);
   emit("input-error", { id: props.checkbox, isError: !event.target.checked });
 };
+
+const labelClasses = computed(() => ({
+  label: true,
+  "label-success": props.success,
+  "label-error": props.error,
+  "label-disabled": props.disabled,
+}));
+
+const inputClasses = computed(() => ({
+  "input-checkbox": true,
+  "input-success": props.success,
+  "input-error": props.error,
+  "input-disabled": props.disabled,
+}));
 </script>
 
-<style>
+<style scoped>
+.label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.875rem;
+  line-height: 15.6px;
+  letter-spacing: -0.13px;
+}
+.label-success {
+  color: var(--success-green-1);
+}
+.label-error {
+  color: var(--error-red-0);
+}
+.label-disabled {
+  color: var(--soft-concrete-2);
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .checkbox-container {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-input[type="checkbox"]:checked {
-  border-width: 2px;
+.input-checkbox {
+  appearance: none;
+  background-color: white;
+  margin: 0;
+  padding: 0;
+  width: 28px;
+  height: 28px;
+  border: 1px solid;
+  border-radius: 4px;
+  display: grid;
+  place-content: center;
+  transform: translateY(-0.075em);
 }
 
-input[type="checkbox"]::before {
+.input-checkbox::before {
   content: "";
   width: 16px;
   height: 16px;
@@ -94,20 +120,48 @@ input[type="checkbox"]::before {
   border-radius: 2px;
 }
 
-input[type="checkbox"]:checked::before {
+.input-checkbox:checked::before {
   transform: scale(1);
   background-color: currentColor;
 }
 
-input[type="checkbox"]:checked {
+.input-checkbox:checked {
+  border-width: 2px;
   border-color: currentColor;
 }
 
-input[type="checkbox"]:disabled::before {
+.input-checkbox:disabled::before {
   border-color: currentColor;
 }
 
-input[type="checkbox"]:hover::before {
+.input-checkbox:hover::before {
   border-color: currentColor;
+}
+
+.input-success {
+  border-color: var(--success-green-0);
+  color: var(--success-green-0);
+}
+.input-success:hover {
+  border-color: var(--success-green-0);
+  background-color: var(--success-green-minus-1);
+}
+
+.input-error {
+  border-color: var(--error-red-0);
+  color: var(--error-red-0);
+}
+.input-error:hover {
+  border-color: var(--error-red-0);
+  background-color: var(--error-red-minus-1);
+}
+
+.input-disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.label-text {
+  font-weight: 300;
 }
 </style>
