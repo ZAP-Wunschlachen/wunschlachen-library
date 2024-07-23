@@ -117,7 +117,6 @@ const toggleAccordion = () => {
 
 .accordion-body-closed {
   max-height: 0;
-  transition: max-height 0.5s ease-in-out;
   overflow: hidden;
 }
 

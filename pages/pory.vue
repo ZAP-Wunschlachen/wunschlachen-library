@@ -1,6 +1,6 @@
 <template>
   <div>
-    <AppointmentRegistrationSuccessful :appointment="appointment">
+    <!-- <AppointmentRegistrationSuccessful :appointment="appointment">
       <template #clock-icon>
         <img src="https://picsum.photos/id/237/200/300" />
       </template>
@@ -13,14 +13,18 @@
       <template #favicon>
         <img src="https://picsum.photos/id/237/200/300" />
       </template>
-    </AppointmentRegistrationSuccessful>
+    </AppointmentRegistrationSuccessful> -->
+    <!-- components/AppointmentRegistrationPickDate.vue -->
+    <AppointmentRegistrationPickDate
+      :available-appointments="availableAppointments"
+    ></AppointmentRegistrationPickDate>
   </div>
 </template>
 
 <script setup lang="ts">
 import type { Appointment } from "~/types/types";
 
-const appointment: Appointment = {
+const appointment = ref<Appointment>({
   date: new Date(),
   location: {
     branch: "Reinickendorf",
@@ -29,5 +33,11 @@ const appointment: Appointment = {
   dentist: {
     name: "Dr. Werner",
   },
-};
+});
+
+const availableAppointments = ref<Appointment[]>([
+  { ...appointment.value },
+  { ...appointment.value },
+  { ...appointment.value },
+]);
 </script>
