@@ -1,56 +1,41 @@
 <template>
-  <div
-    class="flex border-2 w-full h-full pt-[144px] pb-[280px] px-0 items-center justify-center g-[8px]"
-  >
-    <div class="flex flex-col items-center gap-[48px]">
-      <div>
-        <template v-if="item && item.Logo">
-          <DirectusImg :image="item.Logo" width="170px" height="170px" />
-        </template>
-        <template v-else>
-          <p>Loading logo...</p>
-        </template>
+  <div class="container">
+    <div class="content">
+      <div class="logo">
+        <slot name="logo"></slot>
       </div>
-      <div
-        class="flex flex-col justify-center items-center gap-[61px] self-stretch"
-      >
-        <div class="flex flex-col justify-center items-center">
-          <div class="flex flex-row pt-0 pl-[7px] pr-[32px] gap-[32px]">
-            <div>
-              <DirectusImg :image="item.favicon" width="52px" height="52px" />
+      <div class="main">
+        <div class="header">
+          <div class="header-content">
+            <div class="favicon">
+              <slot name="favicon"></slot>
             </div>
-            <div class="flex flex-col self-stretch gap-[8px]">
+            <div class="title-section">
               <h3>Termin vereinbaren</h3>
-              <h4
-                style="font-weight: 300"
-                class="text-light pl-6 flex flex-col"
-              >
-                Frau Steltenkamp | Zahnärztin
-              </h4>
+              <h4 class="subtitle">Frau Steltenkamp | Zahnärztin</h4>
             </div>
           </div>
         </div>
 
-        <div class="flex flex-col gap-[38px]">
-          <div
-            class="flex min-w-[350px] flex-col p-[24px] border-2 gap-[24px] rounded-lg"
-          >
-            <div class="flex flex-row gap-[25px] items-center">
+        <div class="accordion-section">
+          <div class="accordion-container">
+            <div class="back-button">
               <div>
-                <div v-if="arrowLeft">
-                  <span v-html="arrowLeft"></span>
-                </div>
+                <slot name="arrow-left"></slot>
               </div>
               <h4>Zurück</h4>
             </div>
 
-            <div class="w-full h-[2px] flex-shrink-0 bg-gray-800"></div>
+            <div class="divider"></div>
 
-            <h4>Wählen Sie das für Sie passende Datum für den Termin</h4>
+            <h4 style="font-weight: 100">
+              Wählen Sie das für Sie passende Datum für den Termin
+            </h4>
 
-            <div class="flex gap-[0] flex-col">
+            <div class="accordion-content">
               <GenericAccordion
                 v-for="(item, index) in accordionArray"
+                :key="index"
                 :is-first="index === 0"
                 :is-last="index === accordionArray.length - 1"
               >
@@ -61,15 +46,18 @@
                   v-if="item.content && item.content.length > 0"
                   #content
                 >
-                  <div class="grid grid-cols-3 gap-4">
+                  <div class="grid-container">
                     <GenericButton
-                      v-for="button in item.content"
+                      v-for="(button, btnIndex) in item.content"
+                      :key="btnIndex"
                       :plain="false"
                       :disabled="false"
-                      class="max-w-[60px] rounded-xl bg-dental-light-blue-0"
+                      class="appointment-button"
                     >
                       <template #label>
-                        <h3 class="text-dental-blue-0">{{ button }}</h3>
+                        <h3 class="button-text">
+                          {{ button }}
+                        </h3>
                       </template>
                     </GenericButton>
                   </div>
@@ -82,11 +70,10 @@
               :plain="false"
               :disabled="false"
               label="Auswählen"
+              class="select-button"
             >
               <template #label>
-                <h4 class="text-white" style="font-weight: 300">
-                  Weitere Termine anzeigen
-                </h4>
+                <h4 class="select-button-text">Weitere Termine anzeigen</h4>
               </template>
             </GenericButton>
           </div>
@@ -96,33 +83,15 @@
   </div>
 </template>
 
-<script setup>
-import { ref } from "vue";
+<script setup lang="ts">
+import type { PropType } from "vue";
+import type { Appointment } from "~/types/types";
 
-const { getSingletonItem } = useDirectusItems();
-const item = ref(null);
-
-import { useIcons } from "@/composables/useIcons";
-const { getDirectusIcon } = useIcons();
-
-const emit = defineEmits(["update:modelValue", "input-error"]);
-
-const { data: arrowLeft } = await useAsyncData("arrowLeft", async () => {
-  return await getDirectusIcon("arrow_left");
+const props = defineProps({
+  availableAppointments: Array as PropType<Appointment[]>,
 });
 
-const { data, error } = await useAsyncData("item", async () => {
-  return await getSingletonItem({
-    collection: "CMS",
-    params: {
-      fields: [
-        "*,Logo.*,Logo.title,Logo.filename_download, favicon.id, favicon.filename_download,favicon.type",
-      ],
-    },
-  });
-});
-
-const accordionArray = [
+const accordionArray = ref<any[]>([
   {
     title: "Montag, 11. Juli",
     content: ["9:30", "11:45", "16:15"],
@@ -147,17 +116,140 @@ const accordionArray = [
       "11:45",
     ],
   },
-];
-
-if (error.value) {
-  console.error("Error fetching item:", error.value);
-} else {
-  item.value = data.value;
-  console.log("item", item.value);
-}
+]);
 </script>
 
-<style>
+<style scoped>
+.container {
+  display: flex;
+  width: 100%;
+  min-width: 100%;
+  height: 100%;
+  padding-top: 144px;
+  padding-bottom: 280px;
+  padding-left: 0;
+  padding-right: 0;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 48px;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 61px;
+  align-self: stretch;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.header-content {
+  display: flex;
+  flex-direction: row;
+  padding-top: 0;
+  padding-left: 7px;
+  padding-right: 32px;
+  gap: 32px;
+}
+
+.favicon {
+  display: flex;
+}
+
+.title-section {
+  display: flex;
+  flex-direction: column;
+  align-self: stretch;
+  gap: 8px;
+}
+
+.subtitle {
+  font-weight: 300;
+  padding-left: 6px;
+  display: flex;
+  flex-direction: column;
+}
+
+.accordion-section {
+  display: flex;
+  flex-direction: column;
+  gap: 38px;
+}
+
+.accordion-container {
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  border: 2px solid;
+  gap: 24px;
+  border-radius: 10px;
+}
+
+.back-button {
+  display: flex;
+  flex-direction: row;
+  gap: 25px;
+  align-items: center;
+}
+
+.divider {
+  width: 100%;
+  height: 2px;
+  background-color: #333;
+  flex-shrink: 0;
+}
+
+.accordion-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+}
+
+.appointment-button {
+  max-width: 60px;
+  border-radius: 10px;
+  background-color: var(--dental-light-blue-0);
+}
+
+.appointment-button:hover {
+  background-color: var(--dental-light-blue-1);
+}
+
+.button-text {
+  color: #0277bd;
+  font-weight: 100;
+  font-size: 16px;
+}
+
+.select-button {
+  background-color: var(--dental-blue-0);
+}
+
+.select-button-text {
+  color: white;
+  font-weight: 300;
+}
+
 .h4-with-space::before {
   content: "";
   display: inline-block;
