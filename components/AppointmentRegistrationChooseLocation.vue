@@ -4,12 +4,7 @@
   >
     <div class="flex flex-col items-center gap-[48px]">
       <div>
-        <template v-if="item && item.Logo">
-          <DirectusImg :image="item.Logo" width="170px" height="170px" />
-        </template>
-        <template v-else>
-          <p>Loading logo...</p>
-        </template>
+        <slot name="logo"></slot>
       </div>
       <div
         class="flex flex-col justify-center items-center gap-[61px] self-stretch"
@@ -18,42 +13,17 @@
           <h2 class="text-center">Wählen Sie einen Standort</h2>
         </div>
 
-        <div class="flex flex-col gap-[38px]">
-          <div class="flex flex-col p-[24px] border-2 gap-[24px] rounded-lg">
-            <div class="flex flex-row pt-0 pl-[7px] pr-[32px] gap-[32px]">
-              <div>
-                <DirectusImg :image="item.favicon" width="68px" height="68px" />
-              </div>
-              <div class="flex flex-col self-stretch gap-[8px]">
-                <h4>Berlin - Reinickendorf</h4>
-                <h4 style="font-weight: 300" class="text-light flex flex-col">
-                  <span>Gotthardstr. 27</span>
-                  <span>13407 Berlin</span>
-                </h4>
-              </div>
-            </div>
-            <GenericButton
-              :outlined="false"
-              :plain="false"
-              :disabled="false"
-              label="Auswählen"
-            >
-              <template #label>
-                <h4 class="text-white" style="font-weight: 300">Auswählen</h4>
-              </template>
-            </GenericButton>
-          </div>
-
+        <div v-for="location in locations" class="flex flex-col gap-[38px]">
           <div class="flex flex-col p-[24px] border-2 gap-[24px]">
             <div class="flex flex-row pt-0 pl-[7px] pr-[32px] gap-[32px]">
               <div>
-                <DirectusImg :image="item.favicon" width="68px" height="68px" />
+                <slot name="favicon"></slot>
               </div>
               <div class="flex flex-col self-stretch gap-[8px]">
-                <h4>Berlin - Schöneberg</h4>
+                <h4>{{ location.name }}</h4>
                 <h4 style="font-weight: 300" class="text-light flex flex-col">
-                  <span>Bayerischer Platz 7</span>
-                  <span>10779 Berlin</span>
+                  <span>{{ location.address }}</span>
+                  <span>{{ location.postalCode }} {{ location.city }}</span>
                 </h4>
               </div>
             </div>
@@ -62,9 +32,10 @@
               :plain="false"
               :disabled="false"
               label="Auswählen"
+              @click="handleSelectLocation(location.id)"
             >
               <template #label>
-                <h4 class="text-white" style="font-weight: 300">Auswählen</h4>
+                <h4 style="font-weight: 300; color: white">Auswählen</h4>
               </template>
             </GenericButton>
           </div>
@@ -74,35 +45,25 @@
   </div>
 </template>
 
-<script setup>
-import { ref } from "vue";
+<script setup lang="ts">
+const handleSelectLocation = (location: number) => {
+  alert(`Selected location is ${location}`);
+};
 
-const { getSingletonItem } = useDirectusItems();
-const item = ref(null);
-
-import { useIcons } from "@/composables/useIcons";
-const { getDirectusIcon } = useIcons();
-
-const emit = defineEmits(["update:modelValue", "input-error"]);
-
-const { data: mailIcon } = await useAsyncData("mailIcon", async () => {
-  return await getDirectusIcon("mail_icon");
-});
-
-const { data, error } = await useAsyncData("item", async () => {
-  return await getSingletonItem({
-    collection: "CMS",
-    params: {
-      fields: [
-        "*,Logo.*,Logo.title,Logo.filename_download, favicon.id, favicon.filename_download,favicon.type",
-      ],
-    },
-  });
-});
-
-if (error.value) {
-  console.error("Error fetching item:", error.value);
-} else {
-  item.value = data.value;
-}
+const locations = ref([
+  {
+    id: 0,
+    name: "Berlin - Reinickendorf",
+    address: "Gotthardstr. 27",
+    postalCode: "13407",
+    city: "Berlin",
+  },
+  {
+    id: 1,
+    name: "Berlin - Schöneberg",
+    address: "Bayerischer Platz 7",
+    postalCode: "10779",
+    city: "Berlin",
+  },
+]);
 </script>
