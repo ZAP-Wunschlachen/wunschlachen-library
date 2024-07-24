@@ -324,7 +324,11 @@
     <AppointmentRegistrationInsertCode
       v-model:otp="otp"
       :otpState="otpState"
-      @validate="handleOtpSubmit"
+      @validate="
+        (input) => {
+          console.log('validate bruv', input);
+        }
+      "
     >
       <template v-if="otpState === 'error'" #error>sad</template>
       <template v-if="otpState === 'success'" #success>success</template>

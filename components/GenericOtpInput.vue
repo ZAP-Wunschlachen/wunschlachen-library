@@ -4,6 +4,7 @@
       <input
         v-for="(digit, index) in digits"
         :key="index"
+        :ref="(el) => setInputRef(el, index)"
         type="text"
         class="otp-input"
         :class="{
@@ -12,8 +13,8 @@
           'input-disabled': isDisabled,
         }"
         v-model="digits[index]"
-        @keydown="handleKeyDown"
-        @input="handleInput(index)"
+        @keydown="handleKeyDown(index, $event)"
+        @input="handleInput(index, $event)"
         @focus="handleFocus"
         @paste="handlePaste"
         maxlength="1"
@@ -23,7 +24,6 @@
   </form>
 </template>
 
-#### Script ```typescript
 <script setup lang="ts">
 import { ref, onMounted, watch, defineProps, defineEmits } from "vue";
 
@@ -35,26 +35,32 @@ interface Props {
 }
 
 const props = defineProps<Props>();
-
 const emit = defineEmits(["update:modelValue"]);
-const digits = ref(["", "", "", ""]);
-const inputs = ref<HTMLInputElement[]>([]);
+const digits = ref(["", "", "", "", "", ""]);
+const otpInputs = ref<(HTMLInputElement | null)[]>(
+  Array(digits.value.length).fill(null)
+);
+
+const setInputRef = (el: HTMLInputElement | null, index: number) => {
+  otpInputs.value[index] = el;
+};
 
 onMounted(() => {
-  inputs.value = Array.from(document.querySelectorAll("input[type=text]"));
+  console.log("otpInputs", otpInputs.value);
 });
 
-// Watch for changes in digits and emit the updated value to the parent component
+// Watch for digits array changes and emit the joined value
 watch(
   digits,
   (newDigits) => {
     const joinedDigits = newDigits.join("");
+    console.log("joinedDigits", joinedDigits);
     emit("update:modelValue", joinedDigits);
   },
-  { deep: true } // Ensure the watcher is deep to track changes within the array
+  { deep: true }
 );
 
-// Watch for changes in the modelValue prop and update the digits array accordingly
+// Watch for modelValue prop changes and update the digits array
 watch(
   () => props.modelValue,
   (newValue) => {
@@ -65,9 +71,7 @@ watch(
   }
 );
 
-const handleKeyDown = (e: KeyboardEvent) => {
-  const index = inputs.value.indexOf(e.target as HTMLInputElement);
-
+const handleKeyDown = (index: number, e: KeyboardEvent) => {
   if (
     !/^[0-9]{1}$/.test(e.key) &&
     !["Backspace", "Delete", "Tab", "ArrowLeft", "ArrowRight"].includes(
@@ -78,12 +82,12 @@ const handleKeyDown = (e: KeyboardEvent) => {
     e.preventDefault();
   }
 
-  if (e.key === "ArrowRight" && index < inputs.value.length - 1) {
-    inputs.value[index + 1].focus();
+  if (e.key === "ArrowRight" && index < otpInputs.value.length - 1) {
+    otpInputs.value[index + 1]?.focus();
   }
 
   if (e.key === "ArrowLeft" && index > 0) {
-    inputs.value[index - 1].focus();
+    otpInputs.value[index - 1]?.focus();
   }
 
   if (["Delete", "Backspace"].includes(e.key)) {
@@ -91,21 +95,23 @@ const handleKeyDown = (e: KeyboardEvent) => {
       digits.value[index] = "";
     } else if (index > 0) {
       digits.value[index - 1] = "";
-      inputs.value[index - 1].focus();
+      otpInputs.value[index - 1]?.focus();
+    } else {
+      digits.value[0] = "";
     }
   }
 
-  if (/^[0-9]{1}$/.test(e.key) && index < inputs.value.length - 1) {
-    inputs.value[index + 1].focus();
+  if (/^[0-9]{1}$/.test(e.key) && index < otpInputs.value.length - 1) {
+    otpInputs.value[index + 1]?.focus();
   }
 };
 
-const handleInput = (index: number) => (e: Event) => {
+const handleInput = (index: number, e: Event) => {
   const { target } = e as { target: HTMLInputElement };
   if (target.value && /^[0-9]{1}$/.test(target.value)) {
     digits.value[index] = target.value;
-    if (index < inputs.value.length - 1) {
-      inputs.value[index + 1].focus();
+    if (index < otpInputs.value.length - 1) {
+      otpInputs.value[index + 1]?.focus();
     } else {
       document.querySelector("button[type=submit]")?.focus();
     }
@@ -128,7 +134,7 @@ const handlePaste = (e: ClipboardEvent) => {
   pastedDigits.forEach((digit, index) => {
     digits.value[index] = digit;
   });
-  inputs.value[pastedDigits.length - 1].focus();
+  otpInputs.value[pastedDigits.length - 1]?.focus();
 };
 
 const handleSubmit = () => {

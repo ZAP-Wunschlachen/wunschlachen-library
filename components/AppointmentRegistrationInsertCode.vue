@@ -46,13 +46,8 @@ const emit = defineEmits(["validate"]);
 const otpValue = ref("");
 
 const handleSubmit = () => {
-  console.log("OTP submitted:", otpValue.value);
   emit("validate", otpValue.value);
 };
-
-watch(otpValue, (newValue) => {
-  console.log("OTP Value Updated:", newValue);
-});
 </script>
 
 <style scoped>
