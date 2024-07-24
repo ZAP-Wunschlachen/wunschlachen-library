@@ -12,7 +12,7 @@
         }
       "
     >
-      <template #logo> loginBRUv </template>
+      <template #logo></template>
     </AppointmentRegistrationStartScreen>
 
     <h1 class="mx-auto">AFTER INSERT MAIL</h1>

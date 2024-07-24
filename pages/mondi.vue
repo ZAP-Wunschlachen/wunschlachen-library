@@ -1,7 +1,5 @@
 <template>
   <div class="flex flex-col items-center mx-auto gap-[10px] w-full">
-    HELlo wolrd
-
     <AppointmentRegistrationLogIn
       :email="email"
       :emailState="emailState"
@@ -68,10 +66,8 @@
         }
       "
     >
-      <template #logo
-        >Logoasdasdsd Bruv</template
-      ></AppointmentRegistrationInsertMail
-    >
+      <template #logo>Logo goes here</template>
+    </AppointmentRegistrationInsertMail>
 
     <AppointmentRegistrationChooseDentist
       @choose-dentist="
@@ -81,14 +77,13 @@
       "
       :dentistArray="dentistArray"
     >
-      <template #logo>Logo Bruv</template>
+      <template #logo>Logo goes here</template>
     </AppointmentRegistrationChooseDentist>
 
     <GenericAccordion>
       <template #title>
         <div class="font-bold">First accordion title</div>
       </template>
-
       <template #icon>
         <svg
           aria-hidden="true"
@@ -107,7 +102,6 @@
           />
         </svg>
       </template>
-
       <template #content>
         This is the content of the accordion. You can place any HTML content
         here, including text, images, or other components.
@@ -242,7 +236,7 @@
     <GenericInput
       id="disabled"
       label="Disabled"
-      :isDisabled="false"
+      :isDisabled="true"
       prependIcon="stop"
       message="Some disabled message."
     >
@@ -288,11 +282,50 @@
             stroke-width="1.5"
             stroke-linecap="round"
             stroke-linejoin="round"
-          /></svg
-      ></template>
+          />
+        </svg>
+      </template>
     </GenericInput>
 
     <GenericOtpInput />
+
+    <AppointmentRegistrationStartScreen
+      @register="
+        () => {
+          console.log('register');
+        }
+      "
+      @login="
+        () => {
+          console.log('login');
+        }
+      "
+    >
+      <template #logo></template>
+    </AppointmentRegistrationStartScreen>
+
+    <h1 class="mx-auto">AFTER INSERT MAIL</h1>
+
+    <AppointmentRegistrationInsertMail
+      @sign-in="
+        (input) => {
+          console.log('Sign in emitted', input);
+        }
+      "
+    >
+      <template #logo>Logo goes here</template>
+    </AppointmentRegistrationInsertMail>
+
+    <h1 class="mx-auto">AFTER INSERT OTP</h1>
+    <AppointmentRegistrationInsertCode
+      v-model:otp="otp"
+      :otpState="otpState"
+      @validate="handleOtpSubmit"
+    >
+      <template v-if="otpState === 'error'" #error>sad</template>
+      <template v-if="otpState === 'success'" #success>success</template>
+      <template #logo> Logo goes here </template>
+    </AppointmentRegistrationInsertCode>
   </div>
 </template>
 
