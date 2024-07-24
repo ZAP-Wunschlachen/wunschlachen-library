@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col items-center mx-auto gap-[10px] w-full">
-    <h1 class="mx-auto">Components</h1>
+    <h1 class="mx-auto">AppointmentRegistrationLogIn</h1>
     <AppointmentRegistrationLogIn
       :email="email"
       :emailState="emailState"
@@ -60,6 +60,7 @@
       </template>
     </AppointmentRegistrationLogIn>
 
+    <h1 class="mx-auto">AppointmentRegistrationInsertMail</h1>
     <AppointmentRegistrationInsertMail
       @sign-in="
         (input) => {
@@ -70,6 +71,7 @@
       <template #logo>Logo goes here</template>
     </AppointmentRegistrationInsertMail>
 
+    <h1 class="mx-auto">AppointmentRegistrationChooseDentist</h1>
     <AppointmentRegistrationChooseDentist
       @choose-dentist="
         (input) => {
@@ -290,6 +292,7 @@
 
     <GenericOtpInput />
 
+    <h1 class="mx-auto">AppointmentRegistrationStartScreen</h1>
     <AppointmentRegistrationStartScreen
       @register="
         () => {
@@ -325,13 +328,61 @@
     >
       <template v-if="otpState === 'error'" #error>sad</template>
       <template v-if="otpState === 'success'" #success>success</template>
-      <template #logo> Logo goes here </template>
+      <template #logo>Logo goes here </template>
     </AppointmentRegistrationInsertCode>
+
+    <h1 class="mx-auto">AppointmentRegistrationOldPatient</h1>
+    <AppointmentRegistrationOldPatient>
+      <template #logo>Logo goes here </template>
+    </AppointmentRegistrationOldPatient>
+
+    <h1 class="mx-auto">AppointmentRegistrationPickDate</h1>
+    <AppointmentRegistrationPickDate>
+      <template #logo>Logo goes here</template>
+    </AppointmentRegistrationPickDate>
+
+    <h1 class="mx-auto">AppointmentRegistrationSuccessful</h1>
+    <AppointmentRegistrationSuccessful :appointment="appointment">
+      <template #logo>Logo goes here</template>
+    </AppointmentRegistrationSuccessful>
+
+    <h1 class="mx-auto">AppointmentRegistrationError</h1>
+    <AppointmentRegistrationError :appointment="appointment">
+      <template #logo>Logo goes here</template>
+    </AppointmentRegistrationError>
+
+    <h1 class="mx-auto">AppointmentRegistrationChooseLocation</h1>
+    <AppointmentRegistrationChooseLocation>
+      <template #logo>Logo goes here</template>
+    </AppointmentRegistrationChooseLocation>
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import type { Appointment } from "~/types/types";
+
 // Define the button configurations
+
+const appointment = ref<Appointment>({
+  date: new Date(),
+  location: {
+    branch: "Reinickendorf",
+    address: "Gotthardstr. 29",
+  },
+  dentist: {
+    name: "Dr. Werner",
+  },
+});
+
+const handleChoice = (choice: string) => {
+  alert(`Choice is ${choice}`);
+};
+
+const availableAppointments = ref<Appointment[]>([
+  { ...appointment.value },
+  { ...appointment.value },
+  { ...appointment.value },
+]);
 
 const email = ref("");
 const password = ref("");
