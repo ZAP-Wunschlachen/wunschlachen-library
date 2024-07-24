@@ -132,6 +132,7 @@ const accordionArray = ref<any[]>([
   align-items: center;
   justify-content: center;
   gap: 8px;
+  background-color: var(--dental-light-blue-3);
 }
 
 .content {

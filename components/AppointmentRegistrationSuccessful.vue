@@ -202,6 +202,7 @@ body {
   margin: auto;
   justify-content: center;
   align-items: center;
+  background-color: var(--dental-light-blue-3);
 }
 
 .content-wrapper {
