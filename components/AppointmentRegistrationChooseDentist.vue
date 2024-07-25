@@ -6,7 +6,7 @@
       </div>
       <div class="location-selection">
         <div class="header">
-          <h2 class="text-center">Wählen Sie einen Zahnarzt</h2>
+          <h2 style="">Wählen Sie einen Zahnarzt</h2>
         </div>
 
         <div class="locations">
@@ -98,8 +98,7 @@ const chooseDentist = (dentistIndex) => {
 
 <style scoped>
 .container {
-  display: flex;
-  border: 2px solid;
+  display: inline-block;
   width: 100%;
   height: 100%;
   padding-top: 144px;
@@ -109,6 +108,7 @@ const chooseDentist = (dentistIndex) => {
   justify-content: center;
   gap: 8px;
   background-color: var(--dental-light-blue-3);
+  overflow-y: auto;
 }
 
 .content-wrapper {
