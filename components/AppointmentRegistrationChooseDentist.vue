@@ -18,6 +18,12 @@
             <div class="location-header">
               <div>
                 <!-- <img :src="dentist.favicon" width="90px" /> -->
+                <img
+                  :src="dentist.profile_image"
+                  width="90px"
+                  class="dentist-image"
+                />
+                <!-- <img src="https://via.placeholder.com/90" width="90px" /> -->
               </div>
               <div class="location-details">
                 <h4>Dr. {{ formatFullName(dentist) }}</h4>
@@ -29,7 +35,7 @@
               <h4>Nächst mögliche Termine:</h4>
               <div class="appointment-dates">
                 <GenericButton
-                  v-for="(date, dateIndex) in dentist.calendars"
+                  v-for="(date, dateIndex) in ['A', 'B', 'C', 'D', 'E']"
                   :key="dateIndex"
                   :plain="false"
                   :disabled="false"
@@ -172,6 +178,7 @@ const chooseDentist = (dentistIndex) => {
   flex-direction: column;
   align-self: stretch;
   gap: 8px;
+  color: var(--dental-blue-0);
 }
 
 .appointment-info {
@@ -196,6 +203,11 @@ const chooseDentist = (dentistIndex) => {
 .appointment-button.selected {
   background-color: var(--dental-blue-0);
   color: white;
+}
+
+.dentist-image {
+  border-radius: 9999px;
+  border: 3px solid var(--soft-concrete-1);
 }
 
 .button-text {
