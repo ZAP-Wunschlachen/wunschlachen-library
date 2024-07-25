@@ -73,7 +73,7 @@ watch(
 
 const handleKeyDown = (index: number, e: KeyboardEvent) => {
   if (
-    !/^[0-9]{1}$/.test(e.key) &&
+    !/^[0-9A-Z]{1}$/.test(e.key) &&
     !["Backspace", "Delete", "Tab", "ArrowLeft", "ArrowRight"].includes(
       e.key
     ) &&
@@ -101,7 +101,7 @@ const handleKeyDown = (index: number, e: KeyboardEvent) => {
     }
   }
 
-  if (/^[0-9]{1}$/.test(e.key) && index < otpInputs.value.length - 1) {
+  if (/^[0-9A-Z]{1}$/.test(e.key) && index < otpInputs.value.length - 1) {
     otpInputs.value[index + 1]?.focus();
   }
 };

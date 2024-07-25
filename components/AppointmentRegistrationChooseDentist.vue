@@ -20,13 +20,13 @@
                 <!-- <img :src="dentist.favicon" width="90px" /> -->
               </div>
               <div class="location-details">
-                <h4>Dr. {{ formatFullName(dentist) }}</h4>
-                <h4 class="text-light">{{ dentist.name }}</h4>
+                <h3>Dr. {{ formatFullName(dentist) }}</h3>
+                <p class="p-large">{{ dentist.name }}</p>
               </div>
             </div>
 
             <div class="appointment-info">
-              <h4>Nächst mögliche Termine:</h4>
+              <p class="p-large">Nächst mögliche Termine:</p>
               <div class="appointment-dates">
                 <GenericButton
                   v-for="(date, dateIndex) in dentist.calendars"
@@ -55,7 +55,7 @@
               @click="chooseDentist(dentistIndex)"
             >
               <template #label>
-                <h4 class="button-text">Auswählen</h4>
+                <p class="button-text p-large">Termin vereinbaren</p>
               </template>
             </GenericButton>
           </div>
@@ -200,6 +200,5 @@ const chooseDentist = (dentistIndex) => {
 
 .button-text {
   color: white;
-  font-weight: 300;
 }
 </style>
