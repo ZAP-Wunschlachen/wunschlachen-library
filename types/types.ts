@@ -5,10 +5,26 @@ export type Appointment = {
 };
 
 export type Location = {
-  branch: string;
-  address: string;
+  id: string | number;
+  name: string;
+  abbreviation: string;
+  zip_code: string;
+  city: string;
+  street: string;
+  street_number: string;
+  district: string;
 };
 
 export type Dentist = {
+  id: string | number;
   name: string;
+  first_name: string;
+  last_name: string;
+  user: string;
+};
+
+export type TreatmentTemplate = {
+  id?: string | number;
+  name: string;
+  display_name: string;
 };

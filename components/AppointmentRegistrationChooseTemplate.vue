@@ -13,21 +13,17 @@
         >
       </div>
 
-      <div
-        class="button-container"
-        @scroll="handleScroll"
-        ref="scrollContainer"
-      >
+      <div class="button-container">
         <div class="button-wrapper">
           <GenericButton
             v-for="(item, index) in treatmentTemplates"
             :key="index"
             :outlined="true"
             :plain="true"
-            :disabled="!isItemVisible(index)"
             class="generic-button"
+            @click="handleSelect(item)"
           >
-            <template #label>{{ item }}</template>
+            <template #label>{{ item.display_name }}</template>
           </GenericButton>
         </div>
       </div>
@@ -35,55 +31,22 @@
   </div>
 </template>
 
-<script setup>
-import { ref, onMounted } from "vue";
+<script setup lang="ts">
+import type { PropType } from "vue";
+import type { TreatmentTemplate } from "../types/types";
 
-const treatmentTemplates = ref([
-  "Template 1",
-  "Template 2",
-  "Template 3",
-  "Template 4",
-  "Template 5",
-  "Template 6",
-  "Template 7",
-  "Template 8",
-  "Template 9",
-  "Template 10",
-  "Template 11",
-  "Template 12",
-]);
+const emit = defineEmits(["select"]);
 
-const visibleIndices = ref([0, 1, 2, 3]);
-const scrollContainer = ref(null);
-
-const handleScroll = () => {
-  const container = scrollContainer.value;
-  const containerTop = container.scrollTop;
-  const containerBottom = containerTop + container.clientHeight;
-
-  const items = container.querySelectorAll(".generic-button");
-  const newVisibleIndices = [];
-
-  items.forEach((item, index) => {
-    const itemTop = item.offsetTop - container.offsetTop;
-    const itemBottom = itemTop + item.clientHeight;
-
-    if (itemTop < containerBottom && itemBottom > containerTop) {
-      newVisibleIndices.push(index);
-    }
-  });
-
-  visibleIndices.value = newVisibleIndices.slice(0, 4);
-};
-
-const isItemVisible = (index) => {
-  return visibleIndices.value.includes(index);
-};
-
-onMounted(() => {
-  setTimeout(handleScroll, 0);
-  scrollContainer.value.addEventListener("scroll", handleScroll);
+defineProps({
+  treatmentTemplates: {
+    type: Array as PropType<TreatmentTemplate[]>,
+    required: true,
+  },
 });
+
+const handleSelect = (item: TreatmentTemplate) => {
+  emit("select", item);
+};
 </script>
 
 <style scoped>

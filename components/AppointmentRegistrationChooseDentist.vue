@@ -17,11 +17,11 @@
           >
             <div class="location-header">
               <div>
-                <img :src="dentist.favicon" width="90px" />
+                <!-- <img :src="dentist.favicon" width="90px" /> -->
               </div>
               <div class="location-details">
-                <h4>{{ dentist.name }}</h4>
-                <h4 class="text-light">{{ dentist.type }}</h4>
+                <h4>Dr. {{ formatFullName(dentist) }}</h4>
+                <h4 class="text-light">{{ dentist.name }}</h4>
               </div>
             </div>
 
@@ -29,7 +29,7 @@
               <h4>Nächst mögliche Termine:</h4>
               <div class="appointment-dates">
                 <GenericButton
-                  v-for="(date, dateIndex) in dentist.appointmentDates"
+                  v-for="(date, dateIndex) in dentist.calendars"
                   :key="dateIndex"
                   :plain="false"
                   :disabled="false"
@@ -65,15 +65,19 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import { PropType } from "vue";
 import { ref, defineEmits } from "vue";
+import { Dentist } from "../types/types";
 
 const props = defineProps({
   dentistArray: {
-    type: Array,
+    type: Array as PropType<Dentist[]>,
     required: true,
   },
 });
+
+console.log(props.dentistArray, "dentistArray");
 
 const emit = defineEmits(["choose-dentist"]);
 
@@ -81,6 +85,10 @@ const selectedButtons = ref({});
 
 const selectButton = (dentistIndex, dateIndex) => {
   selectedButtons.value[dentistIndex] = dateIndex;
+};
+
+const formatFullName = (dentist: Dentist) => {
+  return `${dentist.first_name} ${dentist.last_name}`;
 };
 
 const chooseDentist = (dentistIndex) => {
