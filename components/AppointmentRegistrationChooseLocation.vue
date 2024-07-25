@@ -16,10 +16,15 @@
                 <slot name="favicon"></slot>
               </div>
               <div class="location-details">
-                <h4 class="location-name">{{ location.name }}</h4>
+                <h4 class="location-name">
+                  {{ location.city }} - {{ location.district }}
+                </h4>
                 <h4 class="location-address">
-                  <span>{{ location.address }}</span>
-                  <span>{{ location.postalCode }} {{ location.city }}</span>
+                  <!-- <span>{{ location.postalCode }} {{ location.city }}</span> -->
+
+                  {{ location.street }} {{ location.street_number }},
+                  {{ location.zip_code }} {{ location.city }}
+                  {{}}
                 </h4>
               </div>
             </div>
@@ -28,7 +33,7 @@
               :plain="false"
               :disabled="false"
               label="Auswählen"
-              @click="handleSelectLocation(location.id)"
+              @click="handleSelectLocation(location)"
             >
               <template #label>
                 <h4 class="button-label">Auswählen</h4>
@@ -42,28 +47,38 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { PropType, ref } from "vue";
+import { Location } from "../types/types";
 
-const handleSelectLocation = (location: number) => {
-  alert(`Selected location is ${location}`);
+const emit = defineEmits(["select"]);
+
+defineProps({
+  locations: {
+    type: Array as PropType<Location[]>,
+    required: true,
+  },
+});
+
+const handleSelectLocation = (location: any) => {
+  emit("select", location);
 };
 
-const locations = ref([
-  {
-    id: 0,
-    name: "Berlin - Reinickendorf",
-    address: "Gotthardstr. 27",
-    postalCode: "13407",
-    city: "Berlin",
-  },
-  {
-    id: 1,
-    name: "Berlin - Schöneberg",
-    address: "Bayerischer Platz 7",
-    postalCode: "10779",
-    city: "Berlin",
-  },
-]);
+// const locations = ref([
+//   {
+//     id: 0,
+//     name: "Berlin - Reinickendorf",
+//     address: "Gotthardstr. 27",
+//     postalCode: "13407",
+//     city: "Berlin",
+//   },
+//   {
+//     id: 1,
+//     name: "Berlin - Schöneberg",
+//     address: "Bayerischer Platz 7",
+//     postalCode: "10779",
+//     city: "Berlin",
+//   },
+// ]);
 </script>
 
 <style scoped>
