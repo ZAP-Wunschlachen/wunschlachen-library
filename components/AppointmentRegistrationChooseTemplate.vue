@@ -1,42 +1,33 @@
 <template>
-  <div
-    class="flex border-2 w-full h-full pt-[144px] px-0 items-center justify-center g-[8px] overflow-hidden"
-  >
-    <div class="flex flex-col items-center gap-[62px]">
-      <div>
-        <template v-if="item && item.Logo">
-          <DirectusImg :image="item.Logo" width="170px" height="170px" />
-        </template>
-        <template v-else>
-          <p>Loading logo...</p>
-        </template>
+  <div class="appointment-selector">
+    <div class="content">
+      <div class="logo">
+        <slot name="logo"></slot>
       </div>
-      <div class="flex flex-col justify-center items-center self-stretch">
-        <div
-          class="flex flex-col text-center justify-center max-w-[400px] items-center gap-[10px]"
+      <div class="header" style="color: var(--dental-blue-0)">
+        <h2 style="font-weight: bold; font-size: 25px">
+          Wählen Sie die Terminart
+        </h2>
+        <span
+          >Bestimmte Termine sind nur für bestehende Patienten verfügbar</span
         >
-          <h2>Wählen Sie die Terminart</h2>
-          <span
-            >Bestimmte Termine sind nur für bestehende Patienten verfügbar</span
-          >
-        </div>
       </div>
 
       <div
-        class="flex border mx-auto rounded-[4px] max-h-[400px] scroll-auto overflow-y-scroll no-scrollbar scroll-smooth min-w-[350px] p-[24px_20px] flex-col items-center gap-[24px] self-stretch"
+        class="button-container"
         @scroll="handleScroll"
         ref="scrollContainer"
       >
-        <div class="flex flex-col w-full gap-[16px]">
+        <div class="button-wrapper">
           <GenericButton
             v-for="(item, index) in treatmentTemplates"
             :key="index"
             :outlined="true"
-            :plain="false"
+            :plain="true"
             :disabled="!isItemVisible(index)"
             class="generic-button"
           >
-            <template #label> {{ item }} </template>
+            <template #label>{{ item }}</template>
           </GenericButton>
         </div>
       </div>
@@ -46,9 +37,6 @@
 
 <script setup>
 import { ref, onMounted } from "vue";
-
-const { getSingletonItem } = useDirectusItems();
-const item = ref(null);
 
 const treatmentTemplates = ref([
   "Template 1",
@@ -65,7 +53,7 @@ const treatmentTemplates = ref([
   "Template 12",
 ]);
 
-const visibleIndices = ref([0, 1, 2, 3]); // Initialize with the first 4 items
+const visibleIndices = ref([0, 1, 2, 3]);
 const scrollContainer = ref(null);
 
 const handleScroll = () => {
@@ -85,7 +73,6 @@ const handleScroll = () => {
     }
   });
 
-  // Keep only the first 4 visible indices
   visibleIndices.value = newVisibleIndices.slice(0, 4);
 };
 
@@ -94,34 +81,83 @@ const isItemVisible = (index) => {
 };
 
 onMounted(() => {
-  // Ensure handleScroll runs after the component is mounted and layout is calculated
   setTimeout(handleScroll, 0);
   scrollContainer.value.addEventListener("scroll", handleScroll);
 });
-
-import { useIcons } from "@/composables/useIcons";
-const { getDirectusIcon } = useIcons();
-
-const emit = defineEmits(["update:modelValue", "input-error"]);
-
-const { data: mailIcon } = await useAsyncData("mailIcon", async () => {
-  return await getDirectusIcon("mail_icon");
-});
-
-const { data, error } = await useAsyncData("item", async () => {
-  return await getSingletonItem({
-    collection: "CMS",
-    params: {
-      fields: [
-        "*,Logo.*,Logo.title,Logo.filename_download, favicon.id, favicon.filename_download,favicon.type",
-      ],
-    },
-  });
-});
-
-if (error.value) {
-  console.error("Error fetching item:", error.value);
-} else {
-  item.value = data.value;
-}
 </script>
+
+<style scoped>
+.appointment-selector {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  padding-left: 0;
+  padding-right: 0;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  overflow: hidden;
+  background-color: var(--dental-light-blue-3);
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 62px;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-self: stretch;
+}
+
+.header h2 {
+  text-align: center;
+}
+
+.header span {
+  text-align: center;
+  max-width: 400px;
+}
+
+.button-container {
+  display: flex;
+  border: 1px solid;
+  margin: 0 auto;
+  border-radius: 4px;
+  max-height: 400px;
+  overflow-y: scroll;
+  min-width: 350px;
+  padding: 24px 20px;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  align-self: stretch;
+  scroll-behavior: smooth;
+}
+
+.button-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 16px;
+}
+
+.generic-button {
+  width: 100%;
+}
+
+/* Hide scrollbar */
+.button-container {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.button-container::-webkit-scrollbar {
+  display: none;
+}
+</style>
