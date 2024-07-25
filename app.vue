@@ -3,8 +3,9 @@
 </template>
 
 <script>
-import "@fontsource/outfit"; // Defaults to weight 400
-import "@fontsource/outfit/400.css"; // Specify weight
+import "@fontsource/outfit";
+import "@fontsource/outfit/300.css";
+import "@fontsource/outfit/700.css";
 </script>
 
 <style>

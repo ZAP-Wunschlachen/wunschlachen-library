@@ -1,5 +1,21 @@
 <template>
   <div class="flex flex-col items-center mx-auto gap-[10px] w-full">
+    <h1 class="mx-auto">AppointmentRegistrationInsertinfo</h1>
+
+    <AppointmentRegistrationInsertPatientInfo
+      :email="email"
+      :emailState="emailState"
+      :password="password"
+      :passwordState="passwordState"
+      @update:email="email = $event"
+      @update:password="password = $event"
+      @validate:password="validatePassword"
+      @validate:email="validateEmail"
+      @validate="validateInputs"
+      @forgot-password="handleForgotPassword"
+      @update:rememberUsername="rememberUsername = $event"
+    />
+
     <h1 class="mx-auto">AppointmentRegistrationLogIn</h1>
     <AppointmentRegistrationLogIn
       :email="email"

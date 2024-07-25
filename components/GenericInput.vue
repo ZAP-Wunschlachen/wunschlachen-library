@@ -14,7 +14,7 @@
       {{ label }}
     </label>
     <div class="input-container">
-      <div class="input-icon left">
+      <div v-if="prependIcon" class="input-icon left">
         <slot name="prependIcon"></slot>
       </div>
       <input
@@ -31,15 +31,11 @@
           warning ? 'input-warning' : '',
           success ? 'input-success' : '',
           error ? 'input-error' : '',
+          paddingClass,
         ]"
         :disabled="isDisabled"
-        :style="
-          prependIcon || appendIcon
-            ? 'padding-left: 2.5rem; padding-right: 2.5rem;'
-            : ''
-        "
       />
-      <div class="input-icon right">
+      <div v-if="appendIcon" class="input-icon right">
         <slot name="appendIcon"></slot>
       </div>
     </div>
@@ -86,7 +82,7 @@
 </template>
 
 <script setup>
-import { defineProps, defineEmits, ref } from "vue";
+import { defineProps, defineEmits, ref, computed } from "vue";
 
 const emit = defineEmits(["update:modelValue", "input-error"]);
 
@@ -148,6 +144,13 @@ const props = defineProps({
 const inputValue = ref(props.modelValue);
 const isTouched = ref(false);
 
+const paddingClass = computed(() => {
+  return {
+    "padding-left-2_5rem": props.prependIcon,
+    "padding-right-2_5rem": props.appendIcon,
+  };
+});
+
 const updateValue = (event) => {
   inputValue.value = event.target.value;
   emit("update:modelValue", inputValue.value);
@@ -206,7 +209,13 @@ const checkEmpty = () => {
   border-radius: 0.375rem;
   box-shadow: 0 0 0 1px var(--dental-blue--4);
   color: var(--dental-blue--4);
+}
+
+.padding-left-2_5rem {
   padding-left: 2.5rem;
+}
+
+.padding-right-2_5rem {
   padding-right: 2.5rem;
 }
 
@@ -219,27 +228,41 @@ const checkEmpty = () => {
 .input-disabled {
   cursor: not-allowed;
   color: var(--soft-concrete-1);
-  placeholder: var(--soft-concrete-1);
 }
 
 .input-warning {
   box-shadow: 0 0 0 2px var(--warning-0);
   color: var(--warm-light-3);
   background-color: #fffae5; /* Equivalent to bg-yellow-50 */
-  placeholder: #b98900; /* Equivalent to placeholder-yellow-700 */
 }
 
 .input-success {
   box-shadow: 0 0 0 2px var(--success-green-0);
   color: var(--success-green-1);
   background-color: #e6ffed; /* Equivalent to bg-green-50 */
-  placeholder: var(--success-green-1);
+}
+
+.input-success:focus {
+  box-shadow: 0 0 0 2px var(--success-green-0);
+  color: var(--success-green-1);
+  background-color: #e6ffed; /* Equivalent to bg-green-50 */
+}
+
+::placeholder {
+  color: var(--dental-blue--4);
+  opacity: 1; /* Firefox */
 }
 
 .input-error {
   box-shadow: 0 0 0 2px var(--error-red-0);
   background-color: #ffe5e5; /* Equivalent to bg-red-50 */
-  placeholder: var(--error-red-0);
+  color: var(--error-red-0);
+}
+
+.input-error:focus {
+  box-shadow: 0 0 0 2px var(--error-red-0);
+  background-color: #ffe5e5; /* Equivalent to bg-red-50 */
+  color: var(--error-red-0);
 }
 
 .message-container {
@@ -274,7 +297,7 @@ const checkEmpty = () => {
 }
 
 .text-warning {
-  color: var (--warm-light-3);
+  color: var(--warm-light-3);
 }
 
 .text-disabled {
