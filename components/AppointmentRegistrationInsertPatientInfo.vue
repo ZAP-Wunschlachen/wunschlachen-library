@@ -48,7 +48,8 @@
       <GenericButton
         :outlined="false"
         :plain="false"
-        :disabled="isSubmitDisabled"
+        :disabled="isDisabled"
+        :sending="isSending"
         class="submit-button"
         @click="handleSubmit"
       >
@@ -72,9 +73,14 @@ interface Props {
   nameMessage: String;
   lastNameMessage: String;
   emailMessage: String;
+  disabled: Boolean;
+  sending: Boolean;
 }
 
 const props = defineProps<Props>();
+
+const isDisabled = ref(props.disabled);
+const isSending = ref(props.sending);
 
 const emit = defineEmits<{
   (e: "update:name", value: string): void;
