@@ -163,6 +163,71 @@ p {
   }
 }
 
+::placeholder {
+  color: var(--dental-blue--4);
+  opacity: 1; /* Firefox */
+}
+
+@media (min-width: 768px) and (max-width: 1200px) {
+  ::placeholder {
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: 120%; /* 21.6px */
+    letter-spacing: 0.9px;
+  }
+
+  input {
+    font-family: Outfit;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: 120%; /* 24px */
+    letter-spacing: 1px;
+    padding: 8px;
+  }
+}
+
+@media (min-width: 1201px) and (max-width: 2650px) {
+  ::placeholder {
+    font-family: Outfit;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: 120%; /* 24px */
+    letter-spacing: 1px;
+  }
+
+  input {
+    font-family: Outfit;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: 120%; /* 24px */
+    letter-spacing: 1px;
+    padding: 10px;
+  }
+}
+
+@media (max-width: 767px) {
+  ::placeholder {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: 120%; /* 19.2px */
+  }
+
+  input {
+    font-family: Outfit;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: 120%; /* 24px */
+    letter-spacing: 1px;
+    padding: 8px;
+  }
+}
+
 /* Large paragraph styles */
 .p-large {
   font-size: 18px;

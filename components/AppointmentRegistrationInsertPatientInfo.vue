@@ -18,6 +18,7 @@
             :success="nameState === 'success'"
             :error="nameState === 'error'"
             @input="updateName"
+            :message="nameMessage"
           />
           <GenericInput
             class="w-full"
@@ -27,6 +28,7 @@
             :success="lastNameState === 'success'"
             :error="lastNameState === 'error'"
             @input="updateLastName"
+            :message="lastNameMessage"
           />
           <GenericInput
             class="w-full"
@@ -36,6 +38,7 @@
             :success="emailState === 'success'"
             :error="emailState === 'error'"
             @input="updateEmail"
+            :message="emailMessage"
           />
         </div>
       </div>
@@ -63,6 +66,9 @@ interface Props {
   email: string;
   emailState: string;
   rememberUsername: boolean;
+  nameMessage: String;
+  lastNameMessage: String;
+  emailMessage: String;
 }
 
 const props = defineProps<Props>();

@@ -40,24 +40,8 @@
       </div>
     </div>
     <div class="message-container">
-      <div v-if="error" class="error-message">
-        <div class="icon-container">
-          <slot name="errorIcon"></slot>
-        </div>
-        <p
-          :class="[
-            'message-text',
-            error ? 'text-error' : '',
-            warning ? 'text-warning' : '',
-            isDisabled ? 'text-disabled' : '',
-          ]"
-        >
-          {{ placeholder }} kann nicht leer sein.
-        </p>
-      </div>
-
       <p
-        v-else-if="message"
+        v-if="message"
         :class="[
           'message',
           success ? 'text-success' : '',
@@ -67,13 +51,7 @@
         ]"
       >
         <span class="font-medium">{{
-          success
-            ? "Well done!"
-            : error
-            ? "Oh, snap!"
-            : warning
-            ? "Attention!"
-            : ""
+          success ? "" : error ? "" : warning ? "" : ""
         }}</span>
         {{ message }}
       </p>
@@ -205,7 +183,7 @@ const checkEmpty = () => {
 
 .input {
   width: 100%;
-  padding: 0.5rem;
+
   border-radius: 0.375rem;
   box-shadow: 0 0 0 1px var(--dental-blue--4);
   color: var(--dental-blue--4);
@@ -246,11 +224,6 @@ const checkEmpty = () => {
   box-shadow: 0 0 0 2px var(--success-green-0);
   color: var(--success-green-1);
   background-color: #e6ffed; /* Equivalent to bg-green-50 */
-}
-
-::placeholder {
-  color: var(--dental-blue--4);
-  opacity: 1; /* Firefox */
 }
 
 .input-error {
