@@ -23,6 +23,9 @@
           </template>
         </GenericInput>
       </div>
+
+      <slot name="message"></slot>
+
       <GenericButton
         :plain="false"
         :disabled="isSubmitDisabled"

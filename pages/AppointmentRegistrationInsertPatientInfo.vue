@@ -18,6 +18,7 @@
       @update:rememberUsername="updateRememberUsername"
       nameMessage="adsad"
     >
+      <template #message>sadasd</template>
       <template #logo> dsadsads </template>
     </AppointmentRegistrationInsertPatientInfo>
   </div>

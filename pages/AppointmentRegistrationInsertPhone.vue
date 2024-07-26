@@ -24,6 +24,7 @@
         />
       </svg>
     </template>
+    <template #message>asdssads</template>
   </AppointmentRegistrationInsertPhone>
 </template>
 
@@ -35,11 +36,9 @@ const phoneState = ref("");
 const message = ref("");
 
 const validatePhoneNumber = (input) => {
-  console.log("input", input);
   if (!input || input.length === 0) {
-    console.log("entered");
     phoneState.value = "error";
-    console.log("phoneSate Bruv", phoneState.value);
+
     message.value = "empty bruv";
   } else {
     phoneState.value = "success";
