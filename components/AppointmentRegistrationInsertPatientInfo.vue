@@ -42,6 +42,9 @@
           />
         </div>
       </div>
+
+      <slot name="message"></slot>
+
       <GenericButton
         :outlined="false"
         :plain="false"
