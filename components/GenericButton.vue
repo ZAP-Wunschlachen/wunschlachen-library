@@ -85,6 +85,14 @@ const buttonClasses = computed(() => {
   color: white;
 }
 
+.button:not(.button-disabled):hover {
+  background-color: var(--dental-blue--3);
+}
+
+.button:not(.button-disabled):active {
+  background-color: var(--dental-blue-1);
+}
+
 .button-disabled {
   cursor: not-allowed;
   background-color: var(--soft-concrete-2);
@@ -100,9 +108,11 @@ const buttonClasses = computed(() => {
   color: white;
   border: 2px solid var(--dental-blue-0);
 }
+
 .button-default-enabled:hover {
   background-color: var(--dental-blue--3);
 }
+
 .button-default-enabled:active {
   background-color: var(--dental-blue-1);
 }
@@ -117,9 +127,11 @@ const buttonClasses = computed(() => {
   background-color: transparent;
   color: var(--dental-blue-0);
 }
+
 .button-plain-enabled:hover {
   color: var(--dental-blue--3);
 }
+
 .button-plain-enabled:active {
   color: var(--dental-blue-1);
 }
@@ -133,10 +145,12 @@ const buttonClasses = computed(() => {
   border: 2px solid var(--dental-blue-0);
   color: var(--dental-blue-0);
 }
+
 .button-outlined-enabled:hover {
   background-color: var(--dental-blue--4);
   color: var(--dental-blue-0);
 }
+
 .button-outlined-enabled:active {
   background-color: var(--dental-blue--3);
   color: white;

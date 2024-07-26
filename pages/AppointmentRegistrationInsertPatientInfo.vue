@@ -16,6 +16,7 @@
       @validate:email="validateEmail"
       @validate="validateForm"
       @update:rememberUsername="updateRememberUsername"
+      nameMessage="adsad"
     >
       <template #logo> dsadsads </template>
     </AppointmentRegistrationInsertPatientInfo>

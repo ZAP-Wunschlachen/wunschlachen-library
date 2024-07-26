@@ -77,7 +77,7 @@
     </AppointmentRegistrationLogIn>
 
     <h1 class="mx-auto">AppointmentRegistrationInsertMail</h1>
-    <AppointmentRegistrationInsertMail
+    <AppointmentRegistrationInsertPhone
       @sign-in="
         (input) => {
           console.log('Sign in emitted', input);
@@ -85,7 +85,7 @@
       "
     >
       <template #logo>Logo goes here</template>
-    </AppointmentRegistrationInsertMail>
+    </AppointmentRegistrationInsertPhone>
 
     <h1 class="mx-auto">AppointmentRegistrationChooseDentist</h1>
     <AppointmentRegistrationChooseDentist
