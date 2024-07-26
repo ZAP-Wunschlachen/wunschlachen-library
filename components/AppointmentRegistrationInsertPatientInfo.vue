@@ -174,7 +174,7 @@ const handleSubmit = () => {
 .input-group {
   display: flex;
   flex-direction: column;
-  gap: 1rem; /* Equivalent to gap-4 */
+
   width: 100%;
 }
 

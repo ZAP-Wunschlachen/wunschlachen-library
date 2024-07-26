@@ -352,7 +352,13 @@
     </AppointmentRegistrationInsertCode>
 
     <h1 class="mx-auto">AppointmentRegistrationOldPatient</h1>
-    <AppointmentRegistrationOldPatient>
+    <AppointmentRegistrationOldPatient
+      @pick-choice="
+        (input) => {
+          console.log('input', input);
+        }
+      "
+    >
       <template #logo>Logo goes here </template>
     </AppointmentRegistrationOldPatient>
 
