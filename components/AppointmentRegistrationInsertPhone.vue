@@ -25,7 +25,7 @@
       </div>
       <GenericButton
         :plain="false"
-        :disabled="false"
+        :disabled="isSubmitDisabled"
         @click="handleSignInClick"
       >
         <template #label>
@@ -60,6 +60,10 @@ watch(
     phoneNumber.value = newVal;
   }
 );
+
+const isSubmitDisabled = computed(() => {
+  return props.phoneState !== "success";
+});
 
 watch(
   () => props.phoneState,
