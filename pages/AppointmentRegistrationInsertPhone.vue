@@ -5,6 +5,8 @@
     @validate:password="validatePhoneNumber"
     :phoneState="phoneState"
     :message="message"
+    :sending="true"
+    :disabled="true"
   >
     <template #logo>Logo goes here</template>
     <template #prependIcon>

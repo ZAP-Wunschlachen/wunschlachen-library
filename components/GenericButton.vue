@@ -1,11 +1,15 @@
 <template>
   <div :class="buttonClasses">
-    <div v-if="sending" class="spinner"></div>
-    <div v-if="!sending">
+    <div>
       <div class="button-content">
-        <slot name="prependIcon" />
-        <slot name="label" />
-        <slot name="appendIcon" />
+        <div v-if="sending" class="loader-overlay">
+          <span class="loader"></span>
+        </div>
+        <template v-else>
+          <slot name="prependIcon" />
+          <slot name="label" />
+          <slot name="appendIcon" />
+        </template>
       </div>
     </div>
   </div>
@@ -97,10 +101,6 @@ const buttonClasses = computed(() => {
   cursor: not-allowed;
   background-color: var(--soft-concrete-2);
   color: white;
-}
-
-.button-sending {
-  opacity: 0;
 }
 
 .button-default-enabled {
@@ -206,6 +206,26 @@ const buttonClasses = computed(() => {
 @media (min-width: 1024px) {
   .button-content {
     font-size: 1.25rem; /* lg:text-[20px] */
+  }
+}
+
+.loader {
+  width: 20px;
+  height: 20px;
+  border: 2px solid white;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }
 </style>

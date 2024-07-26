@@ -21,6 +21,8 @@
       <GenericButton
         :outlined="false"
         :plain="false"
+        :disabled="isDisabled"
+        :sending="isSending"
         class="submit-button"
         :disabled="otpValue.length < 6"
         @click="handleSubmit"
@@ -38,12 +40,17 @@ import { ref, defineProps, defineEmits, watch } from "vue";
 
 interface Props {
   otpState: string;
+  disabled: Boolean;
+  sending: Boolean;
 }
 
 const props = defineProps<Props>();
 const emit = defineEmits(["validate"]);
 
 const otpValue = ref("");
+
+const isDisabled = ref(props.disabled);
+const isSending = ref(props.sending);
 
 const handleSubmit = () => {
   emit("validate", otpValue.value);
