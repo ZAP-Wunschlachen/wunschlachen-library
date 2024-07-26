@@ -7,21 +7,22 @@
       <div class="text-section">
         <div class="text-content">
           <h2>Sind Sie bereits Patient?</h2>
-          <span>Gewisse Terminarten sind nicht für Neupatienten verfügbar</span>
+          <p class="p-large">
+            Gewisse Terminarten sind nicht für Neupatienten verfügbar
+          </p>
         </div>
       </div>
       <div class="choice-box">
         <div class="choice-content">
-          <span class="choice-text"
-            >Haben Sie einen Arzt oder Ärztin in dieser Einrichtung bereits
-            besucht?</span
-          >
+          <p class="p-large">
+            Haben Sie einen Arzt oder Ärztin in dieser Einrichtung bereits
+            besucht?
+          </p>
           <div class="buttons">
             <GenericButton
               :outlined="true"
               :plain="true"
               :disabled="false"
-              label="dsads"
               @click="handleChoice(Choice.YES)"
             >
               <template #label> Ja </template>
@@ -30,7 +31,6 @@
             <GenericButton
               :outlined="true"
               :plain="true"
-              :disabled="false"
               label="dsads"
               @click="handleChoice(Choice.NO)"
             >
@@ -79,15 +79,6 @@ const handleChoice = (choice: Choice) => {
   gap: 62px;
 }
 
-.text-section,
-.choice-box {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-}
-
 .text-content {
   display: flex;
   flex-direction: column;
@@ -99,9 +90,10 @@ const handleChoice = (choice: Choice) => {
 }
 
 .choice-box {
-  border: 1px solid;
+  border: 1px solid var(--soft-concrete-1);
+  background: white;
   margin: 0 auto;
-  border-radius: 4px;
+  border-radius: 8px;
   height: 266px;
   max-width: 350px;
   padding: 24px 20px;

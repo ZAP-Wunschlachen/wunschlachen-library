@@ -154,8 +154,8 @@ const handleSubmit = () => {
   height: 3.5rem; /* Equivalent to h-14 in Tailwind */
   text-align: center;
   font-size: 1.5rem; /* Equivalent to text-2xl in Tailwind */
-  font-weight: 800; /* Equivalent to font-extrabold in Tailwind */
-  color: #0f172a; /* Equivalent to text-slate-900 in Tailwind */
+  font-weight: 700; /* Equivalent to font-extrabold in Tailwind */
+  color: var(--dental-blue-0); /* Equivalent to text-slate-900 in Tailwind */
   border: 1px solid var(--soft-concrete-1); /* Equivalent to border-[1px] in Tailwind */
   border-radius: 0.375rem; /* Equivalent to rounded in Tailwind */
   padding: 0.5rem; /* Equivalent to p-2 in Tailwind */
