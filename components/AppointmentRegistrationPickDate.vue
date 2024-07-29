@@ -23,14 +23,14 @@
               <div>
                 <slot name="arrow-left"></slot>
               </div>
-              <h4>Zurück</h4>
+              <h3>Zurück</h3>
             </div>
 
             <div class="divider"></div>
 
-            <h4 style="font-weight: 100">
+            <p class="p-large accordion-paragraph">
               Wählen Sie das für Sie passende Datum für den Termin
-            </h4>
+            </p>
 
             <div class="accordion-content">
               <GenericAccordion
@@ -42,21 +42,21 @@
                 @toggle="handleToggle(index)"
               >
                 <template #title>
-                  <div class="font-bold">{{ item.day }}</div>
+                  <h3>{{ item.day }}</h3>
                 </template>
                 <template v-if="item.day" #content>
                   <div class="grid-container">
                     <GenericButton
                       v-for="(button, btnIndex) in item.slots"
                       :key="btnIndex"
-                      :plain="false"
+                      :outliend="false"
                       :disabled="false"
                       class="appointment-button"
                     >
                       <template #label>
-                        <h3 class="button-text">
+                        <p class="">
                           {{ button }}
-                        </h3>
+                        </p>
                       </template>
                     </GenericButton>
                   </div>
@@ -125,6 +125,11 @@ const handleToggle = (index: number) => {
   gap: 48px;
 }
 
+.accordion-paragraph {
+  max-width: 350px;
+  padding: 8px;
+}
+
 .main {
   display: flex;
   flex-direction: column;
@@ -172,15 +177,18 @@ const handleToggle = (index: number) => {
   display: flex;
   flex-direction: column;
   gap: 38px;
+  background: white;
 }
 
 .accordion-container {
   display: flex;
   flex-direction: column;
   padding: 24px;
-  border: 2px solid;
+
   gap: 24px;
-  border-radius: 10px;
+  border-radius: 8px;
+  border: 1px solid var(--soft-concrete-1, #dddddf);
+  background: #fff;
 }
 
 .back-button {
@@ -212,19 +220,12 @@ const handleToggle = (index: number) => {
 }
 
 .appointment-button {
-  max-width: 60px;
-  border-radius: 10px;
-  background-color: var(--dental-light-blue-0);
-}
-
-.appointment-button:hover {
-  background-color: var(--dental-light-blue-1);
+  max-width: 80px;
+  border-radius: 8px;
 }
 
 .button-text {
-  color: #0277bd;
-  font-weight: 100;
-  font-size: 16px;
+  color: var(--Dental-Blue-0, #172774);
 }
 
 .load-more-button {

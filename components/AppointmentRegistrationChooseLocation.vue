@@ -16,16 +16,20 @@
                 <slot name="favicon"></slot>
               </div>
               <div class="location-details">
-                <h4 class="location-name">
-                  {{ location.city }} - {{ location.district }}
-                </h4>
-                <h4 class="location-address">
-                  <!-- <span>{{ location.postalCode }} {{ location.city }}</span> -->
+                <h3>{{ location.city }} - {{ location.district }}</h3>
 
-                  {{ location.street }} {{ location.street_number }},
-                  {{ location.zip_code }} {{ location.city }}
-                  {{}}
-                </h4>
+                <div class="paragraph-container">
+                  <p class="p-large">
+                    <!-- <span>{{ location.postalCode }} {{ location.city }}</span> -->
+
+                    {{ location.street }} {{ location.street_number }}, {{}}
+                  </p>
+                  <p class="p-large">
+                    <!-- <span>{{ location.postalCode }} {{ location.city }}</span> -->
+
+                    {{ location.zip_code }} {{ location.city }}
+                  </p>
+                </div>
               </div>
             </div>
             <GenericButton
@@ -36,7 +40,7 @@
               @click="handleSelectLocation(location)"
             >
               <template #label>
-                <h4 class="button-label">Auswählen</h4>
+                <p class="p-large">Auswählen</p>
               </template>
             </GenericButton>
           </div>
@@ -139,13 +143,16 @@ const handleSelectLocation = (location: any) => {
   display: flex;
   flex-direction: column;
   padding: 24px;
-  border: 2px solid rgb(233, 233, 233);
   gap: 24px;
   width: 100%;
-  min-height: 200px;
+
   flex-grow: 1;
   box-sizing: border-box;
   background-color: white;
+
+  border-radius: 8px;
+  border: 1px solid var(--soft-concrete-1, #dddddf);
+  background: #fff;
 }
 
 .location-header {
@@ -161,20 +168,6 @@ const handleSelectLocation = (location: any) => {
   flex-direction: column;
   align-self: stretch;
   gap: 8px;
-}
-
-.location-name {
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--dental-blue-0);
-}
-
-.location-address {
-  font-weight: 300;
-  display: flex;
-  flex-direction: column;
-  font-size: 14px;
-  color: var(--dental-gray-0);
 }
 
 .button-label {
