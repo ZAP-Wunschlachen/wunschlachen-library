@@ -38,6 +38,8 @@
                 :key="index"
                 :is-first="index === 0"
                 :is-last="index === availableTimes.length - 1"
+                :is-open="index === activeAccordionIndex"
+                @toggle="handleToggle(index)"
               >
                 <template #title>
                   <div class="font-bold">{{ item.day }}</div>
@@ -92,34 +94,12 @@ const props = defineProps({
   },
 });
 
-console.log(props.availableTimes, "available-timess sdsds dsd s PROP");
+const activeAccordionIndex = ref<number | null>(null);
 
-const accordionArray = ref<any[]>([
-  {
-    title: "Montag, 11. Juli",
-    content: ["9:30", "11:45", "16:15"],
-  },
-  {
-    title: "Dienstag, 12. Juli",
-    content: ["9:30", "11:45", "16:15"],
-  },
-  {
-    title: "Dienstag, 13. Juli",
-    content: [
-      "9:30",
-      "11:45",
-      "16:15",
-      "9:30",
-      "11:45",
-      "16:15",
-      "9:30",
-      "11:45",
-      "16:15",
-      "9:30",
-      "11:45",
-    ],
-  },
-]);
+const handleToggle = (index: number) => {
+  activeAccordionIndex.value =
+    activeAccordionIndex.value === index ? null : index;
+};
 </script>
 
 <style scoped>
@@ -227,6 +207,8 @@ const accordionArray = ref<any[]>([
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 4px;
+  overflow-y: auto;
+  max-height: 250px;
 }
 
 .appointment-button {
@@ -245,11 +227,11 @@ const accordionArray = ref<any[]>([
   font-size: 16px;
 }
 
-.select-button {
+.load-more-button {
   background-color: var(--dental-blue-0);
 }
 
-.select-button-text {
+.load-more-text {
   color: white;
   font-weight: 300;
 }
