@@ -5,7 +5,7 @@
     @validate:password="validatePhoneNumber"
     :phoneState="phoneState"
     :message="message"
-    :sending="true"
+    :sending="false"
     :disabled="true"
   >
     <template #logo>Logo goes here</template>
@@ -31,24 +31,41 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, watch } from "vue";
 
 const phoneNumber = ref("");
 const phoneState = ref("");
 const message = ref("");
+const sending = ref(false);
+const disabled = ref(false);
 
 const validatePhoneNumber = (input) => {
   if (!input || input.length === 0) {
     phoneState.value = "error";
-
     message.value = "empty bruv";
+    disabled.value = true;
   } else {
     phoneState.value = "success";
     message.value = "";
+    disabled.value = false;
   }
+  sending.value = true; // Change this to whatever logic determines the 'sending' state
 };
 
 const handleSignIn = (input) => {
   console.log("Sign in emitted", input);
+  sending.value = true;
+  disabled.value = true;
 };
+
+// Example watch effect to control sending and disabled based on phoneState and message
+watch([phoneState, message], () => {
+  if (phoneState.value === "success" && !message.value) {
+    sending.value = false;
+    disabled.value = false;
+  } else {
+    sending.value = true;
+    disabled.value = true;
+  }
+});
 </script>

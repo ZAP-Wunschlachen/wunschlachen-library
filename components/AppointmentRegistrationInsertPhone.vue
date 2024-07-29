@@ -28,9 +28,9 @@
 
       <GenericButton
         :plain="false"
-        :disabled="isDisabled"
+        :disabled="disabled"
         @click="handleSignInClick"
-        :sending="isSending"
+        :sending="sending"
       >
         <template #label>
           <p class="p-large">Weiter</p>
@@ -59,8 +59,6 @@ const emit = defineEmits([
 
 const phoneNumber = ref(props.phoneNumber);
 const phoneState = ref(props.phoneState);
-const isDisabled = ref(props.disabled);
-const isSending = ref(props.sending);
 
 watch(
   () => props.phoneNumber,
@@ -68,10 +66,6 @@ watch(
     phoneNumber.value = newVal;
   }
 );
-
-const isSubmitDisabled = computed(() => {
-  return props.phoneState !== "success";
-});
 
 watch(
   () => props.phoneState,
