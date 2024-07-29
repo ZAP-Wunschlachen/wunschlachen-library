@@ -21,8 +21,8 @@
       <GenericButton
         :outlined="false"
         :plain="false"
-        :disabled="isDisabled"
-        :sending="isSending"
+        :disabled="disabled"
+        :sending="sending"
         class="submit-button"
         @click="handleSubmit"
       >
@@ -47,9 +47,6 @@ const props = defineProps<Props>();
 const emit = defineEmits(["validate"]);
 
 const otpValue = ref("");
-
-const isDisabled = ref(props.disabled);
-const isSending = ref(props.sending);
 
 const handleSubmit = () => {
   emit("validate", otpValue.value);
