@@ -34,21 +34,18 @@
 
             <div class="accordion-content">
               <GenericAccordion
-                v-for="(item, index) in accordionArray"
+                v-for="(item, index) in availableTimes"
                 :key="index"
                 :is-first="index === 0"
-                :is-last="index === accordionArray.length - 1"
+                :is-last="index === availableTimes.length - 1"
               >
                 <template #title>
-                  <div class="font-bold">{{ item.title }}</div>
+                  <div class="font-bold">{{ item.day }}</div>
                 </template>
-                <template
-                  v-if="item.content && item.content.length > 0"
-                  #content
-                >
+                <template v-if="item.day" #content>
                   <div class="grid-container">
                     <GenericButton
-                      v-for="(button, btnIndex) in item.content"
+                      v-for="(button, btnIndex) in item.slots"
                       :key="btnIndex"
                       :plain="false"
                       :disabled="false"
@@ -84,12 +81,18 @@
 </template>
 
 <script setup lang="ts">
-import type { PropType } from "vue";
-import type { Appointment } from "~/types/types";
+import { ref, type PropType } from "vue";
+import type { AvailableTime, Appointment } from "../types/types";
 
 const props = defineProps({
   availableAppointments: Array as PropType<Appointment[]>,
+  availableTimes: {
+    type: Array as PropType<AvailableTime[]>,
+    required: true,
+  },
 });
+
+console.log(props.availableTimes, "available-timess sdsds dsd s PROP");
 
 const accordionArray = ref<any[]>([
   {

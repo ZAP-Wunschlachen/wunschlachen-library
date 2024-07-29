@@ -6,7 +6,7 @@
       </div>
       <div class="location-selection">
         <div class="header">
-          <h2 style="">Wählen Sie einen Zahnarzt</h2>
+          <h2>Wählen Sie einen Zahnarzt</h2>
         </div>
 
         <div class="locations">
@@ -17,25 +17,27 @@
           >
             <div class="location-header">
               <div>
-                <!-- <img :src="dentist.favicon" width="90px" /> -->
                 <img
                   :src="dentist.profile_image"
                   width="90px"
                   class="dentist-image"
                 />
-                <!-- <img src="https://via.placeholder.com/90" width="90px" /> -->
               </div>
               <div class="location-details">
-                <h3>Dr. {{ formatFullName(dentist) }}</h3>
+                <h3 style="font-size: 16px; font-weight: 700">
+                  Dr. {{ formatFullName(dentist) }}
+                </h3>
                 <p class="p-large">{{ dentist.name }}</p>
               </div>
             </div>
 
             <div class="appointment-info">
-              <p class="p-large">Nächst mögliche Termine:</p>
+              <p class="p-large" style="color: var(--Dental-Blue-0, #172774)">
+                Nächst mögliche Termine:
+              </p>
               <div class="appointment-dates">
                 <GenericButton
-                  v-for="(date, dateIndex) in ['A', 'B', 'C', 'D', 'E']"
+                  v-for="(time, dateIndex) in getDentistTimes(dentist)"
                   :key="dateIndex"
                   :plain="false"
                   :disabled="false"
@@ -48,7 +50,9 @@
                   @click="selectButton(dentistIndex, dateIndex)"
                 >
                   <template #label>
-                    <h4>{{ date }}</h4>
+                    <h4 class="appointment-button-text">
+                      {{ formatDate(time.date) }}
+                    </h4>
                   </template>
                 </GenericButton>
               </div>
@@ -74,16 +78,19 @@
 <script setup lang="ts">
 import { PropType } from "vue";
 import { ref, defineEmits } from "vue";
-import { Dentist } from "../types/types";
+import { format } from "date-fns";
+import { Dentist, AvailableTime } from "../types/types";
 
 const props = defineProps({
   dentistArray: {
     type: Array as PropType<Dentist[]>,
     required: true,
   },
+  availableTimes: {
+    type: Array as PropType<AvailableTime[]>,
+    required: true,
+  },
 });
-
-console.log(props.dentistArray, "dentistArray");
 
 const emit = defineEmits(["choose-dentist"]);
 
@@ -97,11 +104,19 @@ const formatFullName = (dentist: Dentist) => {
   return `${dentist.first_name} ${dentist.last_name}`;
 };
 
+const getDentistTimes = (dentist: Dentist) => {
+  return props.availableTimes.filter((time) => time.dentist.id === dentist.id);
+};
+
+const formatDate = (date: Date) => {
+  return format(date, "MMM d"); // Format date as "Jul 29"
+};
+
 const chooseDentist = (dentistIndex) => {
   const selectedDateIndex = selectedButtons.value[dentistIndex];
   if (selectedDateIndex !== undefined) {
-    const selectedDate =
-      props.dentistArray[dentistIndex].appointmentDates[selectedDateIndex];
+    const selectedTimes = getDentistTimes(props.dentistArray[dentistIndex]);
+    const selectedDate = selectedTimes[selectedDateIndex];
     const dentist = props.dentistArray[dentistIndex];
     emit("choose-dentist", { dentist, selectedDate });
   } else {
@@ -198,6 +213,13 @@ const chooseDentist = (dentistIndex) => {
   border-radius: 12px;
   background-color: var(--dental-light-blue-0);
   color: var(--dental-blue-0);
+}
+
+.appointment-button-text {
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 120%;
 }
 
 .appointment-button.selected {

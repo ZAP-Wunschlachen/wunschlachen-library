@@ -29,3 +29,12 @@ export type TreatmentTemplate = {
   name: string;
   display_name: string;
 };
+
+export type AvailableTime = {
+  day: string; // Formatted date string
+  start: string;
+  end: string;
+  date: Date; // Real date object
+  dentist: Dentist;
+  slots: any;
+};
