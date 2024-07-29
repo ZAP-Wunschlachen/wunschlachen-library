@@ -23,7 +23,7 @@
             class="generic-button"
             @click="handleSelect(item)"
           >
-            <template #label>{{ item.display_name }}</template>
+            <template #label>{{ item.name }}</template>
           </GenericButton>
         </div>
       </div>
