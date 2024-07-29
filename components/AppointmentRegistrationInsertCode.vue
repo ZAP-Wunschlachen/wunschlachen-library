@@ -24,7 +24,6 @@
         :disabled="isDisabled"
         :sending="isSending"
         class="submit-button"
-        :disabled="otpValue.length < 6"
         @click="handleSubmit"
       >
         <template #label>
