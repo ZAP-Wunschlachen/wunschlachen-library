@@ -34,10 +34,7 @@
 </template>
 
 <script setup>
-import { ref, defineProps } from "vue";
-
-const slots = useSlots();
-const hasContenteSlot = ref(!!slots.title);
+import { ref, defineProps, watch } from "vue";
 
 const props = defineProps({
   isFirst: {
@@ -48,12 +45,25 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  isOpen: {
+    type: Boolean,
+    default: false,
+  },
 });
 
-const isOpen = ref(false);
+const emit = defineEmits(["toggle"]);
+
+const isOpenInternal = ref(props.isOpen);
+
+watch(
+  () => props.isOpen,
+  (newVal) => {
+    isOpenInternal.value = newVal;
+  }
+);
 
 const toggleAccordion = () => {
-  isOpen.value = !isOpen.value;
+  emit("toggle");
 };
 </script>
 
