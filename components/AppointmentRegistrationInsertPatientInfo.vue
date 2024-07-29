@@ -48,8 +48,8 @@
       <GenericButton
         :outlined="false"
         :plain="false"
-        :disabled="isDisabled"
-        :sending="isSending"
+        :disabled="disabled"
+        :sending="sending"
         class="submit-button"
         @click="handleSubmit"
       >
@@ -78,9 +78,6 @@ interface Props {
 }
 
 const props = defineProps<Props>();
-
-const isDisabled = ref(props.disabled);
-const isSending = ref(props.sending);
 
 const emit = defineEmits<{
   (e: "update:name", value: string): void;
@@ -138,7 +135,6 @@ const handleSubmit = () => {
   emit("validate");
   if (!isSubmitDisabled.value) {
     // Handle the form submission
-    alert("Form submitted successfully!");
   }
 };
 </script>
