@@ -183,9 +183,12 @@ const checkEmpty = () => {
 
 .input {
   width: 100%;
-
   border-radius: 0.375rem;
-  box-shadow: 0 0 0 1px var(--dental-blue--4);
+  box-shadow: 0 0 0 1px var(--soft-concrete-1);
+  color: var(--dental-blue--4);
+}
+
+.input::placeholder {
   color: var(--dental-blue--4);
 }
 

@@ -14,6 +14,5 @@ body {
 }
 
 svg path {
-  stroke: var(--dental-blue-0);
 }
 </style>

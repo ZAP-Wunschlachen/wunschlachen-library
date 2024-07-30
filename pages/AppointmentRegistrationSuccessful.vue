@@ -1,10 +1,10 @@
 <template>
-  <AppointmentRegistrationPickDate
-    :available-appointments="availableAppointments"
-    :available-times="availableTimes"
-    dentistName="Herr Faulhaber"
-    dentistLabel="Zahnarzt"
+  <AppointmentRegistrationSuccessful
+    style="padding: 172px 0px 280px 0px"
+    :appointment="appointment"
   >
+    <template #favicon> </template>
+
     <template #logo>
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -64,107 +64,20 @@
         <path
           d="M14.9835 31.3107C8.94648 31.3107 3.28899 28.0717 0.219971 22.857L3.82731 20.7307C6.14764 24.6716 10.4212 27.12 14.9835 27.12C19.5457 27.12 23.8193 24.6716 26.1396 20.7307L29.747 22.857C26.6779 28.0717 21.0204 31.3107 14.9835 31.3107Z"
           fill="#172774"
-        />
-      </svg>
-    </template>
-    <template #favicon> favicon </template>
-    <template #arrow-left
-      ><svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="25"
-        viewBox="0 0 24 25"
-        fill="none"
-      >
-        <path
-          d="M10.5 20.0098L3 12.5098M3 12.5098L10.5 5.00977M3 12.5098H21"
-          stroke="#172774"
-          stroke-width="1.5"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        />
-      </svg>
-    </template>
-  </AppointmentRegistrationPickDate>
-
-  <div class="max-w-[300px] mx-auto p-4">
-    <!--     <GenericAccordion
-      class="m-2"
-      v-for="(item, index) in availableTimes"
-      :key="index"
-      :is-first="index === 0"
-      :is-last="index === availableTimes.length"
-      :is-open="index === activeAccordionIndex"
-      @toggle="toggleAccordion(index)"
-    >
-      <template #title>{{ item.title }}</template>
-      <template #content>{{ item.content }}</template>
-      <template #icon></template>
-    </GenericAccordion> -->
-  </div>
+        /></svg
+    ></template>
+  </AppointmentRegistrationSuccessful>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
-import AppointmentScheduler from "./AppointmentScheduler.vue";
-
-/* const availableTimes = ref([
-  { title: "Accordion 1", content: "Content 1" },
-  { title: "Accordion 2", content: "Content 2" },
-  { title: "Accordion 3", content: "Content 3" },
-  { title: "Accordion 3", content: "Content 3" },
-  { title: "Accordion 3", content: "Content 3" },
-  { title: "Accordion 3", content: "Content 3" },
-  // Add more accordions as needed
-]); */
-
-const activeAccordionIndex = ref(null);
-
-const toggleAccordion = (index) => {
-  activeAccordionIndex.value =
-    activeAccordionIndex.value === index ? null : index;
-};
-
-const availableAppointments = ref([
-  // Define your available appointments here
-]);
-
-const availableTimes = ref([
-  {
-    day: "Monday",
-    slots: [
-      "14:00",
-      "11:00",
-      "12:00",
-      "12:00",
-      "12:00",
-      "12:00",
-      "12:00",
-      "12:00",
-      "12:00",
-      "12:00",
-      "12:00",
-      "12:00",
-      "12:00",
-      "12:00",
-      "12:00",
-      "12:00",
-      "12:00",
-      "12:00",
-      "12:00",
-      "12:00",
-      "12:00",
-      "12:00",
-      "12:00",
-    ],
+const appointment = ref<Appointment>({
+  date: new Date(),
+  location: {
+    branch: "Reinickendorf",
+    address: "Gotthardstr. 29",
   },
-  { day: "Tuesday", slots: ["13:00", "14:00", "15:00"] },
-  { day: "Tuesday", slots: ["13:00", "14:00", "15:00"] },
-  { day: "Tuesday", slots: ["13:00", "14:00", "15:00"] },
-  { day: "Tuesday", slots: ["13:00", "14:00", "15:00"] },
-]);
+  dentist: {
+    name: "Dr. Werner",
+  },
+});
 </script>
-
-<style scoped>
-/* Your styles here */
-</style>

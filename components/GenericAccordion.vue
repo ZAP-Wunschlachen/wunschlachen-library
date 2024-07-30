@@ -2,7 +2,7 @@
   <div
     :class="[
       'accordion',
-      { 'border-t-none': isLast, 'border-b-none': isFirst },
+      { 'border-t-none': !isFirst, 'border-b-none': isLast },
     ]"
   >
     <div class="accordion-container">
@@ -11,18 +11,20 @@
           type="button"
           class="accordion-button"
           @click="toggleAccordion"
-          :aria-expanded="isOpen"
+          :aria-expanded="isOpenInternal"
           aria-controls="accordion-body"
         >
           <span><slot name="title"></slot></span>
-          <span :class="isOpen ? 'icon-rotate' : 'icon'">
+          <span :class="isOpenInternal ? 'icon-rotate' : 'icon'">
             <slot name="icon"></slot>
           </span>
         </button>
       </div>
       <div
         id="accordion-body"
-        :class="isOpen ? 'accordion-body-open' : 'accordion-body-closed'"
+        :class="
+          isOpenInternal ? 'accordion-body-open' : 'accordion-body-closed'
+        "
         aria-labelledby="accordion-heading"
       >
         <div class="accordion-content">
@@ -69,16 +71,15 @@ const toggleAccordion = () => {
 
 <style scoped>
 .accordion {
-  border: 2px solid var(--dental-blue-0);
   border-left: none;
   border-right: none;
 }
 
-.border-t-none {
+.border-t-none .accordion-container {
   border-top: none;
 }
 
-.border-b-none {
+.border-b-none .accordion-container {
   border-bottom: none;
 }
 
@@ -122,7 +123,6 @@ const toggleAccordion = () => {
 
 .accordion-body-open {
   max-height: 1000px;
-  transition: max-height 0.5s ease-in-out;
 }
 
 .accordion-body-closed {

@@ -13,8 +13,12 @@
               <slot name="favicon"></slot>
             </div>
             <div class="message-container">
-              <h3>Der Termin ist gebucht</h3>
-              <h4 class="light-text">{{ formattedDentist }}</h4>
+              <h2 style="color: var(--success-green-0)">
+                Der Termin ist gebucht
+              </h2>
+              <p style="color: var(--success-green-1)" class="p-large">
+                {{ formattedDentist }}
+              </p>
             </div>
           </div>
         </div>
@@ -28,7 +32,7 @@
                 </div>
                 <div class="text-container">
                   <h3>{{ formattedDate }}</h3>
-                  <p>Ggf. bitte rechtzeitig absagen</p>
+                  <p class="p-large">Ggf. bitte rechtzeitig absagen</p>
                 </div>
               </div>
               <div class="separator"></div>
@@ -39,11 +43,11 @@
                 </div>
                 <div class="text-container">
                   <h3>Zahnarztpraxis Berlin - {{ formattedLocation }}</h3>
-                  <p>{{ formattedAddress }}</p>
+                  <p class="p-large">{{ formattedAddress }}</p>
                 </div>
               </div>
             </div>
-            <p class="confirmation-note">
+            <p style="margin-top: 32px" class="p-large">
               Sie erhalten in Kürze eine Bestätigungs via E-Mail. Wir freuen uns
               auf Sie!
             </p>
@@ -115,9 +119,9 @@
               @click="handleClick()"
             >
               <template #label>
-                <h4 style="font-weight: 300; color: white">
+                <p class="p-large" style="font-weight: 300; color: white">
                   Zurück zur Übersicht
-                </h4>
+                </p>
               </template>
             </GenericButton>
           </div>
@@ -235,17 +239,10 @@ body {
   gap: 32px;
 }
 
-.favicon-container {
-  width: 52px;
-  height: 52px;
-  background-color: #ccc;
-}
-
 .message-container {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  color: var(--success-green-0);
 }
 
 .light-text {
@@ -262,10 +259,11 @@ body {
   display: flex;
   flex-direction: column;
   min-width: 350px;
-  max-width: 350px;
+  max-width: 400px;
   padding: 24px;
-  border: 2px solid #000;
+  background: white;
   border-radius: 8px;
+  border: 1px solid var(--soft-concrete-1, #dddddf);
 }
 
 .appointment-info {
@@ -276,7 +274,7 @@ body {
 
 .info-row {
   display: flex;
-  gap: 8px;
+  gap: 10px;
 }
 
 .icon-container {

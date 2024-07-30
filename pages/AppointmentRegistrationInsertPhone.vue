@@ -6,7 +6,7 @@
     :phoneState="phoneState"
     :message="message"
     :sending="false"
-    :disabled="true"
+    :disabled="false"
   >
     <template #logo>Logo goes here</template>
     <template #prependIcon>
@@ -26,7 +26,11 @@
         />
       </svg>
     </template>
-    <template #message>asdssads</template>
+    <template #message
+      ><p class="p-large max-w-[300px] text-center">
+        Message for validation if right or wrong
+      </p>
+    </template>
   </AppointmentRegistrationInsertPhone>
 </template>
 
