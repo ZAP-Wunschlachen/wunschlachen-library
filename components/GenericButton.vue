@@ -89,11 +89,10 @@ const buttonClasses = computed(() => {
   color: white;
 }
 
-.button:not(.button-disabled):hover {
+.button:not(.button-disabled, .button-plain-enabled):hover {
   background-color: var(--dental-blue--3);
 }
-
-.button:not(.button-disabled):active {
+.button:not(.button-disabled, .button-plain-enabled):active {
   background-color: var(--dental-blue-1);
 }
 
@@ -129,10 +128,12 @@ const buttonClasses = computed(() => {
 }
 
 .button-plain-enabled:hover {
+  background-color: transparent;
   color: var(--dental-blue--3);
 }
 
 .button-plain-enabled:active {
+  background-color: transparent;
   color: var(--dental-blue-1);
 }
 

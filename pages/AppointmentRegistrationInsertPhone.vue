@@ -6,7 +6,7 @@
     :phoneState="phoneState"
     :message="message"
     :sending="false"
-    :disabled="true"
+    :disabled="false"
   >
     <template #logo>Logo goes here</template>
     <template #prependIcon>
@@ -18,6 +18,10 @@
         viewBox="0 0 24 24"
       >
         <path
+          :class="{
+            'path-success': phoneState === 'success',
+            'path-error': phoneState === 'error',
+          }"
           stroke="#172774"
           stroke-linecap="round"
           stroke-linejoin="round"
@@ -26,7 +30,11 @@
         />
       </svg>
     </template>
-    <template #message>asdssads</template>
+    <template #message
+      ><p class="p-large max-w-[300px] text-center">
+        Message for validation if right or wrong
+      </p>
+    </template>
   </AppointmentRegistrationInsertPhone>
 </template>
 
@@ -53,7 +61,6 @@ const validatePhoneNumber = (input) => {
 };
 
 const handleSignIn = (input) => {
-  console.log("Sign in emitted", input);
   sending.value = true;
   disabled.value = true;
 };
@@ -69,3 +76,13 @@ watch([phoneState, message], () => {
   }
 });
 </script>
+
+<style scoped>
+.path-success {
+  stroke: var(--success-green-0);
+}
+
+.path-error {
+  stroke: var(--error-red-0);
+}
+</style>

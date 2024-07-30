@@ -7,14 +7,14 @@
       <div class="content">
         <div class="header">
           <div class="header-content">
-            <div>
+            <div class="favicon-container">
               <slot name="favicon"></slot>
             </div>
             <div class="title">
-              <h3>Termin nicht gebucht</h3>
-              <h4 class="dentist-name">
+              <h2>Termin nicht gebucht</h2>
+              <p class="p-large">
                 {{ formattedDentistName }}
-              </h4>
+              </p>
             </div>
           </div>
         </div>
@@ -25,7 +25,7 @@
 
             <div class="separator"></div>
 
-            <p>
+            <p class="p-large">
               Sie erhalten in Kürze eine Bestätigungs via E-Mail. Wir freuen uns
               auf Sie!
             </p>
@@ -116,7 +116,7 @@
             >
               <template #label>
                 <div>
-                  <h4 class="button-text">Praxis direkt anrufen</h4>
+                  <p class="p-large">Praxis direkt anrufen</p>
                 </div>
               </template>
             </GenericButton>
@@ -219,8 +219,9 @@ const formattedDentistName = computed(() => {
   max-width: 400px;
   flex-direction: column;
   padding: 24px;
-  border: 2px solid;
   border-radius: 8px;
+  border: 1px solid var(--soft-concrete-1, #dddddf);
+  background: #fff;
 }
 
 .separator {

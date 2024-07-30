@@ -11,8 +11,8 @@
               <slot name="favicon"></slot>
             </div>
             <div class="title-section">
-              <h3>Termin vereinbaren</h3>
-              <h4 class="subtitle">Frau Steltenkamp | Zahnärztin</h4>
+              <h2>Termin vereinbaren</h2>
+              <p class="p-large">{{ dentistName }} | {{ dentistLabel }}</p>
             </div>
           </div>
         </div>
@@ -23,42 +23,76 @@
               <div>
                 <slot name="arrow-left"></slot>
               </div>
-              <h4>Zurück</h4>
+              <h3>Zurück</h3>
             </div>
 
             <div class="divider"></div>
 
-            <h4 style="font-weight: 100">
+            <p class="p-large accordion-paragraph">
               Wählen Sie das für Sie passende Datum für den Termin
-            </h4>
+            </p>
 
             <div class="accordion-content">
               <GenericAccordion
                 v-for="(item, index) in availableTimes"
                 :key="index"
                 :is-first="index === 0"
-                :is-last="index === availableTimes.length - 1"
+                :is-last="index === availableTimes.length"
                 :is-open="index === activeAccordionIndex"
                 @toggle="handleToggle(index)"
               >
-                <template #title>
-                  <div class="font-bold">{{ item.day }}</div>
+                <template #icon>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="25"
+                    viewBox="0 0 24 25"
+                    fill="none"
+                  >
+                    <path
+                      d="M19.5 8.75977L12 16.2598L4.5 8.75977"
+                      stroke="#172774"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
                 </template>
-                <template v-if="item.day" #content>
-                  <div class="grid-container">
+                <template #title>
+                  <h3>{{ item.day }}</h3>
+                </template>
+                <template v-if="item.slots.length" #content>
+                  <div class="content-container">
+                    <div class="grid-container">
+                      <GenericButton
+                        v-for="(button, btnIndex) in getVisibleSlots(item)"
+                        :key="btnIndex"
+                        :outliend="false"
+                        :disabled="false"
+                        class="appointment-button"
+                      >
+                        <template #label>
+                          <h3 class="">
+                            {{ button }}
+                          </h3>
+                        </template>
+                      </GenericButton>
+                    </div>
                     <GenericButton
-                      v-for="(button, btnIndex) in item.slots"
-                      :key="btnIndex"
-                      :plain="false"
+                      v-if="item.slots.length > visibleSlots[item.day]"
+                      :plain="true"
                       :disabled="false"
-                      class="appointment-button"
+                      @click="loadMore(item)"
                     >
                       <template #label>
-                        <h3 class="button-text">
-                          {{ button }}
-                        </h3>
+                        <h4 class="select-button-text">Mehr</h4>
                       </template>
                     </GenericButton>
+                  </div>
+                </template>
+                <template v-else #content>
+                  <div class="content-container">
+                    <p>Keine weiteren Termine an diesem Tag verfügbar.</p>
                   </div>
                 </template>
               </GenericAccordion>
@@ -72,7 +106,7 @@
               class="select-button"
             >
               <template #label>
-                <h4 class="select-button-text">Weitere Termine anzeigen</h4>
+                <p class="p-large">Weitere Termine anzeigen</p>
               </template>
             </GenericButton>
           </div>
@@ -83,10 +117,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref, type PropType } from "vue";
+import { ref, reactive, type PropType } from "vue";
 import type { AvailableTime, Appointment } from "../types/types";
 
 const props = defineProps({
+  dentistName: String,
+  dentistLabel: String,
   availableAppointments: Array as PropType<Appointment[]>,
   availableTimes: {
     type: Array as PropType<AvailableTime[]>,
@@ -95,10 +131,27 @@ const props = defineProps({
 });
 
 const activeAccordionIndex = ref<number | null>(null);
+const initialVisibleSlotsCount = 6; // Initial number of visible buttons
 
 const handleToggle = (index: number) => {
   activeAccordionIndex.value =
     activeAccordionIndex.value === index ? null : index;
+};
+
+const visibleSlots = reactive<Record<string, number>>({});
+
+const getVisibleSlots = (item: AvailableTime) => {
+  if (!visibleSlots[item.day]) {
+    visibleSlots[item.day] = initialVisibleSlotsCount;
+  }
+  return item.slots.slice(0, visibleSlots[item.day]);
+};
+
+const loadMore = (item: AvailableTime) => {
+  if (!visibleSlots[item.day]) {
+    visibleSlots[item.day] = initialVisibleSlotsCount;
+  }
+  visibleSlots[item.day] += initialVisibleSlotsCount;
 };
 </script>
 
@@ -125,6 +178,11 @@ const handleToggle = (index: number) => {
   gap: 48px;
 }
 
+.accordion-paragraph {
+  max-width: 350px;
+  padding: 8px;
+}
+
 .main {
   display: flex;
   flex-direction: column;
@@ -139,6 +197,12 @@ const handleToggle = (index: number) => {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.content-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
 
 .header-content {
@@ -172,15 +236,18 @@ const handleToggle = (index: number) => {
   display: flex;
   flex-direction: column;
   gap: 38px;
+  background: white;
 }
 
 .accordion-container {
   display: flex;
   flex-direction: column;
   padding: 24px;
-  border: 2px solid;
+
   gap: 24px;
-  border-radius: 10px;
+  border-radius: 8px;
+  border: 1px solid var(--soft-concrete-1, #dddddf);
+  background: #fff;
 }
 
 .back-button {
@@ -192,8 +259,8 @@ const handleToggle = (index: number) => {
 
 .divider {
   width: 100%;
-  height: 2px;
-  background-color: #333;
+  height: 1.5px;
+  background-color: var(--dental-blue-0);
   flex-shrink: 0;
 }
 
@@ -208,23 +275,24 @@ const handleToggle = (index: number) => {
   grid-template-columns: repeat(3, 1fr);
   gap: 4px;
   overflow-y: auto;
-  max-height: 250px;
 }
 
 .appointment-button {
-  max-width: 60px;
-  border-radius: 10px;
-  background-color: var(--dental-light-blue-0);
+  max-width: 80px;
+  border-radius: 8px;
+  background: var(--dental-light-blue-0);
+  color: var(--ental-Blue-0);
 }
 
 .appointment-button:hover {
-  background-color: var(--dental-light-blue-1);
+  max-width: 80px;
+  border-radius: 8px;
+
+  color: white;
 }
 
 .button-text {
-  color: #0277bd;
-  font-weight: 100;
-  font-size: 16px;
+  color: var(--Dental-Blue-0, #172774);
 }
 
 .load-more-button {

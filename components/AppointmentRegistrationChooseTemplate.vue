@@ -8,9 +8,9 @@
         <h2 style="font-weight: bold; font-size: 25px">
           Wählen Sie die Terminart
         </h2>
-        <span
-          >Bestimmte Termine sind nur für bestehende Patienten verfügbar</span
-        >
+        <p class="p-large">
+          Bestimmte Termine sind nur für bestehende Patienten verfügbar
+        </p>
       </div>
 
       <div class="button-container">
@@ -53,13 +53,14 @@ const handleSelect = (item: TreatmentTemplate) => {
 .appointment-selector {
   display: flex;
   width: 100%;
-  height: 100%;
+  height: 100vh;
   padding-left: 0;
   padding-right: 0;
   align-items: center;
   justify-content: center;
   gap: 8px;
   overflow: hidden;
+  padding: 261px 0px 0px 0px;
   background-color: var(--dental-light-blue-3);
 }
 
@@ -67,6 +68,7 @@ const handleSelect = (item: TreatmentTemplate) => {
   display: flex;
   flex-direction: column;
   align-items: center;
+  height: 100%;
   gap: 62px;
 }
 
@@ -76,6 +78,7 @@ const handleSelect = (item: TreatmentTemplate) => {
   justify-content: center;
   align-items: center;
   align-self: stretch;
+  margin-bottom: auto;
 }
 
 .header h2 {
@@ -91,7 +94,7 @@ const handleSelect = (item: TreatmentTemplate) => {
   display: flex;
   border: 1px solid;
   margin: 0 auto;
-  border-radius: 4px;
+  border-radius: 8px;
   max-height: 400px;
   overflow-y: scroll;
   min-width: 350px;
@@ -101,17 +104,20 @@ const handleSelect = (item: TreatmentTemplate) => {
   gap: 24px;
   align-self: stretch;
   scroll-behavior: smooth;
+  background: white;
+  border: 1px solid var(--soft-concrete-1);
 }
 
 .button-wrapper {
   display: flex;
   flex-direction: column;
   width: 100%;
-  gap: 16px;
+  gap: 24px;
 }
 
 .generic-button {
   width: 100%;
+  padding: 16px 32px;
 }
 
 /* Hide scrollbar */
