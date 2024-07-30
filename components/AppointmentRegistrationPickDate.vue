@@ -273,7 +273,7 @@ const loadMore = (item: AvailableTime) => {
 .grid-container {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 4px;
+  gap: 10px;
   overflow-y: auto;
 }
 
@@ -282,6 +282,7 @@ const loadMore = (item: AvailableTime) => {
   border-radius: 8px;
   background: var(--dental-light-blue-0);
   color: var(--ental-Blue-0);
+  margin: 5px 0px;
 }
 
 .appointment-button:hover {
