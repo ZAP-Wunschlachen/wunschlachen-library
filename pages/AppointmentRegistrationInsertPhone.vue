@@ -18,6 +18,10 @@
         viewBox="0 0 24 24"
       >
         <path
+          :class="{
+            'path-success': phoneState === 'success',
+            'path-error': phoneState === 'error',
+          }"
           stroke="#172774"
           stroke-linecap="round"
           stroke-linejoin="round"
@@ -57,7 +61,6 @@ const validatePhoneNumber = (input) => {
 };
 
 const handleSignIn = (input) => {
-  console.log("Sign in emitted", input);
   sending.value = true;
   disabled.value = true;
 };
@@ -73,3 +76,13 @@ watch([phoneState, message], () => {
   }
 });
 </script>
+
+<style scoped>
+.path-success {
+  stroke: var(--success-green-0);
+}
+
+.path-error {
+  stroke: var(--error-red-0);
+}
+</style>

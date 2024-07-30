@@ -3,8 +3,60 @@
     style="padding: 172px 0px 280px 0px"
     :appointment="appointment"
   >
-    <template #favicon> </template>
-
+    <template #favicon><div class="image-back custom-width"></div> </template>
+    <template #clock-icon
+      ><svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="25"
+        viewBox="0 0 24 25"
+        fill="none"
+      >
+        <rect
+          width="24"
+          height="24"
+          transform="translate(0 0.509766)"
+          fill="white"
+        />
+        <path
+          d="M12 6.50977V12.5098H16.5M21 12.5098C21 17.4803 16.9706 21.5098 12 21.5098C7.02944 21.5098 3 17.4803 3 12.5098C3 7.5392 7.02944 3.50977 12 3.50977C16.9706 3.50977 21 7.5392 21 12.5098Z"
+          stroke="#172774"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    </template>
+    <template #map-icon
+      ><svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+      >
+        <rect
+          width="24"
+          height="24"
+          transform="translate(0 0.00976562)"
+          fill="white"
+        />
+        <path
+          d="M15 10.5098C15 12.1666 13.6569 13.5098 12 13.5098C10.3431 13.5098 9 12.1666 9 10.5098C9 8.85291 10.3431 7.50977 12 7.50977C13.6569 7.50977 15 8.85291 15 10.5098Z"
+          stroke="#172774"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path
+          d="M19.5 10.5098C19.5 17.6519 12 21.7598 12 21.7598C12 21.7598 4.5 17.6519 4.5 10.5098C4.5 6.36763 7.85786 3.00977 12 3.00977C16.1421 3.00977 19.5 6.36763 19.5 10.5098Z"
+          stroke="#172774"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    </template>
     <template #logo>
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -81,3 +133,34 @@ const appointment = ref<Appointment>({
   },
 });
 </script>
+
+<style scoped>
+/* Your styles here */
+
+.image-back {
+  border-radius: 53px;
+  border: 1.5px solid var(--success-green-0);
+  background: url("https://starfish-app-ypxxf.ondigitalocean.app/assets/91b7accc-ebb9-4b7c-bf3b-69aad9de5b20")
+    lightgray 50% / cover no-repeat;
+}
+
+.custom-width {
+  width: 70px;
+  height: 70px;
+
+  @media (min-width: 768px) and (max-width: 1200px) {
+    width: 70px;
+    height: 70px;
+  }
+
+  @media (min-width: 1200px) and (max-width: 2650px) {
+    width: 70px;
+    height: 70px;
+  }
+
+  @media (max-width: 768px) {
+    width: 55px;
+    height: 55px;
+  }
+}
+</style>

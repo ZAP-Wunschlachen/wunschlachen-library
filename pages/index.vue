@@ -37,5 +37,9 @@
     <NuxtLink to="/AppointmentRegistrationPickDate">
       <a class="a-large"> AppointmentRegistrationPickDate</a>
     </NuxtLink>
+
+    <NuxtLink to="/AppointmentRegistrationLogIn">
+      <a class="a-large"> AppointmentRegistrationLogIn</a>
+    </NuxtLink>
   </div>
 </template>

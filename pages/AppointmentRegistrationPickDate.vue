@@ -67,7 +67,7 @@
         />
       </svg>
     </template>
-    <template #favicon> favicon </template>
+    <template #favicon> <div class="image-back custom-width"></div></template>
     <template #arrow-left
       ><svg
         xmlns="http://www.w3.org/2000/svg"
@@ -167,4 +167,31 @@ const availableTimes = ref([
 
 <style scoped>
 /* Your styles here */
+
+.image-back {
+  border-radius: 53px;
+  border: 1.5px solid var(--soft-concrete-1, #dddddf);
+  background: url("https://starfish-app-ypxxf.ondigitalocean.app/assets/91b7accc-ebb9-4b7c-bf3b-69aad9de5b20")
+    lightgray 50% / cover no-repeat;
+}
+
+.custom-width {
+  width: 70px;
+  height: 70px;
+
+  @media (min-width: 768px) and (max-width: 1200px) {
+    width: 70px;
+    height: 70px;
+  }
+
+  @media (min-width: 1200px) and (max-width: 2650px) {
+    width: 70px;
+    height: 70px;
+  }
+
+  @media (max-width: 768px) {
+    width: 55px;
+    height: 55px;
+  }
+}
 </style>

@@ -280,7 +280,6 @@ body {
 .icon-container {
   width: 24px;
   height: 24px;
-  background-color: #ccc;
 }
 
 .text-container {

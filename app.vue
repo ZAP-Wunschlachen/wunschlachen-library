@@ -12,7 +12,4 @@ import "@fontsource/outfit/700.css";
 body {
   color: var(--dental-blue-0);
 }
-
-svg path {
-}
 </style>
