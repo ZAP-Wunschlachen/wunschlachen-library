@@ -227,6 +227,7 @@ const handleSubmit = () => {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  text-align: center;
 }
 
 .text-center {
