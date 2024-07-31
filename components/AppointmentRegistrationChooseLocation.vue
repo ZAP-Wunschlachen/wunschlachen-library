@@ -9,25 +9,29 @@
           <h2 class="title">Wählen Sie einen Standort</h2>
         </div>
 
-        <div v-for="location in locations" class="location-item">
+        <div v-for="data in locationData" class="location-item">
           <div class="location-card">
             <div class="location-header">
               <div class="favicon-slot">
                 <slot name="favicon"></slot>
               </div>
               <div class="location-details">
-                <h3>{{ location.city }} - {{ location.district }}</h3>
+                <h3>
+                  {{ data.location.city }} -
+                  {{ data.location.district }}
+                </h3>
 
                 <div class="paragraph-container">
                   <p class="p-large">
                     <!-- <span>{{ location.postalCode }} {{ location.city }}</span> -->
 
-                    {{ location.street }} {{ location.street_number }}, {{}}
+                    {{ data.location.street }}
+                    {{ data.location.street_number }}, {{}}
                   </p>
                   <p class="p-large">
                     <!-- <span>{{ location.postalCode }} {{ location.city }}</span> -->
 
-                    {{ location.zip_code }} {{ location.city }}
+                    {{ data.location.zip_code }} {{ data.location.city }}
                   </p>
                 </div>
               </div>
@@ -37,7 +41,7 @@
               :plain="false"
               :disabled="false"
               label="Auswählen"
-              @click="handleSelectLocation(location)"
+              @click="handleSelectLocation(data)"
             >
               <template #label>
                 <p class="p-large">Auswählen</p>
@@ -52,19 +56,21 @@
 
 <script setup lang="ts">
 import { PropType, ref } from "vue";
-import { Location } from "../types/types";
+import { Dentist, Location, LocationData } from "../types/types";
 
 const emit = defineEmits(["select"]);
 
-defineProps({
-  locations: {
-    type: Array as PropType<Location[]>,
+const props = defineProps({
+  data: {
+    type: Array as PropType<LocationData[]>,
     required: true,
   },
 });
 
-const handleSelectLocation = (location: any) => {
-  emit("select", location);
+const locationData = ref<LocationData>(props.data.value.locations);
+
+const handleSelectLocation = (data: LocationData) => {
+  emit("select", data);
 };
 
 // const locations = ref([

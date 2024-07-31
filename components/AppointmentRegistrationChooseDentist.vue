@@ -89,6 +89,8 @@ const props = defineProps({
   },
 });
 
+console.log(props.dentistArray, "dentis asarraya");
+
 const emit = defineEmits(["choose-dentist"]);
 
 const selectedButtons = ref({});
