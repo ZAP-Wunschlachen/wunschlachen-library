@@ -30,6 +30,11 @@ export type TreatmentTemplate = {
   display_name: string;
 };
 
+export type LocationData = {
+  location: Location;
+  dentists: Dentist[];
+};
+
 export type AvailableTime = {
   day: string; // Formatted date string
   start: string;
