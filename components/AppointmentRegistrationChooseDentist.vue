@@ -18,12 +18,16 @@
             <div class="location-header">
               <div>
                 <!-- <img :src="dentist.favicon" width="90px" /> -->
-                <img
+                <!-- <img
                   :src="dentist.profile_image"
                   width="90px"
                   class="dentist-image"
+                /> -->
+                <img
+                  src="https://via.placeholder.com/90"
+                  width="90px"
+                  class="dentist-image"
                 />
-                <!-- <img src="https://via.placeholder.com/90" width="90px" /> -->
               </div>
               <div class="location-details">
                 <h3>Dr. {{ formatFullName(dentist) }}</h3>
@@ -35,13 +39,7 @@
               <p class="p-large">Nächst mögliche Termine:</p>
               <div class="appointment-dates">
                 <GenericButton
-                  v-for="(date, dateIndex) in [
-                    '11.Juli',
-                    '12.Juli',
-                    '13.Juli',
-                    '16.Juli',
-                    '29.Juli',
-                  ]"
+                  v-for="(date, dateIndex) in dentist.available_times"
                   :key="dateIndex"
                   :plain="false"
                   :disabled="false"
@@ -54,7 +52,7 @@
                   @click="selectButton(dentistIndex, dateIndex)"
                 >
                   <template #label>
-                    <h3>{{ date }}</h3>
+                    <h3>{{ date.day }}</h3>
                   </template>
                 </GenericButton>
               </div>
@@ -89,6 +87,8 @@ const props = defineProps({
   },
 });
 
+console.log(props.dentistArray, "dentistArray");
+
 const emit = defineEmits(["choose-dentist"]);
 
 const selectedButtons = ref({});
@@ -105,7 +105,7 @@ const chooseDentist = (dentistIndex) => {
   const selectedDateIndex = selectedButtons.value[dentistIndex];
   if (selectedDateIndex !== undefined) {
     const selectedDate =
-      props.dentistArray[dentistIndex].appointmentDates[selectedDateIndex];
+      props.dentistArray[dentistIndex].available_times[selectedDateIndex];
     const dentist = props.dentistArray[dentistIndex];
     emit("choose-dentist", { dentist, selectedDate });
   } else {
