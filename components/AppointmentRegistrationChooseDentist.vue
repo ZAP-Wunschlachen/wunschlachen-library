@@ -6,9 +6,7 @@
       </div>
       <div class="location-selection">
         <div class="header">
-          <h2 class="title" style="font-weight: bold; font-size: 25px">
-            Wählen Sie einen Zahnarzt
-          </h2>
+          <h2 class="title">Wählen Sie einen Zahnarzt</h2>
         </div>
 
         <div class="locations">
@@ -95,7 +93,7 @@ const emit = defineEmits(["choose-dentist"]);
 
 const selectedButtons = ref({});
 
-const selectButton = (dentistIndex, dateIndex) => {
+const selectButton = (dentistIndex: number, dateIndex: number) => {
   emit("choose-dentist", {
     dentist: props.dentistArray[dentistIndex],
     selectedDate: props.dentistArray[dentistIndex].available_times[dateIndex],
@@ -145,6 +143,8 @@ const chooseDentist = (dentistIndex) => {
   color: var(--dental-blue-0);
   font-size: 24px;
   margin-bottom: 20px;
+  font-weight: bold;
+  font-size: 25px;
 }
 
 .location-selection {

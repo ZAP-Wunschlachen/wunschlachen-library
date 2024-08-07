@@ -74,6 +74,12 @@
                         :outliend="false"
                         :disabled="false"
                         class="appointment-button"
+                        @click="
+                          handleSelectTime({
+                            date: item,
+                            slotIndex: btnIndex,
+                          })
+                        "
                       >
                         <template #label>
                           <h3 class="">
@@ -122,7 +128,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, computed, type PropType } from "vue";
+import { ref, reactive, computed, type PropType, onMounted } from "vue";
 import type { AvailableTime, Appointment, Dentist } from "../types/types";
 
 const props = defineProps({
@@ -130,18 +136,35 @@ const props = defineProps({
     type: Object as PropType<Dentist>,
     required: true,
   },
+  selected_date: {
+    type: Object as PropType<AvailableTime>,
+    required: false,
+  },
   availableAppointments: Array as PropType<Appointment[]>,
 });
 
-const emit = defineEmits(["go-back"]);
+onMounted(() => {
+  if (props.selected_date) {
+    const foundIndex = props.dentist.available_times.findIndex(
+      (item: AvailableTime) => item.day === props.selected_date.day
+    );
+    activeAccordionIndex.value = foundIndex;
+  }
+});
+
+const emit = defineEmits(["go-back", "select-time"]);
 
 const activeAccordionIndex = ref<number | null>(null);
-const initialVisibleSlotsCount = 6; // Initial number of visible buttons
+const initialVisibleSlotsCount = 3; // Initial number of visible buttons
 const initialVisibleDatesCount = 3; // Initial number of visible dates
 
 const handleToggle = (index: number) => {
   activeAccordionIndex.value =
     activeAccordionIndex.value === index ? null : index;
+};
+
+const handleSelectTime = (data: { date: AvailableTime; slotIndex: number }) => {
+  emit("select-time", data);
 };
 
 const visibleSlots = reactive<Record<string, number>>({});
@@ -180,7 +203,7 @@ const visibleAvailableTimes = computed(() => {
   width: 100%;
   min-width: 100%;
   height: 100%;
-  padding-top: 144px;
+  padding-top: 244px;
   padding-bottom: 280px;
   padding-left: 0;
   padding-right: 0;
@@ -188,6 +211,7 @@ const visibleAvailableTimes = computed(() => {
   justify-content: center;
   gap: 8px;
   background-color: var(--dental-light-blue-3);
+  overflow-y: auto;
 }
 
 .title {
