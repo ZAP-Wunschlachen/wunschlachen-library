@@ -6,7 +6,9 @@
       </div>
       <div class="location-selection">
         <div class="title-container">
-          <h2 class="title">Wählen Sie einen Standort</h2>
+          <h2 class="title" style="font-weight: bold; font-size: 25px">
+            Wählen Sie einen Standort
+          </h2>
         </div>
 
         <div v-for="dataObject in data" class="location-item">

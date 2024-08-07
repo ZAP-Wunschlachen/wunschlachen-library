@@ -11,8 +11,10 @@
               <slot name="favicon"></slot>
             </div>
             <div class="title-section">
-              <h2>Termin vereinbaren</h2>
-              <p class="p-large">{{ dentistName }} | {{ dentistLabel }}</p>
+              <h2 class="title">Termin vereinbaren</h2>
+              <p class="dentist-title">
+                {{ dentist.name }} | {{ dentist.first_name }}
+              </p>
             </div>
           </div>
         </div>
@@ -23,7 +25,9 @@
               <div>
                 <slot name="arrow-left"></slot>
               </div>
-              <h3>Zurück</h3>
+              <button @click="handleBack">
+                <p>Zurück</p>
+              </button>
             </div>
 
             <div class="divider"></div>
@@ -34,10 +38,10 @@
 
             <div class="accordion-content">
               <GenericAccordion
-                v-for="(item, index) in availableTimes"
+                v-for="(item, index) in visibleAvailableTimes"
                 :key="index"
                 :is-first="index === 0"
-                :is-last="index === availableTimes.length"
+                :is-last="index === visibleAvailableTimes.length - 1"
                 :is-open="index === activeAccordionIndex"
                 @toggle="handleToggle(index)"
               >
@@ -82,7 +86,7 @@
                       v-if="item.slots.length > visibleSlots[item.day]"
                       :plain="true"
                       :disabled="false"
-                      @click="loadMore(item)"
+                      @click="loadMoreSlots(item)"
                     >
                       <template #label>
                         <h4 class="select-button-text">Mehr</h4>
@@ -99,10 +103,11 @@
             </div>
 
             <GenericButton
+              v-if="props.dentist.available_times.length > visibleDatesCount"
               :outlined="false"
               :plain="false"
               :disabled="false"
-              label="Auswählen"
+              @click="loadMoreDates"
               class="select-button"
             >
               <template #label>
@@ -117,21 +122,22 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, type PropType } from "vue";
-import type { AvailableTime, Appointment } from "../types/types";
+import { ref, reactive, computed, type PropType } from "vue";
+import type { AvailableTime, Appointment, Dentist } from "../types/types";
 
 const props = defineProps({
-  dentistName: String,
-  dentistLabel: String,
-  availableAppointments: Array as PropType<Appointment[]>,
-  availableTimes: {
-    type: Array as PropType<AvailableTime[]>,
+  dentist: {
+    type: Object as PropType<Dentist>,
     required: true,
   },
+  availableAppointments: Array as PropType<Appointment[]>,
 });
+
+const emit = defineEmits(["go-back"]);
 
 const activeAccordionIndex = ref<number | null>(null);
 const initialVisibleSlotsCount = 6; // Initial number of visible buttons
+const initialVisibleDatesCount = 3; // Initial number of visible dates
 
 const handleToggle = (index: number) => {
   activeAccordionIndex.value =
@@ -139,6 +145,7 @@ const handleToggle = (index: number) => {
 };
 
 const visibleSlots = reactive<Record<string, number>>({});
+const visibleDatesCount = ref(initialVisibleDatesCount);
 
 const getVisibleSlots = (item: AvailableTime) => {
   if (!visibleSlots[item.day]) {
@@ -147,12 +154,24 @@ const getVisibleSlots = (item: AvailableTime) => {
   return item.slots.slice(0, visibleSlots[item.day]);
 };
 
-const loadMore = (item: AvailableTime) => {
+const loadMoreSlots = (item: AvailableTime) => {
   if (!visibleSlots[item.day]) {
     visibleSlots[item.day] = initialVisibleSlotsCount;
   }
   visibleSlots[item.day] += initialVisibleSlotsCount;
 };
+
+const loadMoreDates = () => {
+  visibleDatesCount.value += initialVisibleDatesCount;
+};
+
+const handleBack = () => {
+  emit("go-back");
+};
+
+const visibleAvailableTimes = computed(() => {
+  return props.dentist.available_times.slice(0, visibleDatesCount.value);
+});
 </script>
 
 <style scoped>
@@ -169,6 +188,19 @@ const loadMore = (item: AvailableTime) => {
   justify-content: center;
   gap: 8px;
   background-color: var(--dental-light-blue-3);
+}
+
+.title {
+  text-align: center;
+  color: var(--dental-blue-0);
+  font-size: 24px;
+  margin-bottom: 20px;
+  font-weight: bold;
+  font-size: 25px;
+}
+
+.dentist-title {
+  text-align: center;
 }
 
 .content {
