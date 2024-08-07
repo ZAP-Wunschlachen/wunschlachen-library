@@ -6,9 +6,7 @@
       </div>
       <div class="location-selection">
         <div class="title-container">
-          <h2 class="title" style="font-weight: bold; font-size: 25px">
-            Wählen Sie einen Standort
-          </h2>
+          <h2 class="title">Wählen Sie einen Standort</h2>
         </div>
 
         <div v-for="dataObject in data" class="location-item">
@@ -18,7 +16,7 @@
                 <slot name="favicon"></slot>
               </div>
               <div class="location-details">
-                <h3>
+                <h3 class="location-title">
                   {{ dataObject.location.city }} -
                   {{ dataObject.location.district }}
                 </h3>
@@ -47,7 +45,7 @@
               @click="handleSelectLocation(dataObject)"
             >
               <template #label>
-                <p class="p-large">Auswählen</p>
+                <p class="choose-text">Auswählen</p>
               </template>
             </GenericButton>
           </div>
@@ -121,6 +119,12 @@ const handleSelectLocation = (data: any) => {
   /* Add any specific styles for the logo slot if needed */
 }
 
+.location-title {
+  color: var(--Dental-Blue-0, #172774);
+  font-size: 18px;
+  font-weight: 700;
+}
+
 .location-selection {
   display: flex;
   flex-direction: column;
@@ -139,10 +143,22 @@ const handleSelectLocation = (data: any) => {
 }
 
 .title {
+  color: var(--Dental-Blue-0, #172774);
   text-align: center;
-  color: var(--dental-blue-0);
-  font-size: 24px;
-  margin-bottom: 20px;
+  font-size: 25px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 120%;
+  letter-spacing: -0.5px;
+}
+
+.choose-text {
+  color: #fff;
+  text-align: center;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 120%; /* 19.2px */
 }
 
 .location-item {
@@ -187,6 +203,14 @@ const handleSelectLocation = (data: any) => {
   font-weight: 300;
   color: white;
   font-size: 16px;
+}
+
+.paragraph-container {
+  color: var(--Dental-Blue-0, #172774);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 120%; /* 19.2px */
 }
 
 /* You might need to style the GenericButton component if it's not already styled */

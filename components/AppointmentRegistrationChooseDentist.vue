@@ -29,14 +29,25 @@
                   class="dentist-image"
                 />
               </div>
-              <div class="location-details">
-                <h3>Dr. {{ formatFullName(dentist) }}</h3>
-                <p class="p-large">{{ dentist.name }}</p>
+              <div class="">
+                <p class="dentist-name">{{ formatFullName(dentist) }}</p>
+                <p class="dentist-name" style="font-weight: 300">Zahnarzt</p>
               </div>
             </div>
 
             <div class="appointment-info">
-              <p class="p-large">Nächst mögliche Termine:</p>
+              <p
+                class="p-large"
+                style="
+                  color: var(--Dental-Blue-0, #172774);
+                  font-size: 16px;
+                  font-style: normal;
+                  font-weight: 400;
+                  line-height: 120%; /* 19.2px */
+                "
+              >
+                Nächst mögliche Termine:
+              </p>
               <div class="appointment-dates">
                 <GenericButton
                   v-for="(date, dateIndex) in dentist.available_times"
@@ -52,7 +63,9 @@
                   @click="selectButton(dentistIndex, dateIndex)"
                 >
                   <template #label>
-                    <h3>{{ date.day }}</h3>
+                    <h3 style="font-weight: 600; font-size: 16px">
+                      {{ date.day }}
+                    </h3>
                   </template>
                 </GenericButton>
               </div>
@@ -65,7 +78,7 @@
               @click="chooseDentist(dentistIndex)"
             >
               <template #label>
-                <p class="p-large">Termin vereinbaren</p>
+                <p class="p-large confirm-text">Termin vereinbaren</p>
               </template>
             </GenericButton>
           </div>
@@ -196,6 +209,33 @@ const chooseDentist = (dentistIndex) => {
   color: var(--dental-blue-0);
 }
 
+.dentist-name {
+  color: var(--Dental-Blue-0, #172774);
+  /* Mobile/H3 */
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 120%; /* 19.2px */
+}
+
+.dentist-title {
+  color: var(--Dental-Blue-0, #172774);
+
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 120%; /* 19.2px */
+}
+
+.confirm-text {
+  color: #fff;
+
+  text-align: center;
+  /* Mobile/p/Large */
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 120%; /* 19.2px */
+}
+
 .appointment-info {
   display: flex;
   flex-direction: column;
@@ -210,10 +250,19 @@ const chooseDentist = (dentistIndex) => {
 
 .appointment-button {
   max-width: 100px;
+  max-height: 24px;
   border-radius: 12px;
   padding: px !important;
   background-color: var(--dental-light-blue-0);
   color: var(--dental-blue-0);
+
+  display: flex;
+  width: 75px;
+  height: 25px;
+  max-width: 290px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
 }
 
 .appointment-button:active {
