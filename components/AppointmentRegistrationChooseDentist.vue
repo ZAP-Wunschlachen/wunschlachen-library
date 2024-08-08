@@ -119,13 +119,13 @@ const formatFullName = (dentist: Dentist) => {
 
 const chooseDentist = (dentistIndex) => {
   const selectedDateIndex = selectedButtons.value[dentistIndex];
+  const dentist = props.dentistArray[dentistIndex];
   if (selectedDateIndex !== undefined) {
     const selectedDate =
       props.dentistArray[dentistIndex].available_times[selectedDateIndex];
-    const dentist = props.dentistArray[dentistIndex];
     emit("choose-dentist", { dentist, selectedDate });
   } else {
-    alert("Bitte wählen Sie einen Termin aus.");
+    emit("choose-dentist", { dentist, selectedDate: null });
   }
 };
 </script>

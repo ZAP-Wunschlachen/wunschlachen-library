@@ -1,12 +1,23 @@
 <template>
   <div class="appointment-confirmation">
     <p class="title">Terminbestätigung</p>
-    <div class="dentist-info">{{ formattedDentist }}</div>
     <div class="appointment-date">{{ formattedDate }}</div>
+
+    <div class="appointment-type">
+      Behandler:
+      <span>{{ formattedDentist }}</span>
+    </div>
+
+    <div class="appointment-type">
+      Patient:
+      <span>{{ formattedPatient }}</span>
+    </div>
+
     <div class="appointment-type">
       Terminart:
       <span>{{ appointment.treatment.name }}</span>
     </div>
+
     <div class="action-buttons">
       <GenericButton
         :outlined="false"
@@ -50,12 +61,20 @@ const props = defineProps({
     type: Object as PropType<SelectedAppointment>,
     required: true,
   },
+  patient: {
+    type: Object as PropType<any>,
+    required: true,
+  },
 });
 
 const emit = defineEmits(["confirm", "cancel"]);
 
 const formattedDentist = computed(() => {
   return `Dr. ${props.appointment.date.dentist.first_name} ${props.appointment.date.dentist.last_name}`;
+});
+
+const formattedPatient = computed(() => {
+  return `${props.patient.first_name} ${props.patient.last_name} - ${props.patient.birthday}`;
 });
 
 const formattedDate = computed(() => {
@@ -69,11 +88,9 @@ const formattedDate = computed(() => {
 });
 
 const confirmAppointment = () => {
-  console.log("Termin bestätigt");
   emit("confirm");
 };
 const cancelAppointment = () => {
-  console.log("Termin abgebrochen");
   emit("cancel");
 };
 </script>
