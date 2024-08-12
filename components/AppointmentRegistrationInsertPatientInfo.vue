@@ -32,13 +32,13 @@
           />
           <GenericInput
             class="w-full"
-            id="email"
-            placeholder="E-Mail-Adresse"
-            v-model="localEmail"
-            :success="emailState === 'success'"
-            :error="emailState === 'error'"
-            @input="updateEmail"
-            :message="emailMessage"
+            id="birthday"
+            type="date"
+            v-model="localBirthday"
+            :success="birthDayState === 'success'"
+            :error="birthDayState === 'error'"
+            @input="updateBirthday"
+            :message="birthDayMessage"
           />
         </div>
       </div>
@@ -68,11 +68,11 @@ interface Props {
   lastName: string;
   lastNameState: string;
   email: string;
-  emailState: string;
+  birthDayState: string;
   rememberUsername: boolean;
   nameMessage: String;
   lastNameMessage: String;
-  emailMessage: String;
+  birthDayMessage: String;
   disabled: Boolean;
   sending: Boolean;
 }
@@ -92,7 +92,7 @@ const emit = defineEmits<{
 
 const localName = ref(props.name);
 const localLastName = ref(props.lastName);
-const localEmail = ref(props.email);
+const localBirthday = ref(props.email);
 const rememberUsername = ref(props.rememberUsername);
 
 const updateName = () => {
@@ -105,9 +105,9 @@ const updateLastName = () => {
   emit("validate:lastName");
 };
 
-const updateEmail = () => {
-  emit("update:email", localEmail.value);
-  emit("validate:email");
+const updateBirthday = () => {
+  emit("update:birthDay", localBirthday.value);
+  emit("validate:birthDay");
 };
 
 watch(rememberUsername, (newValue) => {
@@ -119,7 +119,7 @@ watch(
   () => {
     localName.value = props.name;
     localLastName.value = props.lastName;
-    localEmail.value = props.email;
+    localBirthday.value = props.email;
   }
 );
 
@@ -127,7 +127,7 @@ const isSubmitDisabled = computed(() => {
   return (
     props.nameState !== "success" ||
     props.lastNameState !== "success" ||
-    props.emailState !== "success"
+    props.birthDayState !== "success"
   );
 });
 

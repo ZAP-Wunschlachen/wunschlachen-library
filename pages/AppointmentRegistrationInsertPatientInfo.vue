@@ -5,20 +5,19 @@
       :nameState="nameState"
       :lastName="lastName"
       :lastNameState="lastNameState"
-      :email="email"
-      :emailState="emailState"
+      :birthDay="birthDay"
+      :birthDayState="birthDayState"
       :rememberUsername="rememberUsername"
       @update:name="updateName"
       @update:lastName="updateLastName"
-      @update:email="updateEmail"
+      @update:birthDay="updateBirthDay"
       @validate:name="validateName"
       @validate:lastName="validateLastName"
-      @validate:email="validateEmail"
+      @validate:birthDay="validateBirthDay"
       @validate="validateForm"
       @update:rememberUsername="updateRememberUsername"
-      nameMessage="adsad"
     >
-      <template #message>sadasd</template>
+      <template #message>Message</template>
       <template #logo>
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -92,8 +91,8 @@ const name = ref("");
 const nameState = ref("");
 const lastName = ref("");
 const lastNameState = ref("");
-const email = ref("");
-const emailState = ref("");
+const birthDay = ref("");
+const birthDayState = ref("");
 const rememberUsername = ref(false);
 
 const updateName = (value: string) => {
@@ -106,9 +105,9 @@ const updateLastName = (value: string) => {
   validateLastName();
 };
 
-const updateEmail = (value: string) => {
-  email.value = value;
-  validateEmail();
+const updateBirthDay = (value: string) => {
+  birthDay.value = value;
+  validateBirthDay();
 };
 
 const validateName = (input) => {
@@ -121,15 +120,16 @@ const validateLastName = () => {
   lastNameState.value = lastName.value ? "success" : "error";
 };
 
-const validateEmail = () => {
+const validateBirthDay = () => {
   // Add your validation logic here
-  emailState.value = email.value.includes("@") ? "success" : "error";
+  console.log("birthDay", birthDay.value);
+  birthDayState.value = birthDay.value ? "success" : "error";
 };
 
 const validateForm = () => {
   validateName();
   validateLastName();
-  validateEmail();
+  validateBirthDay();
 };
 
 const updateRememberUsername = (value: boolean) => {
