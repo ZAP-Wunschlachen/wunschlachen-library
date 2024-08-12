@@ -88,6 +88,7 @@ const emit = defineEmits<{
   (e: "validate:birthdate"): void;
   (e: "validate"): void;
   (e: "update:rememberUsername", value: boolean): void;
+  (e: "submit"): void;
 }>();
 
 const localName = ref(props.name);
@@ -132,7 +133,13 @@ const isSubmitDisabled = computed(() => {
 });
 
 const handleSubmit = () => {
-  emit("validate");
+  //emit("validate");
+  emit("submit", {
+    name: localName.value,
+    lastName: localLastName.value,
+    birthdate: localBirthdate.value,
+  });
+
   if (!isSubmitDisabled.value) {
     // Handle the form submission
   }
