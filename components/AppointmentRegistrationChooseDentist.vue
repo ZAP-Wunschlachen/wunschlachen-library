@@ -89,7 +89,7 @@
 </template>
 
 <script setup lang="ts">
-import { PropType } from "vue";
+import { PropType, watch } from "vue";
 import { ref, defineEmits } from "vue";
 import { Dentist } from "../types/types";
 
@@ -101,6 +101,13 @@ const props = defineProps({
 });
 
 console.log(props.dentistArray, "dentistArray");
+
+watch(
+  () => props.dentistArray,
+  (newData) => {
+    console.log(newData, "densitst array");
+  }
+);
 
 const emit = defineEmits(["choose-dentist"]);
 

@@ -56,7 +56,7 @@
 </template>
 
 <script setup lang="ts">
-import { PropType, ref } from "vue";
+import { PropType, ref, watch } from "vue";
 import { Location } from "../types/types";
 
 const emit = defineEmits(["select"]);
@@ -77,6 +77,14 @@ const data = ref(props.data);
 const handleSelectLocation = (data: any) => {
   emit("select", data);
 };
+
+// watch(
+//   () => props.data,
+//   (newData) => {
+//     console.log(data.value, "data.value");
+//     data.value = newData;
+//   }
+// );
 
 // const locations = ref([
 //   {
