@@ -109,7 +109,6 @@
             </div>
 
             <GenericButton
-              v-if="props.dentist.available_times.length > visibleDatesCount"
               :outlined="false"
               :plain="false"
               :disabled="false"
@@ -152,7 +151,7 @@ onMounted(() => {
   }
 });
 
-const emit = defineEmits(["go-back", "select-time"]);
+const emit = defineEmits(["go-back", "select-time", "load-more-data"]);
 
 const activeAccordionIndex = ref<number | null>(null);
 const initialVisibleSlotsCount = 3; // Initial number of visible buttons
@@ -185,7 +184,8 @@ const loadMoreSlots = (item: AvailableTime) => {
 };
 
 const loadMoreDates = () => {
-  visibleDatesCount.value += initialVisibleDatesCount;
+  emit("load-more-data");
+  //visibleDatesCount.value += initialVisibleDatesCount;
 };
 
 const handleBack = () => {
@@ -193,7 +193,7 @@ const handleBack = () => {
 };
 
 const visibleAvailableTimes = computed(() => {
-  return props.dentist.available_times.slice(0, visibleDatesCount.value);
+  return props.dentist.available_times;
 });
 </script>
 
