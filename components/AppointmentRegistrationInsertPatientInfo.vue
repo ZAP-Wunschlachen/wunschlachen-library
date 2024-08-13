@@ -6,9 +6,7 @@
       </div>
       <div class="input-section">
         <div class="header">
-          <h2>
-            Bitte Geben Sie Ihren vollständigen Namen sowie Ihr Geburtsdatum ein
-          </h2>
+          <h2>Geben Sie Ihre persönlichen Daten ein</h2>
         </div>
 
         <div class="input-group">
@@ -32,13 +30,15 @@
             @input="updateLastName"
             :message="lastNameMessage"
           />
-          <input
-            class="date-input w-full"
+          <GenericInput
+            class="w-full"
+            id="birthday"
             type="date"
-            id="birthdate"
-            placeholder="Geburtsdatum"
-            v-model="localBirthdate"
-            @input="updateBirthdate"
+            v-model="localBirthday"
+            :success="birthDayState === 'success'"
+            :error="birthDayState === 'error'"
+            @input="updateBirthday"
+            :message="birthDayMessage"
           />
         </div>
       </div>
@@ -67,12 +67,12 @@ interface Props {
   nameState: string;
   lastName: string;
   lastNameState: string;
-  birthdate: string;
-  birthdateState: string;
+  email: string;
+  birthDayState: string;
   rememberUsername: boolean;
   nameMessage: String;
   lastNameMessage: String;
-  birthdateMessage: String;
+  birthDayMessage: String;
   disabled: Boolean;
   sending: Boolean;
 }
@@ -82,18 +82,17 @@ const props = defineProps<Props>();
 const emit = defineEmits<{
   (e: "update:name", value: string): void;
   (e: "update:lastName", value: string): void;
-  (e: "update:birthdate", value: string): void;
+  (e: "update:email", value: string): void;
   (e: "validate:name"): void;
   (e: "validate:lastName"): void;
-  (e: "validate:birthdate"): void;
+  (e: "validate:email"): void;
   (e: "validate"): void;
   (e: "update:rememberUsername", value: boolean): void;
-  (e: "submit"): void;
 }>();
 
 const localName = ref(props.name);
 const localLastName = ref(props.lastName);
-const localBirthdate = ref(props.birthdate);
+const localBirthday = ref(props.email);
 const rememberUsername = ref(props.rememberUsername);
 
 const updateName = () => {
@@ -106,9 +105,9 @@ const updateLastName = () => {
   emit("validate:lastName");
 };
 
-const updateBirthdate = () => {
-  emit("update:birthdate", localBirthdate.value);
-  emit("validate:birthdate");
+const updateBirthday = () => {
+  emit("update:birthDay", localBirthday.value);
+  emit("validate:birthDay");
 };
 
 watch(rememberUsername, (newValue) => {
@@ -116,11 +115,11 @@ watch(rememberUsername, (newValue) => {
 });
 
 watch(
-  () => [props.name, props.lastName, props.birthdate],
+  () => [props.name, props.lastName, props.email],
   () => {
     localName.value = props.name;
     localLastName.value = props.lastName;
-    localBirthdate.value = props.birthdate;
+    localBirthday.value = props.email;
   }
 );
 
@@ -128,18 +127,12 @@ const isSubmitDisabled = computed(() => {
   return (
     props.nameState !== "success" ||
     props.lastNameState !== "success" ||
-    props.birthdateState !== "success"
+    props.birthDayState !== "success"
   );
 });
 
 const handleSubmit = () => {
-  //emit("validate");
-  emit("submit", {
-    name: localName.value,
-    lastName: localLastName.value,
-    birthdate: localBirthdate.value,
-  });
-
+  emit("validate");
   if (!isSubmitDisabled.value) {
     // Handle the form submission
   }
@@ -157,7 +150,7 @@ const handleSubmit = () => {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  background-color: #f3f4f6; /* Adjust the background color as needed */
+  background-color: var(--dental-light-blue-3);
 }
 
 .content-wrapper {
@@ -193,6 +186,7 @@ const handleSubmit = () => {
 .input-group {
   display: flex;
   flex-direction: column;
+
   width: 100%;
 }
 
@@ -205,12 +199,5 @@ const handleSubmit = () => {
 .submit-button {
   min-width: 290px;
   margin: 10px;
-}
-
-.date-input {
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 16px;
 }
 </style>

@@ -18,16 +18,16 @@
             <div class="location-header">
               <div>
                 <!-- <img :src="dentist.favicon" width="90px" /> -->
-                <!-- <img
-                  :src="dentist.profile_image"
-                  width="90px"
-                  class="dentist-image"
-                /> -->
                 <img
-                  src="https://via.placeholder.com/90"
+                  :src="dentistImageUrl(dentist.profile_image)"
                   width="90px"
                   class="dentist-image"
                 />
+                <!-- <img
+                  src="https://via.placeholder.com/90"
+                  width="90px"
+                  class="dentist-image"
+                /> -->
               </div>
               <div class="">
                 <p class="dentist-name">{{ formatFullName(dentist) }}</p>
@@ -89,7 +89,7 @@
 </template>
 
 <script setup lang="ts">
-import { PropType, watch } from "vue";
+import { computed, PropType, watch } from "vue";
 import { ref, defineEmits } from "vue";
 import { Dentist } from "../types/types";
 
@@ -100,7 +100,9 @@ const props = defineProps({
   },
 });
 
-console.log(props.dentistArray, "dentistArray");
+const dentistImageUrl = computed(() => (image: any) => {
+  return `https://starfish-app-ypxxf.ondigitalocean.app/assets/${image.id}`;
+});
 
 watch(
   () => props.dentistArray,
