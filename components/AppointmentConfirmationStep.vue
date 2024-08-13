@@ -1,5 +1,8 @@
 <template>
   <div class="appointment-confirmation">
+    <div class="logo-container">
+      <slot name="logo"></slot>
+    </div>
     <p class="title">Terminbestätigung</p>
     <div class="appointment-date">{{ formattedDate }}</div>
 
@@ -106,6 +109,12 @@ const cancelAppointment = () => {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
+.logo-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
 .confirmation-text {
   font-size: 1.125rem;
   font-weight: 600;
@@ -121,6 +130,7 @@ const cancelAppointment = () => {
   color: #4b5563;
   margin-bottom: 1rem;
 }
+
 .title {
   text-align: center;
   color: var(--dental-blue-0);
@@ -129,6 +139,7 @@ const cancelAppointment = () => {
   font-weight: bold;
   font-size: 25px;
 }
+
 .appointment-type span {
   font-weight: 400;
 }

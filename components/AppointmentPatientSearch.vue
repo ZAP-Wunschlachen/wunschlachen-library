@@ -1,48 +1,49 @@
 <template>
   <div>
-    <div>
-      <p class="title">Patientenauswahl</p>
-      <div class="flex items-center rounded-lg shadow-xl">
-        <input
-          v-model="inputRef"
-          type="text"
-          class="flex-grow px-4 py-2 bg-transparent outline-none"
-          placeholder="Patientenname..."
-        />
-        <button class="p-2" disabled>
-          <Icon name="material-symbols:search" size="24" />
-        </button>
-      </div>
+    <div class="logo-container">
+      <slot name="logo"></slot>
+    </div>
+    <p class="title">Patientenauswahl</p>
+    <div class="flex items-center rounded-lg shadow-xl">
+      <input
+        v-model="inputRef"
+        type="text"
+        class="flex-grow px-4 py-2 bg-transparent outline-none"
+        placeholder="Patientenname..."
+      />
+      <button class="p-2" disabled>
+        <Icon name="material-symbols:search" size="24" />
+      </button>
+    </div>
 
-      <div
-        v-if="patients.length > 0"
-        class="bg-white shadow-lg rounded-lg mt-2 w-full max-h-60 overflow-auto z-10"
-      >
-        <ul>
-          <li
-            v-for="patient in patients"
-            :key="patient.id"
-            @click="selectPatient(patient)"
-            class="px-4 py-2 hover:bg-gray-200 cursor-pointer"
-          >
-            {{ getFullName(patient) }}
-          </li>
-        </ul>
-      </div>
-      <div style="margin-top: 48px">
-        <p style="text-align: center; margin-bottom: 8px">Neuer Patient?</p>
-        <GenericButton
-          :outlined="false"
-          :plain="false"
-          :disabled="false"
-          label="Neuer Patient"
-          @click="handleCreateNewPatient"
+    <div
+      v-if="patients.length > 0"
+      class="bg-white shadow-lg rounded-lg mt-2 w-full max-h-60 overflow-auto z-10"
+    >
+      <ul>
+        <li
+          v-for="patient in patients"
+          :key="patient.id"
+          @click="selectPatient(patient)"
+          class="px-4 py-2 hover:bg-gray-200 cursor-pointer"
         >
-          <template #label>
-            <p class="choose-text">Patient Erstellen</p>
-          </template>
-        </GenericButton>
-      </div>
+          {{ getFullName(patient) }}
+        </li>
+      </ul>
+    </div>
+    <div style="margin-top: 48px">
+      <p style="text-align: center; margin-bottom: 8px">Neuer Patient?</p>
+      <GenericButton
+        :outlined="false"
+        :plain="false"
+        :disabled="false"
+        label="Neuer Patient"
+        @click="handleCreateNewPatient"
+      >
+        <template #label>
+          <p class="choose-text">Patient Erstellen</p>
+        </template>
+      </GenericButton>
     </div>
   </div>
 </template>
@@ -81,6 +82,12 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+.logo-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
 .title {
   text-align: center;
   color: var(--dental-blue-0);

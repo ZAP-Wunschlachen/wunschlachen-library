@@ -21,13 +21,9 @@
 
         <div class="accordion-section">
           <div class="accordion-container">
-            <div class="back-button">
-              <div>
-                <slot name="arrow-left"></slot>
-              </div>
-              <button @click="handleBack">
-                <p>Zurück</p>
-              </button>
+            <div class="back-button" @click="handleBack">
+              <slot name="arrow-left"></slot>
+              <p>Zurück</p>
             </div>
 
             <div class="divider"></div>
@@ -309,10 +305,15 @@ const visibleAvailableTimes = computed(() => {
 .back-button {
   display: flex;
   flex-direction: row;
-  gap: 25px;
+  gap: 10px;
   align-items: center;
+  color: #172774;
+  cursor: pointer;
 }
 
+.back-button p {
+  margin: 0;
+}
 .divider {
   width: 100%;
   height: 1.5px;
