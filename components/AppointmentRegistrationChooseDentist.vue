@@ -6,7 +6,7 @@
       </div>
       <div class="location-selection">
         <div class="header">
-          <h2 style="">Wählen Sie einen Zahnarzt</h2>
+          <h2 class="title">Wählen Sie einen Zahnarzt</h2>
         </div>
 
         <div class="locations">
@@ -19,29 +19,38 @@
               <div>
                 <!-- <img :src="dentist.favicon" width="90px" /> -->
                 <img
-                  :src="dentist.profile_image"
+                  :src="dentistImageUrl(dentist.profile_image)"
                   width="90px"
                   class="dentist-image"
                 />
-                <!-- <img src="https://via.placeholder.com/90" width="90px" /> -->
+                <!-- <img
+                  src="https://via.placeholder.com/90"
+                  width="90px"
+                  class="dentist-image"
+                /> -->
               </div>
-              <div class="location-details">
-                <h3>Dr. {{ formatFullName(dentist) }}</h3>
-                <p class="p-large">{{ dentist.name }}</p>
+              <div class="">
+                <p class="dentist-name">{{ formatFullName(dentist) }}</p>
+                <p class="dentist-name" style="font-weight: 300">Zahnarzt</p>
               </div>
             </div>
 
             <div class="appointment-info">
-              <p class="p-large">Nächst mögliche Termine:</p>
+              <p
+                class="p-large"
+                style="
+                  color: var(--Dental-Blue-0, #172774);
+                  font-size: 16px;
+                  font-style: normal;
+                  font-weight: 400;
+                  line-height: 120%; /* 19.2px */
+                "
+              >
+                Nächst mögliche Termine:
+              </p>
               <div class="appointment-dates">
                 <GenericButton
-                  v-for="(date, dateIndex) in [
-                    '11.Juli',
-                    '12.Juli',
-                    '13.Juli',
-                    '16.Juli',
-                    '29.Juli',
-                  ]"
+                  v-for="(date, dateIndex) in dentist.available_times"
                   :key="dateIndex"
                   :plain="false"
                   :disabled="false"
@@ -54,7 +63,9 @@
                   @click="selectButton(dentistIndex, dateIndex)"
                 >
                   <template #label>
-                    <h3>{{ date }}</h3>
+                    <h3 style="font-weight: 600; font-size: 16px">
+                      {{ date.day }}
+                    </h3>
                   </template>
                 </GenericButton>
               </div>
@@ -67,7 +78,7 @@
               @click="chooseDentist(dentistIndex)"
             >
               <template #label>
-                <p class="p-large">Termin vereinbaren</p>
+                <p class="p-large confirm-text">Termin vereinbaren</p>
               </template>
             </GenericButton>
           </div>
@@ -78,7 +89,7 @@
 </template>
 
 <script setup lang="ts">
-import { PropType } from "vue";
+import { computed, PropType, watch } from "vue";
 import { ref, defineEmits } from "vue";
 import { Dentist } from "../types/types";
 
@@ -89,14 +100,26 @@ const props = defineProps({
   },
 });
 
-console.log(props.dentistArray, "dentis asarraya");
+const dentistImageUrl = computed(() => (image: any) => {
+  return `https://starfish-app-ypxxf.ondigitalocean.app/assets/${image.id}`;
+});
+
+watch(
+  () => props.dentistArray,
+  (newData) => {
+    console.log(newData, "densitst array");
+  }
+);
 
 const emit = defineEmits(["choose-dentist"]);
 
 const selectedButtons = ref({});
 
-const selectButton = (dentistIndex, dateIndex) => {
-  selectedButtons.value[dentistIndex] = dateIndex;
+const selectButton = (dentistIndex: number, dateIndex: number) => {
+  emit("choose-dentist", {
+    dentist: props.dentistArray[dentistIndex],
+    selectedDate: props.dentistArray[dentistIndex].available_times[dateIndex],
+  });
 };
 
 const formatFullName = (dentist: Dentist) => {
@@ -105,13 +128,13 @@ const formatFullName = (dentist: Dentist) => {
 
 const chooseDentist = (dentistIndex) => {
   const selectedDateIndex = selectedButtons.value[dentistIndex];
+  const dentist = props.dentistArray[dentistIndex];
   if (selectedDateIndex !== undefined) {
     const selectedDate =
-      props.dentistArray[dentistIndex].appointmentDates[selectedDateIndex];
-    const dentist = props.dentistArray[dentistIndex];
+      props.dentistArray[dentistIndex].available_times[selectedDateIndex];
     emit("choose-dentist", { dentist, selectedDate });
   } else {
-    alert("Bitte wählen Sie einen Termin aus.");
+    emit("choose-dentist", { dentist, selectedDate: null });
   }
 };
 </script>
@@ -136,6 +159,14 @@ const chooseDentist = (dentistIndex) => {
   flex-direction: column;
   align-items: center;
   gap: 48px;
+}
+.title {
+  text-align: center;
+  color: var(--dental-blue-0);
+  font-size: 24px;
+  margin-bottom: 20px;
+  font-weight: bold;
+  font-size: 25px;
 }
 
 .location-selection {
@@ -187,6 +218,33 @@ const chooseDentist = (dentistIndex) => {
   color: var(--dental-blue-0);
 }
 
+.dentist-name {
+  color: var(--Dental-Blue-0, #172774);
+  /* Mobile/H3 */
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 120%; /* 19.2px */
+}
+
+.dentist-title {
+  color: var(--Dental-Blue-0, #172774);
+
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 120%; /* 19.2px */
+}
+
+.confirm-text {
+  color: #fff;
+
+  text-align: center;
+  /* Mobile/p/Large */
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 120%; /* 19.2px */
+}
+
 .appointment-info {
   display: flex;
   flex-direction: column;
@@ -201,10 +259,19 @@ const chooseDentist = (dentistIndex) => {
 
 .appointment-button {
   max-width: 100px;
+  max-height: 24px;
   border-radius: 12px;
   padding: px !important;
   background-color: var(--dental-light-blue-0);
   color: var(--dental-blue-0);
+
+  display: flex;
+  width: 75px;
+  height: 25px;
+  max-width: 290px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
 }
 
 .appointment-button:active {

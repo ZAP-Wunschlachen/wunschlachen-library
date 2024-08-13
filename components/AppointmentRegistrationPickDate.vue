@@ -11,8 +11,10 @@
               <slot name="favicon"></slot>
             </div>
             <div class="title-section">
-              <h2>Termin vereinbaren</h2>
-              <p class="p-large">{{ dentistName }} | {{ dentistLabel }}</p>
+              <h2 class="title">Termin vereinbaren</h2>
+              <p class="dentist-title">
+                {{ dentist.name }} | {{ dentist.first_name }}
+              </p>
             </div>
           </div>
         </div>
@@ -23,7 +25,9 @@
               <div>
                 <slot name="arrow-left"></slot>
               </div>
-              <h3>Zurück</h3>
+              <button @click="handleBack">
+                <p>Zurück</p>
+              </button>
             </div>
 
             <div class="divider"></div>
@@ -34,10 +38,10 @@
 
             <div class="accordion-content">
               <GenericAccordion
-                v-for="(item, index) in availableTimes"
+                v-for="(item, index) in visibleAvailableTimes"
                 :key="index"
                 :is-first="index === 0"
-                :is-last="index === availableTimes.length"
+                :is-last="index === visibleAvailableTimes.length - 1"
                 :is-open="index === activeAccordionIndex"
                 @toggle="handleToggle(index)"
               >
@@ -70,6 +74,12 @@
                         :outliend="false"
                         :disabled="false"
                         class="appointment-button"
+                        @click="
+                          handleSelectTime({
+                            date: item,
+                            slotIndex: btnIndex,
+                          })
+                        "
                       >
                         <template #label>
                           <h3 class="">
@@ -82,7 +92,7 @@
                       v-if="item.slots.length > visibleSlots[item.day]"
                       :plain="true"
                       :disabled="false"
-                      @click="loadMore(item)"
+                      @click="loadMoreSlots(item)"
                     >
                       <template #label>
                         <h4 class="select-button-text">Mehr</h4>
@@ -102,7 +112,7 @@
               :outlined="false"
               :plain="false"
               :disabled="false"
-              label="Auswählen"
+              @click="loadMoreDates"
               class="select-button"
             >
               <template #label>
@@ -117,28 +127,47 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, type PropType } from "vue";
-import type { AvailableTime, Appointment } from "../types/types";
+import { ref, reactive, computed, type PropType, onMounted } from "vue";
+import type { AvailableTime, Appointment, Dentist } from "../types/types";
 
 const props = defineProps({
-  dentistName: String,
-  dentistLabel: String,
-  availableAppointments: Array as PropType<Appointment[]>,
-  availableTimes: {
-    type: Array as PropType<AvailableTime[]>,
+  dentist: {
+    type: Object as PropType<Dentist>,
     required: true,
   },
+  selected_date: {
+    type: Object as PropType<AvailableTime>,
+    required: false,
+  },
+  availableAppointments: Array as PropType<Appointment[]>,
 });
 
+onMounted(() => {
+  if (props.selected_date) {
+    const foundIndex = props.dentist.available_times.findIndex(
+      (item: AvailableTime) => item.day === props.selected_date.day
+    );
+    activeAccordionIndex.value = foundIndex;
+  }
+});
+
+const emit = defineEmits(["go-back", "select-time", "load-more-data"]);
+
 const activeAccordionIndex = ref<number | null>(null);
-const initialVisibleSlotsCount = 6; // Initial number of visible buttons
+const initialVisibleSlotsCount = 3; // Initial number of visible buttons
+const initialVisibleDatesCount = 3; // Initial number of visible dates
 
 const handleToggle = (index: number) => {
   activeAccordionIndex.value =
     activeAccordionIndex.value === index ? null : index;
 };
 
+const handleSelectTime = (data: { date: AvailableTime; slotIndex: number }) => {
+  emit("select-time", data);
+};
+
 const visibleSlots = reactive<Record<string, number>>({});
+const visibleDatesCount = ref(initialVisibleDatesCount);
 
 const getVisibleSlots = (item: AvailableTime) => {
   if (!visibleSlots[item.day]) {
@@ -147,12 +176,25 @@ const getVisibleSlots = (item: AvailableTime) => {
   return item.slots.slice(0, visibleSlots[item.day]);
 };
 
-const loadMore = (item: AvailableTime) => {
+const loadMoreSlots = (item: AvailableTime) => {
   if (!visibleSlots[item.day]) {
     visibleSlots[item.day] = initialVisibleSlotsCount;
   }
   visibleSlots[item.day] += initialVisibleSlotsCount;
 };
+
+const loadMoreDates = () => {
+  emit("load-more-data");
+  //visibleDatesCount.value += initialVisibleDatesCount;
+};
+
+const handleBack = () => {
+  emit("go-back");
+};
+
+const visibleAvailableTimes = computed(() => {
+  return props.dentist.available_times;
+});
 </script>
 
 <style scoped>
@@ -161,7 +203,7 @@ const loadMore = (item: AvailableTime) => {
   width: 100%;
   min-width: 100%;
   height: 100%;
-  padding-top: 144px;
+  padding-top: 244px;
   padding-bottom: 280px;
   padding-left: 0;
   padding-right: 0;
@@ -169,6 +211,20 @@ const loadMore = (item: AvailableTime) => {
   justify-content: center;
   gap: 8px;
   background-color: var(--dental-light-blue-3);
+  overflow-y: auto;
+}
+
+.title {
+  text-align: center;
+  color: var(--dental-blue-0);
+  font-size: 24px;
+  margin-bottom: 20px;
+  font-weight: bold;
+  font-size: 25px;
+}
+
+.dentist-title {
+  text-align: center;
 }
 
 .content {

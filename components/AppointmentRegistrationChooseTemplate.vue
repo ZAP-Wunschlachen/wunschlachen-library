@@ -8,9 +8,9 @@
         <h2 style="font-weight: bold; font-size: 25px">
           Wählen Sie die Terminart
         </h2>
-        <p class="p-large">
-          Bestimmte Termine sind nur für bestehende Patienten verfügbar
-        </p>
+        <span
+          >Bestimmte Termine sind nur für bestehende Patienten verfügbar</span
+        >
       </div>
 
       <div class="button-container">
@@ -53,14 +53,13 @@ const handleSelect = (item: TreatmentTemplate) => {
 .appointment-selector {
   display: flex;
   width: 100%;
-  height: 100vh;
+  height: 100%;
   padding-left: 0;
   padding-right: 0;
   align-items: center;
   justify-content: center;
   gap: 8px;
   overflow: hidden;
-  padding: 261px 0px 0px 0px;
   background-color: var(--dental-light-blue-3);
 }
 
@@ -68,7 +67,6 @@ const handleSelect = (item: TreatmentTemplate) => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 100%;
   gap: 62px;
 }
 
@@ -78,7 +76,6 @@ const handleSelect = (item: TreatmentTemplate) => {
   justify-content: center;
   align-items: center;
   align-self: stretch;
-  margin-bottom: auto;
 }
 
 .header h2 {
@@ -117,7 +114,6 @@ const handleSelect = (item: TreatmentTemplate) => {
 
 .generic-button {
   width: 100%;
-  padding: 16px 32px;
 }
 
 /* Hide scrollbar */

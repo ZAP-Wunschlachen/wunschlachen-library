@@ -132,13 +132,25 @@
 </template>
 
 <script setup lang="ts">
-import type { Appointment } from "~/types/types";
+type CreatedData = {
+  appointment: Appointment;
+  location: Location;
+  dentist: Dentist;
+};
+
+import { computed, ref } from "vue";
+import {
+  Appointment,
+  AvailableTime,
+  Dentist,
+  TreatmentTemplate,
+} from "../types/types";
 
 const props = defineProps<{
-  appointment: Appointment;
+  data: CreatedData;
 }>();
 
-const item = ref<Appointment>(props.appointment);
+const item = ref<CreatedData>(props.data);
 
 const emit = defineEmits(["close"]);
 
@@ -147,15 +159,19 @@ const handleClick = () => {
 };
 
 const formattedLocation = computed(() => {
-  return item.value.location ? item.value.location.branch : "Kein Standort";
+  return item.value.location
+    ? item.value.location.location.district
+    : "Kein Standort";
 });
 
 const formattedAddress = computed(() => {
-  return item.value.location ? item.value.location.address : "Keine Adresse";
+  return item.value.location
+    ? item.value.location.location.name
+    : "Keine Adresse";
 });
 
 const formattedDate = computed(() => {
-  const date = item.value.date;
+  const date = item.value.appointment.start_date_time;
 
   const optionsDate: Intl.DateTimeFormatOptions = {
     weekday: "long",
