@@ -31,8 +31,10 @@
                   <p class="p-large">
                     <!-- <span>{{ location.postalCode }} {{ location.city }}</span> -->
 
+
                     {{ dataObject.location.zip_code }}
                     {{ dataObject.location.city }}
+
                   </p>
                 </div>
               </div>
@@ -75,6 +77,7 @@ const props = defineProps({
 const data = ref(props.data);
 
 const handleSelectLocation = (data: any) => {
+
   emit("select", data);
 };
 
