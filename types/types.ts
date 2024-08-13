@@ -22,6 +22,7 @@ export type Dentist = {
   last_name: string;
   user: string;
   profile_image: string;
+  gender: string;
 };
 
 export type TreatmentTemplate = {

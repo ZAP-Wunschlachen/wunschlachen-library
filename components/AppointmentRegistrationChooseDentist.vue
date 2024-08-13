@@ -31,7 +31,9 @@
               </div>
               <div class="">
                 <p class="dentist-name">{{ formatFullName(dentist) }}</p>
-                <p class="dentist-name" style="font-weight: 300">Zahnarzt</p>
+                <p class="dentist-name" style="font-weight: 300">
+                  {{ genderedTitle(dentist.gender) }}
+                </p>
               </div>
             </div>
 
@@ -102,6 +104,15 @@ const props = defineProps({
 
 const dentistImageUrl = computed(() => (image: any) => {
   return `https://starfish-app-ypxxf.ondigitalocean.app/assets/${image.id}`;
+});
+
+enum Gender {
+  Male = "M",
+  Female = "F",
+}
+
+const genderedTitle = computed(() => (gender: Gender) => {
+  return gender === Gender.Male ? "Zahnarzt" : "Zahnärztin";
 });
 
 watch(
