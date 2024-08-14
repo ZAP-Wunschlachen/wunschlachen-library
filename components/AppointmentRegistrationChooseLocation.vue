@@ -9,11 +9,15 @@
           <h2 class="title">Wählen Sie einen Standort</h2>
         </div>
 
-        <div v-for="dataObject in data" class="location-item">
+        <div
+          v-for="dataObject in data"
+          :key="dataObject.id"
+          class="location-item"
+        >
           <div class="location-card">
             <div class="location-header">
-              <div class="favicon-slot">
-                <slot name="favicon"></slot>
+              <div class="location-logo">
+                <slot name="location-logo"></slot>
               </div>
               <div class="location-details">
                 <h3 class="location-title">
@@ -23,14 +27,10 @@
 
                 <div class="paragraph-container">
                   <p class="p-large">
-                    <!-- <span>{{ location.postalCode }} {{ location.city }}</span> -->
-
                     {{ dataObject.location.street }}
-                    {{ dataObject.location.street_number }}, {{}}
+                    {{ dataObject.location.street_number }},
                   </p>
                   <p class="p-large">
-                    <!-- <span>{{ location.postalCode }} {{ location.city }}</span> -->
-
                     {{ dataObject.location.zip_code }}
                     {{ dataObject.location.city }}
                   </p>
@@ -56,8 +56,7 @@
 </template>
 
 <script setup lang="ts">
-import { PropType, ref, watch } from "vue";
-import { Location } from "../types/types";
+import { PropType, ref } from "vue";
 
 const emit = defineEmits(["select"]);
 
@@ -69,8 +68,6 @@ const props = defineProps({
 });
 
 const data = ref(props.data);
-
-console.log("data", data.value);
 
 const handleSelectLocation = (data: any) => {
   emit("select", data);
@@ -155,11 +152,8 @@ const handleSelectLocation = (data: any) => {
   padding: 24px;
   gap: 24px;
   width: 100%;
-
-  flex-grow: 1;
   box-sizing: border-box;
   background-color: white;
-
   border-radius: 8px;
   border: 1px solid var(--soft-concrete-1, #dddddf);
   background: #fff;
@@ -167,23 +161,20 @@ const handleSelectLocation = (data: any) => {
 
 .location-header {
   display: flex;
-  flex-direction: row;
-  padding: 0 32px 0 7px;
-  gap: 32px;
   align-items: center;
+  gap: 16px; /* Adjust the gap as needed */
+}
+
+.location-logo {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .location-details {
   display: flex;
   flex-direction: column;
-  align-self: stretch;
-  gap: 8px;
-}
-
-.button-label {
-  font-weight: 300;
-  color: white;
-  font-size: 16px;
 }
 
 .paragraph-container {
@@ -194,7 +185,6 @@ const handleSelectLocation = (data: any) => {
   line-height: 120%; /* 19.2px */
 }
 
-/* You might need to style the GenericButton component if it's not already styled */
 :deep(.generic-button) {
   width: 100%;
   padding: 12px;
