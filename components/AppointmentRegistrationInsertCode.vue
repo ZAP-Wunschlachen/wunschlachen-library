@@ -8,16 +8,19 @@
       </div>
       <div class="otp-section">
         <h2>Bitte den per E-Mail gesendeten Code eingeben</h2>
-        <GenericOtpInput
-          :isSuccess="otpState === 'success'"
-          :isError="otpState === 'error'"
-          :isDisabled="otpState === 'disabled'"
-          v-model="otpValue"
-        />
+
+        <div class="otp-input-text">
+          <GenericOtpInput
+            :isSuccess="otpState === 'success'"
+            :isError="otpState === 'error'"
+            :isDisabled="otpState === 'disabled'"
+            v-model="otpValue"
+          />
+          <slot name="error"> </slot>
+          <slot name="success"> </slot>
+        </div>
       </div>
 
-      <slot name="error"> </slot>
-      <slot name="success"> </slot>
       <GenericButton
         :outlined="false"
         :plain="false"
@@ -86,7 +89,7 @@ const handleSubmit = () => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 40px;
+  gap: 59px;
   align-self: stretch;
   text-align: center;
 }
@@ -94,5 +97,11 @@ const handleSubmit = () => {
 .submit-button {
   max-width: 290px;
   margin: 10px;
+}
+
+.otp-input-text {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 </style>

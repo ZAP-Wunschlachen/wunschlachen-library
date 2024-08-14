@@ -31,10 +31,8 @@
                   <p class="p-large">
                     <!-- <span>{{ location.postalCode }} {{ location.city }}</span> -->
 
-
                     {{ dataObject.location.zip_code }}
                     {{ dataObject.location.city }}
-
                   </p>
                 </div>
               </div>
@@ -64,10 +62,6 @@ import { Location } from "../types/types";
 const emit = defineEmits(["select"]);
 
 const props = defineProps({
-  // locations: {
-  //   type: Array as PropType<Location[]>,
-  //   required: false,
-  // },
   data: {
     type: Array as PropType<any[]>,
     required: true,
@@ -76,35 +70,11 @@ const props = defineProps({
 
 const data = ref(props.data);
 
-const handleSelectLocation = (data: any) => {
+console.log("data", data.value);
 
+const handleSelectLocation = (data: any) => {
   emit("select", data);
 };
-
-// watch(
-//   () => props.data,
-//   (newData) => {
-//     console.log(data.value, "data.value");
-//     data.value = newData;
-//   }
-// );
-
-// const locations = ref([
-//   {
-//     id: 0,
-//     name: "Berlin - Reinickendorf",
-//     address: "Gotthardstr. 27",
-//     postalCode: "13407",
-//     city: "Berlin",
-//   },
-//   {
-//     id: 1,
-//     name: "Berlin - Schöneberg",
-//     address: "Bayerischer Platz 7",
-//     postalCode: "10779",
-//     city: "Berlin",
-//   },
-// ]);
 </script>
 
 <style scoped>

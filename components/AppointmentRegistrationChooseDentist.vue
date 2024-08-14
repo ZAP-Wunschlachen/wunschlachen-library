@@ -20,7 +20,6 @@
                 <!-- <img :src="dentist.favicon" width="90px" /> -->
                 <img
                   :src="dentistImageUrl(dentist.profile_image)"
-                  width="90px"
                   class="dentist-image"
                 />
                 <!-- <img
@@ -29,27 +28,16 @@
                   class="dentist-image"
                 /> -->
               </div>
-              <div class="">
-                <p class="dentist-name">{{ formatFullName(dentist) }}</p>
-                <p class="dentist-name" style="font-weight: 300">
+              <div class="name-container">
+                <h3>{{ formatFullName(dentist) }}</h3>
+                <p class="p-large" style="font-weight: 300">
                   {{ genderedTitle(dentist.gender) }}
                 </p>
               </div>
             </div>
 
             <div class="appointment-info">
-              <p
-                class="p-large"
-                style="
-                  color: var(--Dental-Blue-0, #172774);
-                  font-size: 16px;
-                  font-style: normal;
-                  font-weight: 400;
-                  line-height: 120%; /* 19.2px */
-                "
-              >
-                Nächst mögliche Termine:
-              </p>
+              <p class="p-large">Nächst mögliche Termine:</p>
               <div class="appointment-dates">
                 <GenericButton
                   v-for="(date, dateIndex) in dentist.available_times"
@@ -80,7 +68,7 @@
               @click="chooseDentist(dentistIndex)"
             >
               <template #label>
-                <p class="p-large confirm-text">Termin vereinbaren</p>
+                <p class="p-large">Termin vereinbaren</p>
               </template>
             </GenericButton>
           </div>
@@ -229,6 +217,12 @@ const chooseDentist = (dentistIndex) => {
   color: var(--dental-blue-0);
 }
 
+.name-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
 .dentist-name {
   color: var(--Dental-Blue-0, #172774);
   /* Mobile/H3 */
@@ -271,7 +265,7 @@ const chooseDentist = (dentistIndex) => {
 .appointment-button {
   max-width: 100px;
   max-height: 24px;
-  border-radius: 12px;
+  border-radius: 8px;
   padding: px !important;
   background-color: var(--dental-light-blue-0);
   color: var(--dental-blue-0);
@@ -300,6 +294,24 @@ const chooseDentist = (dentistIndex) => {
 .dentist-image {
   border-radius: 9999px;
   border: 3px solid var(--soft-concrete-1);
+
+  width: 70px;
+  height: 70px;
+
+  @media (min-width: 768px) and (max-width: 1200px) {
+    width: 70px;
+    height: 70px;
+  }
+
+  @media (min-width: 1200px) and (max-width: 2650px) {
+    width: 70px;
+    height: 70px;
+  }
+
+  @media (max-width: 768px) {
+    width: 55px;
+    height: 55px;
+  }
 }
 
 .button-text {

@@ -1,50 +1,78 @@
 <template>
-  <div class="appointment-confirmation">
+  <div class="confirmation-container">
     <div class="logo-container">
       <slot name="logo"></slot>
     </div>
-    <p class="title">Terminbestätigung</p>
-    <div class="appointment-date">{{ formattedDate }}</div>
 
-    <div class="appointment-type">
-      Behandler:
-      <span>{{ formattedDentist }}</span>
+    <div class="title-container">
+      <h2>Terminbestätigen</h2>
+      <p class="p-large">
+        Bitte überprüfen Sie Ihre Angaben und bestätigen Sie den gebuchten
+        Termin
+      </p>
     </div>
+    <div class="appointment-confirmation">
+      <div class="titles-container">
+        <slot name="clock-icon"></slot>
 
-    <div class="appointment-type">
-      Patient:
-      <span>{{ formattedPatient }}</span>
-    </div>
+        <div class="information-container">
+          <h3>{{ formattedDate }}</h3>
+          <p class="p-large">{{ formattedHour }}</p>
+        </div>
+      </div>
 
-    <div class="appointment-type">
-      Terminart:
-      <span>{{ appointment.treatment.name }}</span>
-    </div>
+      <div class="titles-container">
+        <slot name="toth-icon"></slot>
 
-    <div class="action-buttons">
-      <GenericButton
-        :outlined="false"
-        :plain="false"
-        :disabled="false"
-        @click="confirmAppointment"
-        class="select-button"
-      >
-        <template #label>
-          <p class="p-large">Bestätigen</p>
-        </template>
-      </GenericButton>
+        <div class="information-container">
+          <h3>Behandler</h3>
+          <p class="p-large">{{ formattedDentist }}</p>
+        </div>
+      </div>
 
-      <GenericButton
-        :outlined="false"
-        :plain="true"
-        :disabled="false"
-        @click="cancelAppointment"
-        class="select-button"
-      >
-        <template #label>
-          <p class="p-large">Abbrechen</p>
-        </template>
-      </GenericButton>
+      <div class="titles-container">
+        <slot name="person-icon"></slot>
+
+        <div class="information-container">
+          <h3>Patient</h3>
+          <p class="p-large">{{ formattedPatient }}</p>
+        </div>
+      </div>
+
+      <div class="titles-container">
+        <slot name="schedule-icon"></slot>
+
+        <div class="information-container">
+          <h3>Terminart</h3>
+          <p class="p-large">{{ appointment.treatment.name }}</p>
+        </div>
+      </div>
+
+      <div class="action-buttons">
+        <GenericButton
+          :outlined="false"
+          :plain="false"
+          :disabled="false"
+          @click="confirmAppointment"
+          class="select-button"
+        >
+          <template #label>
+            <p class="p-large">Bestätigen</p>
+          </template>
+        </GenericButton>
+
+        <GenericButton
+          :outlined="false"
+          :plain="true"
+          :disabled="false"
+          @click="cancelAppointment"
+          class="select-button"
+        >
+          <template #label>
+            <p class="p-large">Abbrechen</p>
+          </template>
+        </GenericButton>
+      </div>
     </div>
   </div>
 </template>
@@ -90,6 +118,11 @@ const formattedDate = computed(() => {
   })} um ${props.appointment.date.slots[props.appointment.slotIndex]} Uhr`;
 });
 
+const formattedHour = computed(() => {
+  const date = new Date(props.appointment.date.date);
+  return `um ${props.appointment.date.slots[props.appointment.slotIndex]} Uhr`;
+});
+
 const confirmAppointment = () => {
   emit("confirm");
 };
@@ -103,10 +136,14 @@ const cancelAppointment = () => {
   max-width: 28rem;
   margin: 0 auto;
   padding: 1.5rem;
-  background-color: white;
+
   border: 1px solid #d1d5db;
   border-radius: 0.5rem;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  background: white;
 }
 
 .logo-container {
@@ -147,5 +184,38 @@ const cancelAppointment = () => {
 .action-buttons {
   display: flex;
   justify-content: space-between;
+  margin-top: 8px;
+}
+
+.title-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 400px;
+  text-align: center;
+}
+
+.confirmation-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 48px;
+  background-color: #f8fafd;
+  height: 100vh;
+}
+
+.titles-container {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  align-items: start;
+  justify-content: start;
+}
+
+.information-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 </style>

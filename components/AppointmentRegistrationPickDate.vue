@@ -11,8 +11,8 @@
               <slot name="favicon"></slot>
             </div>
             <div class="title-section">
-              <h2 class="title">Termin vereinbaren</h2>
-              <p class="dentist-title">
+              <h2>Termin vereinbaren</h2>
+              <p class="p-large">
                 {{ dentist.name }} | {{ dentist.first_name }}
               </p>
             </div>
@@ -23,7 +23,7 @@
           <div class="accordion-container">
             <div class="back-button" @click="handleBack">
               <slot name="arrow-left"></slot>
-              <p>Zurück</p>
+              <h3>Zurück</h3>
             </div>
 
             <div class="divider"></div>
