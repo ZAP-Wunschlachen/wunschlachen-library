@@ -181,13 +181,13 @@ const handleSubmit = () => {
 }
 
 .input-success {
-  border-color: var(--success-green-1);
-  color: var(--success-green-1);
+  border-color: var(--success-green-0);
+  color: var(--success-green-0);
 }
 
 .input-success:focus {
-  border-color: var(--success-green-1);
-  color: var(--success-green-1);
+  border-color: var(--success-green-0);
+  color: var(--success-green-0);
 }
 
 .input-disabled {
