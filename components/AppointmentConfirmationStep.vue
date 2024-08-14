@@ -6,7 +6,7 @@
 
     <div class="title-container">
       <h2>Terminbestätigen</h2>
-      <p class="p-large">
+      <p class="p-large" style="margin-top: 10px">
         Bitte überprüfen Sie Ihre Angaben und bestätigen Sie den gebuchten
         Termin
       </p>
@@ -22,7 +22,7 @@
       </div>
 
       <div class="titles-container">
-        <slot name="toth-icon"></slot>
+        <slot name="tooth-icon"></slot>
 
         <div class="information-container">
           <h3>Behandler</h3>
@@ -48,7 +48,7 @@
         </div>
       </div>
 
-      <div class="action-buttons">
+      <div class="action-buttons" style="gap: 32px">
         <GenericButton
           :outlined="false"
           :plain="false"
@@ -62,7 +62,7 @@
         </GenericButton>
 
         <GenericButton
-          :outlined="false"
+          :outlined="true"
           :plain="true"
           :disabled="false"
           @click="cancelAppointment"
@@ -194,6 +194,7 @@ const cancelAppointment = () => {
   align-items: center;
   max-width: 400px;
   text-align: center;
+  color: #172774;
 }
 
 .confirmation-container {
@@ -217,5 +218,6 @@ const cancelAppointment = () => {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  color: #172774;
 }
 </style>
