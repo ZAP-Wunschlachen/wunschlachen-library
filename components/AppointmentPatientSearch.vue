@@ -3,17 +3,27 @@
     <div class="logo-container">
       <slot name="logo"></slot>
     </div>
-    <p class="title">Patientenauswahl</p>
-    <div class="flex items-center rounded-lg shadow-xl">
-      <input
+    <h2 class="title">Patientenauswahl</h2>
+    <div class="flex items-center rounded-lg">
+      <GenericInput
+        class="w-full"
+        id="name"
+        placeholder="Patientenname..."
+        v-model="inputRef"
+        :success="nameState === 'success'"
+        :error="nameState === 'error'"
+        @input="updateName"
+        :message="nameMessage"
+      />
+      <!-- <input
         v-model="inputRef"
         type="text"
         class="flex-grow px-4 py-2 bg-transparent outline-none"
         placeholder="Patientenname..."
-      />
-      <button class="p-2" disabled>
+      /> -->
+      <!-- <button class="p-2" disabled>
         <Icon name="material-symbols:search" size="24" />
-      </button>
+      </button> -->
     </div>
 
     <div
@@ -32,7 +42,9 @@
       </ul>
     </div>
     <div style="margin-top: 48px">
-      <p style="text-align: center; margin-bottom: 8px">Neuer Patient?</p>
+      <p style="text-align: center; margin-bottom: 8px; color: #172774">
+        Neuer Patient?
+      </p>
       <GenericButton
         :outlined="false"
         :plain="false"
@@ -91,9 +103,6 @@ onUnmounted(() => {
 .title {
   text-align: center;
   color: var(--dental-blue-0);
-  font-size: 24px;
   margin-bottom: 20px;
-  font-weight: bold;
-  font-size: 25px;
 }
 </style>
