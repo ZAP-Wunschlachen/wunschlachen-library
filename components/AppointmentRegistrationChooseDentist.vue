@@ -34,7 +34,10 @@
               <p class="p-large">Nächst mögliche Termine:</p>
               <div class="appointment-dates">
                 <GenericButton
-                  v-for="(date, dateIndex) in dentist.available_times"
+                  v-for="(date, dateIndex) in dentist.available_times.slice(
+                    0,
+                    shownAppointments[dentistIndex]
+                  )"
                   :key="dateIndex"
                   :plain="false"
                   :disabled="false"
@@ -58,12 +61,17 @@
             <GenericButton
               :outlined="false"
               :plain="false"
-              :disabled="sendingButton === dentistIndex"
-              :sending="sendingButton === dentistIndex"
-              @click="chooseDentist(dentistIndex)"
+              @click="toggleAppointments(dentistIndex)"
             >
               <template #label>
-                <p class="p-large">Termin vereinbaren</p>
+                <p class="p-large">
+                  {{
+                    shownAppointments[dentistIndex] >=
+                    dentist.available_times.length
+                      ? "Wenigere Termine"
+                      : "Weitere Termine"
+                  }}
+                </p>
               </template>
             </GenericButton>
           </div>
@@ -72,8 +80,9 @@
     </div>
   </div>
 </template>
+
 <script setup lang="ts">
-import { computed, PropType, watch, ref } from "vue";
+import { computed, PropType, ref } from "vue";
 import { Dentist } from "../types/types";
 
 const props = defineProps({
@@ -83,7 +92,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(["choose-dentist"]);
+const emit = defineEmits(["select-appointment"]);
 
 const dentistImageUrl = computed(() => (image: any) => {
   return `https://starfish-app-ypxxf.ondigitalocean.app/assets/${image.id}`;
@@ -99,41 +108,38 @@ const genderedTitle = computed(() => (gender: Gender) => {
 });
 
 const selectedButtons = ref<{ [key: number]: number }>({});
-const sendingButton = ref<number | null>(null); // Track which button is sending
+const shownAppointments = ref<{ [key: number]: number }>({}); // Track how many appointments are shown
+
+// Initialize shown appointments to 3 for each dentist
+props.dentistArray.forEach((_, index) => {
+  shownAppointments.value[index] = 3;
+});
 
 const selectButton = (dentistIndex: number, dateIndex: number) => {
   selectedButtons.value[dentistIndex] = dateIndex;
+  const selectedDate =
+    props.dentistArray[dentistIndex].available_times[dateIndex];
+  const dentist = props.dentistArray[dentistIndex];
+  console.log("dentist", { dentist, selectedDate });
+  emit("select-appointment", { dentist, selectedDate });
 };
 
-const chooseDentist = (dentistIndex: number) => {
-  sendingButton.value = dentistIndex; // Set the clicked button as sending
-
-  const selectedDateIndex = selectedButtons.value[dentistIndex];
-  const dentist = props.dentistArray[dentistIndex];
-
-  if (selectedDateIndex !== undefined) {
-    const selectedDate = dentist.available_times[selectedDateIndex];
-    emit("choose-dentist", { dentist, selectedDate });
+const toggleAppointments = (dentistIndex: number) => {
+  if (
+    shownAppointments.value[dentistIndex] >=
+    props.dentistArray[dentistIndex].available_times.length
+  ) {
+    // If all appointments are shown, reset to 3
+    shownAppointments.value[dentistIndex] = 3;
   } else {
-    emit("choose-dentist", { dentist, selectedDate: null });
+    // Otherwise, show more appointments
+    shownAppointments.value[dentistIndex] += 3;
   }
-
-  // Simulate an async operation and reset the sending state after a delay
-  setTimeout(() => {
-    sendingButton.value = null;
-  }, 2000); // Adjust the delay as needed
 };
 
 const formatFullName = (dentist: Dentist) => {
   return `${dentist.first_name} ${dentist.last_name}`;
 };
-
-watch(
-  () => props.dentistArray,
-  (newData) => {
-    console.log(newData, "dentist array");
-  }
-);
 </script>
 
 <style scoped>
