@@ -17,10 +17,16 @@
           >
             <div class="location-header">
               <div>
+                <!-- <img :src="dentist.favicon" width="90px" /> -->
                 <img
                   :src="dentistImageUrl(dentist.profile_image)"
                   class="dentist-image"
                 />
+                <!-- <img
+                  src="https://via.placeholder.com/90"
+                  width="90px"
+                  class="dentist-image"
+                /> -->
               </div>
               <div class="name-container">
                 <h3>{{ formatFullName(dentist) }}</h3>
@@ -34,10 +40,7 @@
               <p class="p-large">Nächst mögliche Termine:</p>
               <div class="appointment-dates">
                 <GenericButton
-                  v-for="(date, dateIndex) in dentist.available_times.slice(
-                    0,
-                    shownAppointments[dentistIndex]
-                  )"
+                  v-for="(date, dateIndex) in dentist.available_times"
                   :key="dateIndex"
                   :plain="false"
                   :disabled="false"
@@ -61,9 +64,8 @@
             <GenericButton
               :outlined="false"
               :plain="false"
-              :disabled="isButtonDisabled[dentistIndex]"
-              :sending="isButtonSending[dentistIndex]"
-              @click="showMoreAppointments(dentistIndex)"
+              :disabled="false"
+              @click="chooseDentist(dentistIndex)"
             >
               <template #label>
                 <p class="p-large">Weitere Termine</p>
@@ -77,11 +79,9 @@
 </template>
 
 <script setup lang="ts">
-import { computed, PropType, ref } from "vue";
+import { computed, PropType, watch } from "vue";
+import { ref, defineEmits } from "vue";
 import { Dentist } from "../types/types";
-
-const isButtonDisabled = ref<{ [key: number]: boolean }>({});
-const isButtonSending = ref<{ [key: number]: boolean }>({});
 
 const props = defineProps({
   dentistArray: {
@@ -89,14 +89,6 @@ const props = defineProps({
     required: true,
   },
 });
-
-// Initialize the state for each dentist
-props.dentistArray.forEach((_, index) => {
-  isButtonDisabled.value[index] = false;
-  isButtonSending.value[index] = false;
-});
-
-const emit = defineEmits(["choose-dentist"]);
 
 const dentistImageUrl = computed(() => (image: any) => {
   return `https://starfish-app-ypxxf.ondigitalocean.app/assets/${image.id}`;
@@ -111,37 +103,38 @@ const genderedTitle = computed(() => (gender: Gender) => {
   return gender === Gender.Male ? "Zahnarzt" : "Zahnärztin";
 });
 
-const selectedButtons = ref<{ [key: number]: number }>({});
-const shownAppointments = ref<{ [key: number]: number }>({}); // Track how many appointments are shown
+watch(
+  () => props.dentistArray,
+  (newData) => {
+    console.log(newData, "densitst array");
+  }
+);
 
-// Initialize shown appointments to 3 for each dentist
-props.dentistArray.forEach((_, index) => {
-  shownAppointments.value[index] = 3;
-});
+const emit = defineEmits(["choose-dentist"]);
+
+const selectedButtons = ref({});
 
 const selectButton = (dentistIndex: number, dateIndex: number) => {
-  selectedButtons.value[dentistIndex] = dateIndex;
-  const selectedDate =
-    props.dentistArray[dentistIndex].available_times[dateIndex];
-  const dentist = props.dentistArray[dentistIndex];
-  emit("choose-dentist", { dentist, selectedDate });
-};
-
-const showMoreAppointments = (dentistIndex: number) => {
-  isButtonDisabled.value[dentistIndex] = true;
-  isButtonSending.value[dentistIndex] = true;
-
-  shownAppointments.value[dentistIndex] += 3; // Show more appointments
-  emit("show-more-appointments", dentistIndex); // Emit the event to the parent
-
-  setTimeout(() => {
-    isButtonDisabled.value[dentistIndex] = false;
-    isButtonSending.value[dentistIndex] = false;
-  }, 500);
+  emit("choose-dentist", {
+    dentist: props.dentistArray[dentistIndex],
+    selectedDate: props.dentistArray[dentistIndex].available_times[dateIndex],
+  });
 };
 
 const formatFullName = (dentist: Dentist) => {
   return `${dentist.first_name} ${dentist.last_name}`;
+};
+
+const chooseDentist = (dentistIndex) => {
+  const selectedDateIndex = selectedButtons.value[dentistIndex];
+  const dentist = props.dentistArray[dentistIndex];
+  if (selectedDateIndex !== undefined) {
+    const selectedDate =
+      props.dentistArray[dentistIndex].available_times[selectedDateIndex];
+    emit("choose-dentist", { dentist, selectedDate });
+  } else {
+    emit("choose-dentist", { dentist, selectedDate: null });
+  }
 };
 </script>
 
@@ -276,9 +269,10 @@ const formatFullName = (dentist: Dentist) => {
   padding: px !important;
   background-color: var(--dental-light-blue-0);
   color: var(--dental-blue-0);
+
   display: flex;
   width: 75px;
-  height: 2r5px;
+  height: 25px;
   max-width: 290px;
   justify-content: center;
   align-items: center;
