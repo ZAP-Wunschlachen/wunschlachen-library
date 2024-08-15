@@ -61,17 +61,10 @@
             <GenericButton
               :outlined="false"
               :plain="false"
-              @click="toggleAppointments(dentistIndex)"
+              @click="showMoreAppointments(dentistIndex)"
             >
               <template #label>
-                <p class="p-large">
-                  {{
-                    shownAppointments[dentistIndex] >=
-                    dentist.available_times.length
-                      ? "Wenigere Termine"
-                      : "Weitere Termine"
-                  }}
-                </p>
+                <p class="p-large">Weitere Termine</p>
               </template>
             </GenericButton>
           </div>
@@ -92,7 +85,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(["select-appointment"]);
+const emit = defineEmits(["choose-dentist"]);
 
 const dentistImageUrl = computed(() => (image: any) => {
   return `https://starfish-app-ypxxf.ondigitalocean.app/assets/${image.id}`;
@@ -120,21 +113,12 @@ const selectButton = (dentistIndex: number, dateIndex: number) => {
   const selectedDate =
     props.dentistArray[dentistIndex].available_times[dateIndex];
   const dentist = props.dentistArray[dentistIndex];
-  console.log("dentist", { dentist, selectedDate });
   emit("choose-dentist", { dentist, selectedDate });
 };
 
-const toggleAppointments = (dentistIndex: number) => {
-  if (
-    shownAppointments.value[dentistIndex] >=
-    props.dentistArray[dentistIndex].available_times.length
-  ) {
-    // If all appointments are shown, reset to 3
-    shownAppointments.value[dentistIndex] = 3;
-  } else {
-    // Otherwise, show more appointments
-    shownAppointments.value[dentistIndex] += 3;
-  }
+const showMoreAppointments = (dentistIndex: number) => {
+  shownAppointments.value[dentistIndex] += 3; // Show more appointments
+  emit("show-more-appointments", dentistIndex); // Emit the event to the parent
 };
 
 const formatFullName = (dentist: Dentist) => {
