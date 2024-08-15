@@ -1,9 +1,6 @@
 <template>
   <div class="location-container">
     <div class="location-content">
-      <div class="logo-slot">
-        <slot name="logo"></slot>
-      </div>
       <div class="location-selection">
         <div class="title-container">
           <h2 class="title">Wählen Sie einen Standort</h2>
@@ -100,7 +97,7 @@ const handleSelectLocation = (index: number) => {
   display: flex;
   width: 100%;
   height: 100%;
-  padding: 144px 0 280px;
+
   align-items: center;
   justify-content: center;
   background-color: var(--dental-light-blue-3);
