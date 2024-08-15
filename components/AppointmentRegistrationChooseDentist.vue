@@ -17,16 +17,10 @@
           >
             <div class="location-header">
               <div>
-                <!-- <img :src="dentist.favicon" width="90px" /> -->
                 <img
                   :src="dentistImageUrl(dentist.profile_image)"
                   class="dentist-image"
                 />
-                <!-- <img
-                  src="https://via.placeholder.com/90"
-                  width="90px"
-                  class="dentist-image"
-                /> -->
               </div>
               <div class="name-container">
                 <h3>{{ formatFullName(dentist) }}</h3>
@@ -64,7 +58,8 @@
             <GenericButton
               :outlined="false"
               :plain="false"
-              :disabled="false"
+              :disabled="sendingButton === dentistIndex"
+              :sending="sendingButton === dentistIndex"
               @click="chooseDentist(dentistIndex)"
             >
               <template #label>
@@ -77,10 +72,8 @@
     </div>
   </div>
 </template>
-
 <script setup lang="ts">
-import { computed, PropType, watch } from "vue";
-import { ref, defineEmits } from "vue";
+import { computed, PropType, watch, ref } from "vue";
 import { Dentist } from "../types/types";
 
 const props = defineProps({
@@ -89,6 +82,8 @@ const props = defineProps({
     required: true,
   },
 });
+
+const emit = defineEmits(["choose-dentist"]);
 
 const dentistImageUrl = computed(() => (image: any) => {
   return `https://starfish-app-ypxxf.ondigitalocean.app/assets/${image.id}`;
@@ -103,39 +98,42 @@ const genderedTitle = computed(() => (gender: Gender) => {
   return gender === Gender.Male ? "Zahnarzt" : "Zahnärztin";
 });
 
-watch(
-  () => props.dentistArray,
-  (newData) => {
-    console.log(newData, "densitst array");
-  }
-);
-
-const emit = defineEmits(["choose-dentist"]);
-
-const selectedButtons = ref({});
+const selectedButtons = ref<{ [key: number]: number }>({});
+const sendingButton = ref<number | null>(null); // Track which button is sending
 
 const selectButton = (dentistIndex: number, dateIndex: number) => {
-  emit("choose-dentist", {
-    dentist: props.dentistArray[dentistIndex],
-    selectedDate: props.dentistArray[dentistIndex].available_times[dateIndex],
-  });
+  selectedButtons.value[dentistIndex] = dateIndex;
+};
+
+const chooseDentist = (dentistIndex: number) => {
+  sendingButton.value = dentistIndex; // Set the clicked button as sending
+
+  const selectedDateIndex = selectedButtons.value[dentistIndex];
+  const dentist = props.dentistArray[dentistIndex];
+
+  if (selectedDateIndex !== undefined) {
+    const selectedDate = dentist.available_times[selectedDateIndex];
+    emit("choose-dentist", { dentist, selectedDate });
+  } else {
+    emit("choose-dentist", { dentist, selectedDate: null });
+  }
+
+  // Simulate an async operation and reset the sending state after a delay
+  setTimeout(() => {
+    sendingButton.value = null;
+  }, 2000); // Adjust the delay as needed
 };
 
 const formatFullName = (dentist: Dentist) => {
   return `${dentist.first_name} ${dentist.last_name}`;
 };
 
-const chooseDentist = (dentistIndex) => {
-  const selectedDateIndex = selectedButtons.value[dentistIndex];
-  const dentist = props.dentistArray[dentistIndex];
-  if (selectedDateIndex !== undefined) {
-    const selectedDate =
-      props.dentistArray[dentistIndex].available_times[selectedDateIndex];
-    emit("choose-dentist", { dentist, selectedDate });
-  } else {
-    emit("choose-dentist", { dentist, selectedDate: null });
+watch(
+  () => props.dentistArray,
+  (newData) => {
+    console.log(newData, "dentist array");
   }
-};
+);
 </script>
 
 <style scoped>
@@ -269,10 +267,9 @@ const chooseDentist = (dentistIndex) => {
   padding: px !important;
   background-color: var(--dental-light-blue-0);
   color: var(--dental-blue-0);
-
   display: flex;
   width: 75px;
-  height: 25px;
+  height: 2r5px;
   max-width: 290px;
   justify-content: center;
   align-items: center;
@@ -281,7 +278,7 @@ const chooseDentist = (dentistIndex) => {
 
 .appointment-button:active {
   max-width: 100px;
-  border-radius: 12px;
+  border-radius: 8px;
   background-color: var(--dental-light-blue-0);
   color: white;
 }
