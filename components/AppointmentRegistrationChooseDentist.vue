@@ -61,6 +61,8 @@
             <GenericButton
               :outlined="false"
               :plain="false"
+              :disabled="isButtonDisabled[dentistIndex]"
+              :sending="isButtonSending[dentistIndex]"
               @click="showMoreAppointments(dentistIndex)"
             >
               <template #label>
@@ -78,11 +80,20 @@
 import { computed, PropType, ref } from "vue";
 import { Dentist } from "../types/types";
 
+const isButtonDisabled = ref<{ [key: number]: boolean }>({});
+const isButtonSending = ref<{ [key: number]: boolean }>({});
+
 const props = defineProps({
   dentistArray: {
     type: Array as PropType<Dentist[]>,
     required: true,
   },
+});
+
+// Initialize the state for each dentist
+props.dentistArray.forEach((_, index) => {
+  isButtonDisabled.value[index] = false;
+  isButtonSending.value[index] = false;
 });
 
 const emit = defineEmits(["choose-dentist"]);
@@ -117,8 +128,16 @@ const selectButton = (dentistIndex: number, dateIndex: number) => {
 };
 
 const showMoreAppointments = (dentistIndex: number) => {
+  isButtonDisabled.value[dentistIndex] = true;
+  isButtonSending.value[dentistIndex] = true;
+
   shownAppointments.value[dentistIndex] += 3; // Show more appointments
   emit("show-more-appointments", dentistIndex); // Emit the event to the parent
+
+  setTimeout(() => {
+    isButtonDisabled.value[dentistIndex] = false;
+    isButtonSending.value[dentistIndex] = false;
+  }, 500);
 };
 
 const formatFullName = (dentist: Dentist) => {

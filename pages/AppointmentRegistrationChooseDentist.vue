@@ -14,7 +14,6 @@
 
 <script setup>
 const handleShowMoreAppoitnments = (input) => {
-  console.log("input", input);
   let previousAvailableItems = dentistArray.value[input].available_times;
   dentistArray.value[input].available_times = [
     ...previousAvailableItems,
