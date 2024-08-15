@@ -121,7 +121,7 @@ const selectButton = (dentistIndex: number, dateIndex: number) => {
     props.dentistArray[dentistIndex].available_times[dateIndex];
   const dentist = props.dentistArray[dentistIndex];
   console.log("dentist", { dentist, selectedDate });
-  emit("select-appointment", { dentist, selectedDate });
+  emit("choose-dentist", { dentist, selectedDate });
 };
 
 const toggleAppointments = (dentistIndex: number) => {
