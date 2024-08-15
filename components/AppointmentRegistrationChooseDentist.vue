@@ -1,9 +1,6 @@
 <template>
   <div class="container">
     <div class="content-wrapper">
-      <div>
-        <slot name="logo"></slot>
-      </div>
       <div class="location-selection">
         <div class="header">
           <h2 class="title">Wählen Sie einen Zahnarzt</h2>
