@@ -199,10 +199,7 @@ const visibleAvailableTimes = computed(() => {
   width: 100%;
   min-width: 100%;
   height: 100%;
-  padding-top: 244px;
-  padding-bottom: 280px;
-  padding-left: 0;
-  padding-right: 0;
+  padding: 144px 0 280px;
   align-items: center;
   justify-content: center;
   gap: 8px;
