@@ -21,13 +21,6 @@
 
         <div class="accordion-section">
           <div class="accordion-container">
-            <div class="back-button" @click="handleBack">
-              <slot name="arrow-left"></slot>
-              <h3>Zurück</h3>
-            </div>
-
-            <div class="divider"></div>
-
             <p class="p-large accordion-paragraph">
               Wählen Sie das für Sie passende Datum für den Termin
             </p>
@@ -150,8 +143,8 @@ onMounted(() => {
 const emit = defineEmits(["go-back", "select-time", "load-more-data"]);
 
 const activeAccordionIndex = ref<number | null>(null);
-const initialVisibleSlotsCount = 3; // Initial number of visible buttons
-const initialVisibleDatesCount = 3; // Initial number of visible dates
+const initialVisibleSlotsCount = 9; // Initial number of visible buttons
+const initialVisibleDatesCount = 9; // Initial number of visible dates
 
 const handleToggle = (index: number) => {
   activeAccordionIndex.value =
@@ -182,10 +175,6 @@ const loadMoreSlots = (item: AvailableTime) => {
 const loadMoreDates = () => {
   emit("load-more-data");
   //visibleDatesCount.value += initialVisibleDatesCount;
-};
-
-const handleBack = () => {
-  emit("go-back");
 };
 
 const visibleAvailableTimes = computed(() => {
