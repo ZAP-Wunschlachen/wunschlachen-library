@@ -19,6 +19,7 @@
             v-for="(item, index) in treatmentTemplates"
             :key="index"
             :outlined="true"
+            :disabled="buttonsDisabled"
             :plain="true"
             class="generic-button"
             @click="handleSelect(item)"
@@ -36,7 +37,7 @@ import type { PropType } from "vue";
 import type { TreatmentTemplate } from "../types/types";
 
 const emit = defineEmits(["select"]);
-
+const buttonsDisabled = ref(false);
 defineProps({
   treatmentTemplates: {
     type: Array as PropType<TreatmentTemplate[]>,
@@ -45,6 +46,7 @@ defineProps({
 });
 
 const handleSelect = (item: TreatmentTemplate) => {
+  buttonsDisabled.value = true;
   emit("select", item);
 };
 </script>
