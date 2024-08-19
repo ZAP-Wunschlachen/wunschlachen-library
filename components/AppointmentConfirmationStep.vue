@@ -203,7 +203,6 @@ const cancelAppointment = () => {
   align-items: center;
   gap: 48px;
   background-color: #f8fafd;
-  height: 100vh;
 }
 
 .titles-container {
