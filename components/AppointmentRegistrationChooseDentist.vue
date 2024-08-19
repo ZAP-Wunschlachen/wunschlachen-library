@@ -61,7 +61,7 @@
             <GenericButton
               :outlined="false"
               :plain="false"
-              :disabled="false"
+              :disabled="buttonsDisabled"
               @click="chooseDentist(dentistIndex)"
             >
               <template #label>
@@ -108,7 +108,7 @@ watch(
 );
 
 const emit = defineEmits(["choose-dentist"]);
-
+const buttonsDisabled = ref(false);
 const selectedButtons = ref({});
 
 const selectButton = (dentistIndex: number, dateIndex: number) => {
@@ -123,6 +123,7 @@ const formatFullName = (dentist: Dentist) => {
 };
 
 const chooseDentist = (dentistIndex) => {
+  buttonsDisabled.value = true;
   const selectedDateIndex = selectedButtons.value[dentistIndex];
   const dentist = props.dentistArray[dentistIndex];
   if (selectedDateIndex !== undefined) {
