@@ -40,7 +40,7 @@
                   v-for="(date, dateIndex) in dentist.available_times"
                   :key="dateIndex"
                   :plain="false"
-                  :disabled="buttonsDisabled"
+                  :disabled="appintmentsDisabled"
                   :class="[
                     'appointment-button',
                     selectedButtons[dentistIndex] === dateIndex
@@ -61,7 +61,7 @@
             <GenericButton
               :outlined="false"
               :plain="false"
-              :disabled="buttonsDisabled"
+              :disabled="buttonDisabled"
               @click="chooseDentist(dentistIndex)"
             >
               <template #label>
@@ -108,11 +108,12 @@ watch(
 );
 
 const emit = defineEmits(["choose-dentist"]);
-const buttonsDisabled = ref(false);
+const buttonDisabled = ref(false);
+const appintmentsDisabled = ref(false);
 const selectedButtons = ref({});
 
 const selectButton = (dentistIndex: number, dateIndex: number) => {
-  buttonsDisabled.value = true;
+  appintmentsDisabled.value = true;
   emit("choose-dentist", {
     dentist: props.dentistArray[dentistIndex],
     selectedDate: props.dentistArray[dentistIndex].available_times[dateIndex],
@@ -124,7 +125,7 @@ const formatFullName = (dentist: Dentist) => {
 };
 
 const chooseDentist = (dentistIndex) => {
-  buttonsDisabled.value = true;
+  buttonDisabled.value = true;
   const selectedDateIndex = selectedButtons.value[dentistIndex];
   const dentist = props.dentistArray[dentistIndex];
   if (selectedDateIndex !== undefined) {
