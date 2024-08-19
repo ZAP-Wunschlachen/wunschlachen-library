@@ -40,7 +40,7 @@
                   v-for="(date, dateIndex) in dentist.available_times"
                   :key="dateIndex"
                   :plain="false"
-                  :disabled="false"
+                  :disabled="buttonsDisabled"
                   :class="[
                     'appointment-button',
                     selectedButtons[dentistIndex] === dateIndex
@@ -112,6 +112,7 @@ const buttonsDisabled = ref(false);
 const selectedButtons = ref({});
 
 const selectButton = (dentistIndex: number, dateIndex: number) => {
+  buttonsDisabled.value = true;
   emit("choose-dentist", {
     dentist: props.dentistArray[dentistIndex],
     selectedDate: props.dentistArray[dentistIndex].available_times[dateIndex],
