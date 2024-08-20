@@ -1,16 +1,13 @@
 <template>
   <div class="location-container">
     <div class="location-content">
-      <div class="logo-slot">
-        <slot name="logo"></slot>
-      </div>
       <div class="location-selection">
         <div class="title-container">
           <h2 class="title">Wählen Sie einen Standort</h2>
         </div>
 
         <div
-          v-for="dataObject in data"
+          v-for="(dataObject, index) in data"
           :key="dataObject.id"
           class="location-item"
         >
@@ -40,12 +37,13 @@
             <GenericButton
               :outlined="false"
               :plain="false"
-              :disabled="false"
+              :disabled="dataObject.disabled"
+              :sending="dataObject.sending"
               label="Auswählen"
-              @click="handleSelectLocation(dataObject)"
+              @click="handleSelectLocation(index)"
             >
               <template #label>
-                <p class="choose-text">Auswählen</p>
+                <p class="p-large">Auswählen</p>
               </template>
             </GenericButton>
           </div>
@@ -67,10 +65,30 @@ const props = defineProps({
   },
 });
 
-const data = ref(props.data);
+// Track state of each location item
+const data = ref(
+  props.data.map((item) => ({
+    ...item,
+    sending: false,
+    disabled: false,
+  }))
+);
 
-const handleSelectLocation = (data: any) => {
-  emit("select", data);
+const handleSelectLocation = (index: number) => {
+  const selectedLocation = data.value[index];
+
+  // Set the button to sending and disable it
+  selectedLocation.sending = true;
+  selectedLocation.disabled = true;
+
+  // Emit the event with the selected data
+  emit("select", selectedLocation);
+
+  // Simulate an async operation (e.g., an API call)
+  setTimeout(() => {
+    // After the operation completes, stop the sending state
+    selectedLocation.sending = false;
+  }, 2000);
 };
 </script>
 
@@ -79,7 +97,7 @@ const handleSelectLocation = (data: any) => {
   display: flex;
   width: 100%;
   height: 100%;
-  padding: 144px 0 280px;
+
   align-items: center;
   justify-content: center;
   background-color: var(--dental-light-blue-3);

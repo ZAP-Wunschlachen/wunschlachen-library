@@ -1,9 +1,6 @@
 <template>
   <div class="container">
     <div class="content-wrapper">
-      <div>
-        <slot name="logo"></slot>
-      </div>
       <div class="location-selection">
         <div class="header">
           <h2 class="title">Wählen Sie einen Zahnarzt</h2>
@@ -43,7 +40,7 @@
                   v-for="(date, dateIndex) in dentist.available_times"
                   :key="dateIndex"
                   :plain="false"
-                  :disabled="false"
+                  :disabled="appintmentsDisabled"
                   :class="[
                     'appointment-button',
                     selectedButtons[dentistIndex] === dateIndex
@@ -64,11 +61,11 @@
             <GenericButton
               :outlined="false"
               :plain="false"
-              :disabled="false"
+              :disabled="buttonDisabled"
               @click="chooseDentist(dentistIndex)"
             >
               <template #label>
-                <p class="p-large">Termin vereinbaren</p>
+                <p class="p-large">Weitere Termine</p>
               </template>
             </GenericButton>
           </div>
@@ -111,10 +108,12 @@ watch(
 );
 
 const emit = defineEmits(["choose-dentist"]);
-
+const buttonDisabled = ref(false);
+const appintmentsDisabled = ref(false);
 const selectedButtons = ref({});
 
 const selectButton = (dentistIndex: number, dateIndex: number) => {
+  appintmentsDisabled.value = true;
   emit("choose-dentist", {
     dentist: props.dentistArray[dentistIndex],
     selectedDate: props.dentistArray[dentistIndex].available_times[dateIndex],
@@ -126,6 +125,7 @@ const formatFullName = (dentist: Dentist) => {
 };
 
 const chooseDentist = (dentistIndex) => {
+  buttonDisabled.value = true;
   const selectedDateIndex = selectedButtons.value[dentistIndex];
   const dentist = props.dentistArray[dentistIndex];
   if (selectedDateIndex !== undefined) {
@@ -143,8 +143,7 @@ const chooseDentist = (dentistIndex) => {
   display: inline-block;
   width: 100%;
   height: 100%;
-  padding-top: 144px;
-  padding-bottom: 280px;
+
   min-width: 100%;
   align-items: center;
   justify-content: center;
@@ -281,7 +280,7 @@ const chooseDentist = (dentistIndex) => {
 
 .appointment-button:active {
   max-width: 100px;
-  border-radius: 12px;
+  border-radius: 8px;
   background-color: var(--dental-light-blue-0);
   color: white;
 }

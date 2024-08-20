@@ -52,7 +52,7 @@
         <GenericButton
           :outlined="false"
           :plain="false"
-          :disabled="false"
+          :disabled="buttonDisabled"
           @click="confirmAppointment"
           class="select-button"
         >
@@ -97,6 +97,7 @@ const props = defineProps({
     required: true,
   },
 });
+const buttonDisabled = ref(false);
 
 const emit = defineEmits(["confirm", "cancel"]);
 
@@ -124,6 +125,7 @@ const formattedHour = computed(() => {
 });
 
 const confirmAppointment = () => {
+  buttonDisabled.value = true;
   emit("confirm");
 };
 const cancelAppointment = () => {
@@ -203,7 +205,6 @@ const cancelAppointment = () => {
   align-items: center;
   gap: 48px;
   background-color: #f8fafd;
-  height: 100vh;
 }
 
 .titles-container {

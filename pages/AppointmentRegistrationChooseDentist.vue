@@ -6,13 +6,87 @@
       }
     "
     :dentistArray="dentistArray"
+    @show-more-appointments="handleShowMoreAppoitnments"
   >
     <template #logo>Login</template>
   </AppointmentRegistrationChooseDentist>
 </template>
 
 <script setup>
-const dentistArray = [
+const handleShowMoreAppoitnments = (input) => {
+  let previousAvailableItems = dentistArray.value[input].available_times;
+  dentistArray.value[input].available_times = [
+    ...previousAvailableItems,
+    {
+      day: "Aug 16",
+      start: "09:00",
+      end: "13:00",
+      date: "2024-08-16T00:00:00.000Z",
+      dentist: {
+        id: "956ca491-0038-4b3c-b187-5cbca5c4b870",
+        user_created: "bd3fb8a5-7e16-4abc-a4fa-ae40ac7e5733",
+        date_created: "2023-09-19T23:42:55.531Z",
+        user_updated: "99b588c9-37d5-4247-a143-46835bdd494c",
+        date_updated: "2024-08-14T11:11:53.031Z",
+        first_name: "Martin",
+        last_name: "Paetz",
+        nickname: "MP",
+        user: "878dcdb1-5ee7-4914-ad60-0ee243863bc7",
+        gender: "M",
+        calendars: [
+          "029c122a-bfdd-4439-beca-c4f5dd5aca01",
+          "1f74ac9a-a617-43d5-8625-f398939d63fb",
+        ],
+        profile_image: {
+          id: "91b7accc-ebb9-4b7c-bf3b-69aad9de5b20",
+          storage: "dospace",
+          filename_disk: "91b7accc-ebb9-4b7c-bf3b-69aad9de5b20.png",
+          filename_download:
+            "240725_WUNSCHLACHEN_DENTISTS_PROFILIMAGE_MARTIN_PAETZ.png",
+          title: "240725 Wunschlachen Dentists Profilimage Martin Paetz",
+          type: "image/png",
+          folder: "c00cca28-7313-4e2d-beb0-7a7327ea3dd4",
+          uploaded_by: "ffd48d0b-84a0-4ddc-ae1d-2dba488a9b23",
+          uploaded_on: "2024-07-30T11:44:56.524Z",
+          modified_by: null,
+          modified_on: "2024-07-30T11:44:56.898Z",
+          charset: null,
+          filesize: "915282",
+          width: 1080,
+          height: 1080,
+          duration: null,
+          embed: null,
+          description: null,
+          location: null,
+          tags: null,
+          metadata: {},
+          focal_point_x: null,
+          focal_point_y: null,
+        },
+      },
+      slots: [
+        "09:00",
+        "09:15",
+        "09:30",
+        "09:45",
+        "10:00",
+        "10:15",
+        "10:30",
+        "10:45",
+        "11:00",
+        "11:15",
+        "11:30",
+        "11:45",
+        "12:00",
+        "12:15",
+        "12:30",
+        "12:45",
+      ],
+    },
+  ];
+};
+
+const dentistArray = ref([
   {
     id: "956ca491-0038-4b3c-b187-5cbca5c4b870",
     user_created: "bd3fb8a5-7e16-4abc-a4fa-ae40ac7e5733",
@@ -101,138 +175,6 @@ const dentistArray = [
       },
     ],
     available_times: [
-      {
-        day: "Aug 14",
-        start: "09:00",
-        end: "13:00",
-        date: "2024-08-14T00:00:00.000Z",
-        dentist: {
-          id: "956ca491-0038-4b3c-b187-5cbca5c4b870",
-          user_created: "bd3fb8a5-7e16-4abc-a4fa-ae40ac7e5733",
-          date_created: "2023-09-19T23:42:55.531Z",
-          user_updated: "99b588c9-37d5-4247-a143-46835bdd494c",
-          date_updated: "2024-08-14T11:11:53.031Z",
-          first_name: "Martin",
-          last_name: "Paetz",
-          nickname: "MP",
-          user: "878dcdb1-5ee7-4914-ad60-0ee243863bc7",
-          gender: "M",
-          calendars: [
-            "029c122a-bfdd-4439-beca-c4f5dd5aca01",
-            "1f74ac9a-a617-43d5-8625-f398939d63fb",
-          ],
-          profile_image: {
-            id: "91b7accc-ebb9-4b7c-bf3b-69aad9de5b20",
-            storage: "dospace",
-            filename_disk: "91b7accc-ebb9-4b7c-bf3b-69aad9de5b20.png",
-            filename_download:
-              "240725_WUNSCHLACHEN_DENTISTS_PROFILIMAGE_MARTIN_PAETZ.png",
-            title: "240725 Wunschlachen Dentists Profilimage Martin Paetz",
-            type: "image/png",
-            folder: "c00cca28-7313-4e2d-beb0-7a7327ea3dd4",
-            uploaded_by: "ffd48d0b-84a0-4ddc-ae1d-2dba488a9b23",
-            uploaded_on: "2024-07-30T11:44:56.524Z",
-            modified_by: null,
-            modified_on: "2024-07-30T11:44:56.898Z",
-            charset: null,
-            filesize: "915282",
-            width: 1080,
-            height: 1080,
-            duration: null,
-            embed: null,
-            description: null,
-            location: null,
-            tags: null,
-            metadata: {},
-            focal_point_x: null,
-            focal_point_y: null,
-          },
-        },
-        slots: [
-          "09:00",
-          "09:15",
-          "09:30",
-          "09:45",
-          "10:00",
-          "10:15",
-          "10:30",
-          "10:45",
-          "11:00",
-          "11:15",
-          "11:30",
-          "11:45",
-          "12:00",
-          "12:15",
-          "12:30",
-          "12:45",
-        ],
-      },
-      {
-        day: "Aug 15",
-        start: "09:00",
-        end: "13:00",
-        date: "2024-08-15T00:00:00.000Z",
-        dentist: {
-          id: "956ca491-0038-4b3c-b187-5cbca5c4b870",
-          user_created: "bd3fb8a5-7e16-4abc-a4fa-ae40ac7e5733",
-          date_created: "2023-09-19T23:42:55.531Z",
-          user_updated: "99b588c9-37d5-4247-a143-46835bdd494c",
-          date_updated: "2024-08-14T11:11:53.031Z",
-          first_name: "Martin",
-          last_name: "Paetz",
-          nickname: "MP",
-          user: "878dcdb1-5ee7-4914-ad60-0ee243863bc7",
-          gender: "M",
-          calendars: [
-            "029c122a-bfdd-4439-beca-c4f5dd5aca01",
-            "1f74ac9a-a617-43d5-8625-f398939d63fb",
-          ],
-          profile_image: {
-            id: "91b7accc-ebb9-4b7c-bf3b-69aad9de5b20",
-            storage: "dospace",
-            filename_disk: "91b7accc-ebb9-4b7c-bf3b-69aad9de5b20.png",
-            filename_download:
-              "240725_WUNSCHLACHEN_DENTISTS_PROFILIMAGE_MARTIN_PAETZ.png",
-            title: "240725 Wunschlachen Dentists Profilimage Martin Paetz",
-            type: "image/png",
-            folder: "c00cca28-7313-4e2d-beb0-7a7327ea3dd4",
-            uploaded_by: "ffd48d0b-84a0-4ddc-ae1d-2dba488a9b23",
-            uploaded_on: "2024-07-30T11:44:56.524Z",
-            modified_by: null,
-            modified_on: "2024-07-30T11:44:56.898Z",
-            charset: null,
-            filesize: "915282",
-            width: 1080,
-            height: 1080,
-            duration: null,
-            embed: null,
-            description: null,
-            location: null,
-            tags: null,
-            metadata: {},
-            focal_point_x: null,
-            focal_point_y: null,
-          },
-        },
-        slots: [
-          "09:00",
-          "09:15",
-          "09:30",
-          "09:45",
-          "10:00",
-          "10:15",
-          "10:30",
-          "10:45",
-          "11:00",
-          "11:15",
-          "11:30",
-          "11:45",
-          "12:00",
-          "12:15",
-          "12:30",
-          "12:45",
-        ],
-      },
       {
         day: "Aug 16",
         start: "09:00",
@@ -433,7 +375,7 @@ const dentistArray = [
       },
     ],
   },
-];
+]);
 </script>
 
 <style scooped></style>

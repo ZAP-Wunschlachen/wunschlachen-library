@@ -2,9 +2,7 @@
   <div class="container">
     <div class="content-wrapper">
       <div class="logo-slot">
-        <slot name="logo">
-          <p>Loading logo...</p>
-        </slot>
+        <slot name="logo"> </slot>
       </div>
       <div class="otp-section">
         <h2>Bitte den per E-Mail gesendeten Code eingeben</h2>

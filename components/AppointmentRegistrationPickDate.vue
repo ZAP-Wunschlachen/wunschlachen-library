@@ -21,11 +21,6 @@
 
         <div class="accordion-section">
           <div class="accordion-container">
-            <div class="back-button" @click="handleBack">
-              <slot name="arrow-left"></slot>
-              <h3>Zurück</h3>
-            </div>
-
             <div class="divider"></div>
 
             <p class="p-large accordion-paragraph">
@@ -68,7 +63,7 @@
                         v-for="(button, btnIndex) in getVisibleSlots(item)"
                         :key="btnIndex"
                         :outliend="false"
-                        :disabled="false"
+                        :disabled="appointmentsDisabled"
                         class="appointment-button"
                         @click="
                           handleSelectTime({
@@ -87,7 +82,7 @@
                     <GenericButton
                       v-if="item.slots.length > visibleSlots[item.day]"
                       :plain="true"
-                      :disabled="false"
+                      :disabled="appointmentsDisabled"
                       @click="loadMoreSlots(item)"
                     >
                       <template #label>
@@ -107,7 +102,7 @@
             <GenericButton
               :outlined="false"
               :plain="false"
-              :disabled="false"
+              :disabled="buttonDisabled"
               @click="loadMoreDates"
               class="select-button"
             >
@@ -149,9 +144,12 @@ onMounted(() => {
 
 const emit = defineEmits(["go-back", "select-time", "load-more-data"]);
 
+const buttonDisabled = ref(false);
+const appointmentsDisabled = ref(false);
+
 const activeAccordionIndex = ref<number | null>(null);
-const initialVisibleSlotsCount = 3; // Initial number of visible buttons
-const initialVisibleDatesCount = 3; // Initial number of visible dates
+const initialVisibleSlotsCount = 9; // Initial number of visible buttons
+const initialVisibleDatesCount = 9; // Initial number of visible dates
 
 const handleToggle = (index: number) => {
   activeAccordionIndex.value =
@@ -159,6 +157,7 @@ const handleToggle = (index: number) => {
 };
 
 const handleSelectTime = (data: { date: AvailableTime; slotIndex: number }) => {
+  appointmentsDisabled.value = true;
   emit("select-time", data);
 };
 
@@ -173,19 +172,17 @@ const getVisibleSlots = (item: AvailableTime) => {
 };
 
 const loadMoreSlots = (item: AvailableTime) => {
+  buttonDisabled.value = true;
   if (!visibleSlots[item.day]) {
     visibleSlots[item.day] = initialVisibleSlotsCount;
   }
   visibleSlots[item.day] += initialVisibleSlotsCount;
+  buttonDisabled.value = false;
 };
 
 const loadMoreDates = () => {
   emit("load-more-data");
   //visibleDatesCount.value += initialVisibleDatesCount;
-};
-
-const handleBack = () => {
-  emit("go-back");
 };
 
 const visibleAvailableTimes = computed(() => {
@@ -199,10 +196,6 @@ const visibleAvailableTimes = computed(() => {
   width: 100%;
   min-width: 100%;
   height: 100%;
-  padding-top: 244px;
-  padding-bottom: 280px;
-  padding-left: 0;
-  padding-right: 0;
   align-items: center;
   justify-content: center;
   gap: 8px;
