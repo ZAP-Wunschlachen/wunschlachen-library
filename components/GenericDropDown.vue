@@ -7,16 +7,17 @@
       type="button"
     >
       <template v-if="props.multiple && selectedLabel.length > 0">
-        <GenericButton
-          style="background: #c5e1fc"
-          v-for="(item, index) in selectedLabel"
-          :key="index"
-          class="px-2 mx-1 appointment-button"
-        >
-          <template #label
-            ><p class="large">{{ item }}</p>
-          </template>
-        </GenericButton>
+        <div class="grid grid-cols-3 gap-2">
+          <GenericButton
+            v-for="(item, index) in selectedLabel"
+            :key="index"
+            class="px-2 mx-1 appointment-button"
+          >
+            <template #label
+              ><p class="large">{{ item }}</p>
+            </template>
+          </GenericButton>
+        </div>
       </template>
       <span class="default-label" v-else>{{ defaultLabel }}</span>
 
