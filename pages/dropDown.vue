@@ -1,7 +1,7 @@
 <template>
   <div class="w-full flex justify-center items-center">
     <GenericDropDown
-      class="mx-auto"
+      class="mx-auto min-w-[300px]"
       :items="dropdownItems"
       :defaultSelected="defaultSelected"
       :multiple="true"
