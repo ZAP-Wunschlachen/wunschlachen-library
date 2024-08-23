@@ -6,7 +6,20 @@
       :class="buttonClasses"
       type="button"
     >
-      <span class="mr-auto">{{ selectedLabel }}</span>
+      <template v-if="props.multiple && selectedLabel.length > 0">
+        <GenericButton
+          style="background: #c5e1fc"
+          v-for="(item, index) in selectedLabel"
+          :key="index"
+          class="px-2 mx-1 appointment-button"
+        >
+          <template #label
+            ><p class="large">{{ item }}</p>
+          </template>
+        </GenericButton>
+      </template>
+      <span class="default-label" v-else>{{ defaultLabel }}</span>
+
       <svg
         class="dropdown-icon"
         :class="{ 'rotate-180': isDropdownOpen }"
@@ -43,7 +56,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, computed, onMounted, onBeforeUnmount } from "vue";
 import { defineProps, defineEmits } from "vue";
 
@@ -55,7 +68,7 @@ const props = defineProps({
   },
   defaultSelected: {
     type: [Object, Array],
-    default: () => ({ label: "Select an option", value: null }),
+    default: () => [],
   },
   width: {
     type: String,
@@ -65,6 +78,10 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  defaultLabel: {
+    type: String,
+    default: "Choose options",
+  },
 });
 
 // Define emits
@@ -72,17 +89,21 @@ const emit = defineEmits(["update:selected"]);
 
 // State management
 const isDropdownOpen = ref(false);
-const selectedItem = ref(props.defaultSelected);
-const dropdown = ref(null);
+const selectedItem = ref(
+  Array.isArray(props.defaultSelected)
+    ? props.defaultSelected
+    : [props.defaultSelected]
+);
+const dropdown = ref<HTMLElement | null>(null);
 
 // Computed property for selected label
 const selectedLabel = computed(() => {
   if (props.multiple && Array.isArray(selectedItem.value)) {
     return selectedItem.value.length > 0
-      ? selectedItem.value.map((item) => item.label).join(", ")
-      : "Select options";
+      ? selectedItem.value.map((item) => item.label)
+      : [];
   }
-  return selectedItem.value.label;
+  return selectedItem.value.length > 0 ? [selectedItem.value[0].label] : [];
 });
 
 // Methods
@@ -90,30 +111,29 @@ function toggleDropdown() {
   isDropdownOpen.value = !isDropdownOpen.value;
 }
 
-function selectItem(item) {
+function selectItem(item: { label: string; value: any }) {
   if (props.multiple) {
-    if (Array.isArray(selectedItem.value)) {
-      const index = selectedItem.value.findIndex((i) => i.value === item.value);
-      if (index === -1) {
-        selectedItem.value.push(item);
-      } else {
-        selectedItem.value.splice(index, 1);
-      }
+    const index = selectedItem.value.findIndex((i) => i.value === item.value);
+    if (index === -1) {
+      selectedItem.value.push(item);
     } else {
-      selectedItem.value = [item];
+      selectedItem.value.splice(index, 1);
     }
   } else {
-    selectedItem.value = item;
+    selectedItem.value = [item];
     isDropdownOpen.value = false;
   }
-  emit("update:selected", selectedItem.value);
+  emit(
+    "update:selected",
+    props.multiple ? selectedItem.value : selectedItem.value[0]
+  );
 }
 
-function isSelected(item) {
+function isSelected(item: { value: any }) {
   if (props.multiple && Array.isArray(selectedItem.value)) {
     return selectedItem.value.some((i) => i.value === item.value);
   }
-  return selectedItem.value.value === item.value;
+  return selectedItem.value[0]?.value === item.value;
 }
 
 // Computed property for dropdown width
@@ -121,15 +141,14 @@ const dropdownWidth = computed(() => props.width);
 
 // Computed property for button classes
 const buttonClasses = computed(() => {
-  return selectedItem.value.value ||
-    (Array.isArray(selectedItem.value) && selectedItem.value.length > 0)
+  return selectedItem.value.length > 0
     ? "dropdown-button-active"
     : "dropdown-button";
 });
 
 // Close dropdown on outside click
-function handleClickOutside(event) {
-  if (dropdown.value && !dropdown.value.contains(event.target)) {
+function handleClickOutside(event: MouseEvent) {
+  if (dropdown.value && !dropdown.value.contains(event.target as Node)) {
     isDropdownOpen.value = false;
   }
 }
@@ -187,6 +206,7 @@ onBeforeUnmount(() => {
   height: 1rem;
   margin-left: 0.75rem;
   transition: transform 0.3s ease;
+  flex-shrink: 0; /* Prevent shrinking */
 }
 
 .rotate-180 {
@@ -225,5 +245,21 @@ onBeforeUnmount(() => {
 .dropdown-item-selected {
   border-left: 4px solid var(--dental-blue-0);
   background-color: var(--soft-concrete-1);
+}
+
+.appointment-button {
+  border-radius: 4px;
+  max-height: 25px;
+  background-color: var(--dental-light-blue-0);
+  color: var(--dental-blue-0);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  width: auto;
+  padding: 4px 8px; /* Provide adequate padding */
+}
+.default-label {
+  padding: 3px;
 }
 </style>
