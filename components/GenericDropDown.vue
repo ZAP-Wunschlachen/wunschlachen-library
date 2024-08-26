@@ -14,12 +14,18 @@
               :key="index"
               class="px-2 mx-1 appointment-button"
             >
-              <template #label
-                ><p class="large">{{ item }}</p>
+              <template #label>
+                <p class="large">{{ item }}</p>
               </template>
             </GenericButton>
           </div>
         </template>
+        <span
+          class="default-label"
+          v-else-if="!props.multiple && selectedLabel.length > 0"
+        >
+          {{ selectedLabel[0] }}
+        </span>
         <span class="default-label" v-else>{{ defaultLabel }}</span>
       </div>
 
@@ -60,7 +66,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, onBeforeUnmount } from "vue";
+import { ref, computed, onMounted, onBeforeUnmount, watch } from "vue";
 import { defineProps, defineEmits } from "vue";
 
 // Define props
@@ -69,7 +75,7 @@ const props = defineProps({
     type: Array,
     required: true,
   },
-  defaultSelected: {
+  modelValue: {
     type: [Object, Array],
     default: () => [],
   },
@@ -88,16 +94,22 @@ const props = defineProps({
 });
 
 // Define emits
-const emit = defineEmits(["update:selected"]);
+const emit = defineEmits(["update:modelValue"]);
 
 // State management
 const isDropdownOpen = ref(false);
 const selectedItem = ref(
-  Array.isArray(props.defaultSelected)
-    ? props.defaultSelected
-    : [props.defaultSelected]
+  Array.isArray(props.modelValue) ? props.modelValue : [props.modelValue]
 );
 const dropdown = ref<HTMLElement | null>(null);
+
+// Watch modelValue for external changes
+watch(
+  () => props.modelValue,
+  (newValue) => {
+    selectedItem.value = Array.isArray(newValue) ? newValue : [newValue];
+  }
+);
 
 // Computed property for selected label
 const selectedLabel = computed(() => {
@@ -127,7 +139,7 @@ function selectItem(item: { label: string; value: any }) {
     isDropdownOpen.value = false;
   }
   emit(
-    "update:selected",
+    "update:modelValue",
     props.multiple ? selectedItem.value : selectedItem.value[0]
   );
 }
