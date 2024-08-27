@@ -13,7 +13,9 @@
             <div class="title-section">
               <h2>Termin vereinbaren</h2>
               <p class="p-large">
-                {{ dentist.name }} | {{ dentist.first_name }}
+                {{ dentist.gender === "M" ? "Herr" : "Frau" }}
+                | {{ dentist.last_name }}
+                {{ dentist.gender === "M" ? "Zahnärzt" : "Zahnärztin" }}
               </p>
             </div>
           </div>

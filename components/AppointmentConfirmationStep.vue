@@ -116,7 +116,7 @@ const formattedDate = computed(() => {
     year: "numeric",
     month: "long",
     day: "numeric",
-  })} um ${props.appointment.date.slots[props.appointment.slotIndex]} Uhr`;
+  })}`;
 });
 
 const formattedHour = computed(() => {
