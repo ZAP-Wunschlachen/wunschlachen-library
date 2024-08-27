@@ -106,7 +106,7 @@ const formattedDentist = computed(() => {
 });
 
 const formattedPatient = computed(() => {
-  return `${props.patient.first_name} ${props.patient.last_name} - ${props.patient.birthday}`;
+  return `${props.patient.first_name} ${props.patient.last_name}`;
 });
 
 const formattedDate = computed(() => {
