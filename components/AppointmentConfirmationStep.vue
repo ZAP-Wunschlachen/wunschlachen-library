@@ -106,7 +106,7 @@ const formattedDentist = computed(() => {
 });
 
 const formattedPatient = computed(() => {
-  return `${props.patient.first_name} ${props.patient.last_name} - ${props.patient.birthday}`;
+  return `${props.patient.first_name} ${props.patient.last_name}`;
 });
 
 const formattedDate = computed(() => {
@@ -135,7 +135,7 @@ const cancelAppointment = () => {
 
 <style scoped>
 .appointment-confirmation {
-  max-width: 28rem;
+  min-width: 300px;
   margin: 0 auto;
   padding: 1.5rem;
 
