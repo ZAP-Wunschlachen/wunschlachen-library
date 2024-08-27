@@ -135,7 +135,7 @@ const cancelAppointment = () => {
 
 <style scoped>
 .appointment-confirmation {
-  max-width: 28rem;
+  min-width: 300px;
   margin: 0 auto;
   padding: 1.5rem;
 

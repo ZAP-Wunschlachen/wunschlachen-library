@@ -102,6 +102,7 @@
             </div>
 
             <GenericButton
+              style="min-height: 45px"
               :outlined="false"
               :plain="false"
               :disabled="buttonDisabled"
@@ -287,6 +288,8 @@ const visibleAvailableTimes = computed(() => {
 }
 
 .accordion-container {
+  max-height: 70vh; /* Limit the height to a certain percentage of the viewport */
+  overflow-y: auto; /* Ensure overflow content is scrollable */
   display: flex;
   flex-direction: column;
   padding: 24px;

@@ -165,7 +165,10 @@ const formattedLocation = computed(() => {
 });
 
 const formattedAddress = computed(() => {
-  return item.value.location ? item.value.location.name : "Keine Adresse";
+  console.log("item", item.value);
+  return item.value.location
+    ? `${item.value.location.street} ${item.value.location.street_number} | ${item.value.location.zip_code} ${item.value.location.city}`
+    : "Keine Adresse";
 });
 
 const formattedDate = computed(() => {
