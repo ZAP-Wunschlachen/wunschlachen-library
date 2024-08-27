@@ -17,7 +17,9 @@
                 Der Termin ist gebucht
               </h2>
               <p style="color: var(--success-green-1)" class="p-large">
-                {{ formattedDentist }}
+                {{ item.dentist.gender === "M" ? "Herr" : "Frau" }}
+                | {{ item.dentist.last_name }}
+                {{ item.dentist.gender === "M" ? "Zahnärzt" : "Zahnärztin" }}
               </p>
             </div>
           </div>
@@ -159,15 +161,11 @@ const handleClick = () => {
 };
 
 const formattedLocation = computed(() => {
-  return item.value.location
-    ? item.value.location.location.district
-    : "Kein Standort";
+  return item.value.location ? item.value.location.district : "Kein Standort";
 });
 
 const formattedAddress = computed(() => {
-  return item.value.location
-    ? item.value.location.location.name
-    : "Keine Adresse";
+  return item.value.location ? item.value.location.name : "Keine Adresse";
 });
 
 const formattedDate = computed(() => {
@@ -192,6 +190,7 @@ const formattedDate = computed(() => {
 });
 
 const formattedDentist = computed(() => {
+  console.log("item", item.value);
   return item.value.dentist ? item.value.dentist.name : "Kein Zahnarzt";
 });
 
