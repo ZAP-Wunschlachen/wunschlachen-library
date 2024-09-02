@@ -34,17 +34,18 @@
       <svg
         class="dropdown-icon"
         :class="{ 'rotate-180': isDropdownOpen }"
-        aria-hidden="true"
-        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="17"
+        viewBox="0 0 16 17"
         fill="none"
-        viewBox="0 0 10 6"
+        xmlns="http://www.w3.org/2000/svg"
       >
         <path
-          stroke="var(--dental-blue-1)"
+          d="M13 6L8 11L3 6"
+          stroke="#172774"
+          stroke-width="1.5"
           stroke-linecap="round"
           stroke-linejoin="round"
-          stroke-width="2"
-          d="m1 1 4 4 4-4"
         />
       </svg>
     </button>
