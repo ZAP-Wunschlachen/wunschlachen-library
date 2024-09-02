@@ -12,10 +12,12 @@
             <GenericButton
               v-for="(item, index) in selectedLabel"
               :key="index"
-              class="px-2 mx-1 appointment-button"
+              class="px-2 no-wrap mx-1 appointment-button"
             >
               <template #label>
-                <p class="large">{{ item }}</p>
+                <div class="text-container">
+                  <p class="large">{{ item }}</p>
+                </div>
               </template>
             </GenericButton>
           </div>
@@ -271,10 +273,23 @@ onBeforeUnmount(() => {
   justify-content: center;
   align-items: center;
   gap: 8px;
-  width: auto;
+  width: 100%;
   padding: 4px 8px; /* Provide adequate padding */
 }
 .default-label {
   padding: 3px;
+}
+
+.text-container {
+  width: 100%; /* Ensure it takes the full width of the container */
+  overflow: hidden; /* Hide any overflowing content */
+}
+
+.no-wrap {
+  white-space: nowrap; /* Prevent text from wrapping */
+  overflow: hidden; /* Hide the overflow text */
+  text-overflow: ellipsis; /* Add ellipsis (...) to the end of the text */
+  display: inline-block; /* Ensure it acts as an inline block to respect container width */
+  max-width: 100%; /* Constrain the text to the container width */
 }
 </style>
