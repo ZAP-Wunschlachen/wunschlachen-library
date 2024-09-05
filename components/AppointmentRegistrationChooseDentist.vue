@@ -37,7 +37,10 @@
               <p class="p-large">Nächst mögliche Termine:</p>
               <div class="appointment-dates">
                 <GenericButton
-                  v-for="(date, dateIndex) in dentist.available_times"
+                  v-for="(date, dateIndex) in cappedArray(
+                    dentist.available_times,
+                    6
+                  )"
                   :key="dateIndex"
                   :plain="false"
                   :disabled="appintmentsDisabled"
@@ -89,6 +92,10 @@ const props = defineProps({
 
 const dentistImageUrl = computed(() => (image: any) => {
   return `https://starfish-app-ypxxf.ondigitalocean.app/assets/${image.id}`;
+});
+
+const cappedArray = computed(() => (array: any[], maxItems: number = 5) => {
+  return array.slice(0, maxItems);
 });
 
 enum Gender {
