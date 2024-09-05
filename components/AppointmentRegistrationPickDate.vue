@@ -76,7 +76,7 @@
                       >
                         <template #label>
                           <h3 class="">
-                            {{ button }}
+                            {{ formatDateToTime(button) }}
                           </h3>
                         </template>
                       </GenericButton>
@@ -123,6 +123,13 @@
 <script setup lang="ts">
 import { ref, reactive, computed, type PropType, onMounted } from "vue";
 import type { AvailableTime, Appointment, Dentist } from "../types/types";
+
+const formatDateToTime = (dateString: string) => {
+  return new Date(dateString).toLocaleTimeString("de-DE", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+};
 
 const props = defineProps({
   dentist: {

@@ -121,8 +121,17 @@ const formattedDate = computed(() => {
 
 const formattedHour = computed(() => {
   const date = new Date(props.appointment.date.date);
-  return `um ${props.appointment.date.slots[props.appointment.slotIndex]} Uhr`;
+  return `um ${formatDateToTime(
+    props.appointment.date.slots[props.appointment.slotIndex]
+  )} Uhr`;
 });
+
+const formatDateToTime = (dateString: string) => {
+  return new Date(dateString).toLocaleTimeString("de-DE", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+};
 
 const confirmAppointment = () => {
   buttonDisabled.value = true;
