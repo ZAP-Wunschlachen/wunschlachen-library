@@ -147,16 +147,13 @@ const chooseDentist = (dentistIndex) => {
 
 <style scoped>
 .container {
-  display: inline-block;
-  width: 100%;
-  height: 100%;
-
-  min-width: 100%;
+  display: flex;
+  flex-direction: column; /* Ensure the content flows in a column */
+  min-height: 100vh; /* Ensure the container takes at least the full height of the viewport */
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start; /* Align items from the top */
   gap: 8px;
   background-color: var(--dental-light-blue-3);
-  overflow-y: auto;
 }
 
 .content-wrapper {
@@ -164,7 +161,10 @@ const chooseDentist = (dentistIndex) => {
   flex-direction: column;
   align-items: center;
   gap: 48px;
+  flex-grow: 1; /* Ensure the wrapper takes up available space */
+  padding-bottom: 50px; /* Add this to create space at the bottom */
 }
+
 .title {
   text-align: center;
   color: var(--dental-blue-0);
@@ -181,6 +181,7 @@ const chooseDentist = (dentistIndex) => {
   align-items: center;
   gap: 61px;
   align-self: stretch;
+  width: 100%;
 }
 
 .header {
@@ -194,6 +195,7 @@ const chooseDentist = (dentistIndex) => {
   display: flex;
   flex-direction: column;
   gap: 38px;
+  width: 100%; /* Ensure it takes the full width */
 }
 
 .location-card {
@@ -231,29 +233,24 @@ const chooseDentist = (dentistIndex) => {
 
 .dentist-name {
   color: var(--Dental-Blue-0, #172774);
-  /* Mobile/H3 */
   font-size: 16px;
   font-weight: 700;
-  line-height: 120%; /* 19.2px */
+  line-height: 120%;
 }
 
 .dentist-title {
   color: var(--Dental-Blue-0, #172774);
-
   font-size: 16px;
   font-weight: 300;
-  line-height: 120%; /* 19.2px */
+  line-height: 120%;
 }
 
 .confirm-text {
   color: #fff;
-
   text-align: center;
-  /* Mobile/p/Large */
   font-size: 16px;
-  font-style: normal;
   font-weight: 400;
-  line-height: 120%; /* 19.2px */
+  line-height: 120%;
 }
 
 .appointment-info {
@@ -272,14 +269,9 @@ const chooseDentist = (dentistIndex) => {
   max-width: 100px;
   max-height: 24px;
   border-radius: 8px;
-  padding: px !important;
   background-color: var(--dental-light-blue-0);
   color: var(--dental-blue-0);
-
   display: flex;
-  width: 75px;
-  height: 25px;
-  max-width: 290px;
   justify-content: center;
   align-items: center;
   gap: 8px;
@@ -300,24 +292,8 @@ const chooseDentist = (dentistIndex) => {
 .dentist-image {
   border-radius: 9999px;
   border: 3px solid var(--soft-concrete-1);
-
   width: 70px;
   height: 70px;
-
-  @media (min-width: 768px) and (max-width: 1200px) {
-    width: 70px;
-    height: 70px;
-  }
-
-  @media (min-width: 1200px) and (max-width: 2650px) {
-    width: 70px;
-    height: 70px;
-  }
-
-  @media (max-width: 768px) {
-    width: 55px;
-    height: 55px;
-  }
 }
 
 .button-text {

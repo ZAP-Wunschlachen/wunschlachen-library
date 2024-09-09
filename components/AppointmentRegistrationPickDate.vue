@@ -211,6 +211,7 @@ const visibleAvailableTimes = computed(() => {
   gap: 8px;
   background-color: var(--dental-light-blue-3);
   overflow-y: auto;
+  padding-bottom: 50px;
 }
 
 .title {
@@ -295,12 +296,11 @@ const visibleAvailableTimes = computed(() => {
 }
 
 .accordion-container {
-  max-height: 70vh; /* Limit the height to a certain percentage of the viewport */
-  overflow-y: auto; /* Ensure overflow content is scrollable */
+  max-height: 70vh;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
   padding: 24px;
-
   gap: 24px;
   border-radius: 8px;
   border: 1px solid var(--soft-concrete-1, #dddddf);
