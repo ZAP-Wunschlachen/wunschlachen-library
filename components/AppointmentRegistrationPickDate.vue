@@ -292,6 +292,7 @@ const visibleAvailableTimes = computed(() => {
   flex-direction: column;
   gap: 38px;
   background: white;
+  margin-bottom: 128px;
 }
 
 .accordion-container {

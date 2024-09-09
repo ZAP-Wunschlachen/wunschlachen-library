@@ -131,7 +131,7 @@ const formatFullName = (dentist: Dentist) => {
   return `${dentist.first_name} ${dentist.last_name}`;
 };
 
-const chooseDentist = (dentistIndex) => {
+const chooseDentist = (dentistIndex: number) => {
   buttonDisabled.value = true;
   const selectedDateIndex = selectedButtons.value[dentistIndex];
   const dentist = props.dentistArray[dentistIndex];
@@ -150,7 +150,6 @@ const chooseDentist = (dentistIndex) => {
   display: inline-block;
   width: 100%;
   height: 100%;
-
   min-width: 100%;
   align-items: center;
   justify-content: center;
@@ -165,6 +164,7 @@ const chooseDentist = (dentistIndex) => {
   align-items: center;
   gap: 48px;
 }
+
 .title {
   text-align: center;
   color: var(--dental-blue-0);
@@ -194,6 +194,7 @@ const chooseDentist = (dentistIndex) => {
   display: flex;
   flex-direction: column;
   gap: 38px;
+  margin-bottom: 128px;
 }
 
 .location-card {
