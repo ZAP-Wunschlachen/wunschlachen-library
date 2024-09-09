@@ -119,12 +119,7 @@ const toggleAccordion = () => {
 .icon-rotate {
   transform: rotate(180deg);
   transition: transform 0.5s ease-in-out;
-}
-
-.accordion-body-open {
-  max-height: 1000px;
-}
-
+} 
 .accordion-body-closed {
   max-height: 0;
   overflow: hidden;
