@@ -296,8 +296,6 @@ const visibleAvailableTimes = computed(() => {
 }
 
 .accordion-container {
-  max-height: 70vh;
-  overflow-y: auto;
   display: flex;
   flex-direction: column;
   padding: 24px;
