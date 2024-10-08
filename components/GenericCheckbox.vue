@@ -40,11 +40,14 @@ const props = defineProps({
     default: false,
   },
 });
+// console.log('===============',props.modelValue);
 
-const emit = defineEmits(["update:modelValue", "input-error"]);
+const emit = defineEmits(["update:modelValue", "input-error","set-checkbox"]);
 
 const updateValue = (event) => {
   emit("update:modelValue", event.target.checked);
+  emit("set-checkbox",event.target.checked);
+  // alert();
   emit("input-error", { id: props.checkbox, isError: !event.target.checked });
 };
 

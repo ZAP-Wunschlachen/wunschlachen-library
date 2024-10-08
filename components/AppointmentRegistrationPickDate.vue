@@ -30,63 +30,38 @@
             </p>
 
             <div class="accordion-content">
-              <GenericAccordion
-                v-for="(item, index) in visibleAvailableTimes"
-                :key="index"
-                :is-first="index === 0"
-                :is-last="index === visibleAvailableTimes.length - 1"
-                :is-open="index === activeAccordionIndex"
-                @toggle="handleToggle(index)"
-              >
+              <!-- :is-last="index === visibleAvailableTimes.length - 1" -->
+              <GenericAccordion v-for="(item, index) in availableAppointments" :key="index" :is-first="index === 0"
+                :is-last="index === item.slots.length - 1" :is-open="index === activeAccordionIndex"
+                @toggle="handleToggle(index)">
                 <template #icon>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="25"
-                    viewBox="0 0 24 25"
-                    fill="none"
-                  >
-                    <path
-                      d="M19.5 8.75977L12 16.2598L4.5 8.75977"
-                      stroke="#172774"
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
+                    <path d="M19.5 8.75977L12 16.2598L4.5 8.75977" stroke="#172774" stroke-width="1.5"
+                      stroke-linecap="round" stroke-linejoin="round" />
                   </svg>
                 </template>
                 <template #title>
-                  <h3>{{ item.day }}</h3>
+                  <h3>{{ item.monthDay }}</h3>
                 </template>
                 <template v-if="item.slots.length" #content>
                   <div class="content-container">
                     <div class="grid-container">
-                      <GenericButton
-                        v-for="(button, btnIndex) in getVisibleSlots(item)"
-                        :key="btnIndex"
-                        :outliend="false"
-                        :disabled="appointmentsDisabled"
-                        class="appointment-button"
-                        @click="
+                      <GenericButton v-for="(button, btnIndex) in item.slots" :key="btnIndex" :outliend="false"
+                        :disabled="appointmentsDisabled" class="appointment-button" @click="
                           handleSelectTime({
                             date: item,
                             slotIndex: btnIndex,
                           })
-                        "
-                      >
+                          ">
                         <template #label>
                           <h3 class="">
-                            {{ formatDateToTime(button) }}
+                            {{ button }}
                           </h3>
                         </template>
                       </GenericButton>
                     </div>
-                    <GenericButton
-                      v-if="item.slots.length > visibleSlots[item.day]"
-                      :plain="true"
-                      :disabled="appointmentsDisabled"
-                      @click="loadMoreSlots(item)"
-                    >
+                    <GenericButton v-if="item.slots.length > visibleSlots[item.day]" :plain="true"
+                      :disabled="appointmentsDisabled" @click="loadMoreSlots(item)">
                       <template #label>
                         <h4 class="select-button-text">Mehr</h4>
                       </template>
@@ -101,14 +76,8 @@
               </GenericAccordion>
             </div>
 
-            <GenericButton
-              style="min-height: 45px"
-              :outlined="false"
-              :plain="false"
-              :disabled="buttonDisabled"
-              @click="loadMoreDates"
-              class="select-button"
-            >
+            <GenericButton style="min-height: 45px" :outlined="false" :plain="false" :disabled="buttonDisabled"
+              @click="loadMoreDates" class="select-button">
               <template #label>
                 <p class="p-large">Weitere Termine anzeigen</p>
               </template>
@@ -319,6 +288,7 @@ const visibleAvailableTimes = computed(() => {
 .back-button p {
   margin: 0;
 }
+
 .divider {
   width: 100%;
   height: 1.5px;
@@ -370,6 +340,7 @@ const visibleAvailableTimes = computed(() => {
 .h4-with-space::before {
   content: "";
   display: inline-block;
-  width: 5px; /* Adjust the width to the desired spacing */
+  width: 5px;
+  /* Adjust the width to the desired spacing */
 }
 </style>

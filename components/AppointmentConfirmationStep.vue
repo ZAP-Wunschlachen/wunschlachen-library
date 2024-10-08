@@ -49,25 +49,17 @@
       </div>
 
       <div class="action-buttons" style="gap: 32px">
-        <GenericButton
-          :outlined="false"
-          :plain="false"
-          :disabled="buttonDisabled"
-          @click="confirmAppointment"
-          class="select-button"
-        >
+        <GenericButton 
+        :outlined="false" 
+        :plain="false" :disabled="buttonDisabled" @click="confirmAppointment"
+          class="select-button">
           <template #label>
             <p class="p-large">Bestätigen</p>
           </template>
         </GenericButton>
 
-        <GenericButton
-          :outlined="true"
-          :plain="true"
-          :disabled="false"
-          @click="cancelAppointment"
-          class="select-button"
-        >
+        <GenericButton :outlined="true" :plain="true" :disabled="false" @click="cancelAppointment"
+          class="select-button">
           <template #label>
             <p class="p-large">Abbrechen</p>
           </template>
@@ -96,13 +88,21 @@ const props = defineProps({
     type: Object as PropType<any>,
     required: true,
   },
+  dentist: {
+    type: Object as PropType<any>,
+    required: true,
+  },
 });
+// console.log("appointment dentist: ", );
 const buttonDisabled = ref(false);
 
 const emit = defineEmits(["confirm", "cancel"]);
 
 const formattedDentist = computed(() => {
-  return `Dr. ${props.appointment.date.dentist.first_name} ${props.appointment.date.dentist.last_name}`;
+  const dentist=props.dentist;
+  return `Dr. ${dentist.first_name} ${props.dentist.last_name}`;
+
+  // return `Dr. `;
 });
 
 const formattedPatient = computed(() => {
@@ -120,10 +120,12 @@ const formattedDate = computed(() => {
 });
 
 const formattedHour = computed(() => {
-  const date = new Date(props.appointment.date.date);
-  return `um ${formatDateToTime(
-    props.appointment.date.slots[props.appointment.slotIndex]
-  )} Uhr`;
+  const time = props.appointment.date.slots[props.appointment.slotIndex];
+  return `um ${time} Uhr`;
+  // const date = new Date(props.appointment.date.date);
+  // return `um ${formatDateToTime(
+  //   props.appointment.date.slots[props.appointment.slotIndex]
+  // )} Uhr`;
 });
 
 const formatDateToTime = (dateString: string) => {
