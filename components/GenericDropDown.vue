@@ -1,19 +1,12 @@
 <template>
   <div class="dropdown" :style="{ width: dropdownWidth }" ref="dropdown">
-    <button
-      @click="toggleDropdown"
-      id="dropdownDefaultButton"
-      :class="buttonClasses"
-      type="button"
-    >
+    <slot name="label"></slot>
+    <button @click="toggleDropdown" id="dropdownDefaultButton" :class="buttonClasses" type="button">
       <div class="mr-auto">
         <template v-if="props.multiple && selectedLabel.length > 0">
           <div class="grid grid-cols-3 gap-2">
-            <GenericButton
-              v-for="(item, index) in selectedLabel"
-              :key="index"
-              class="px-2 no-wrap mx-1 appointment-button"
-            >
+            <GenericButton v-for="(item, index) in selectedLabel" :key="index"
+              class="px-2 no-wrap mx-1 appointment-button">
               <template #label>
                 <div class="text-container">
                   <p class="large">{{ item }}</p>
@@ -22,31 +15,15 @@
             </GenericButton>
           </div>
         </template>
-        <span
-          class="default-label"
-          v-else-if="!props.multiple && selectedLabel.length > 0"
-        >
+        <span class="default-label" v-else-if="!props.multiple && selectedLabel.length > 0">
           {{ selectedLabel[0] }}
         </span>
         <span class="default-label" v-else>{{ defaultLabel }}</span>
       </div>
 
-      <svg
-        class="dropdown-icon"
-        :class="{ 'rotate-180': isDropdownOpen }"
-        width="16"
-        height="17"
-        viewBox="0 0 16 17"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M13 6L8 11L3 6"
-          stroke="#172774"
-          stroke-width="1.5"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        />
+      <svg class="dropdown-icon" :class="{ 'rotate-180': isDropdownOpen }" width="16" height="17" viewBox="0 0 16 17"
+        fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M13 6L8 11L3 6" stroke="#172774" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
       </svg>
     </button>
 
@@ -54,12 +31,8 @@
     <div v-if="isDropdownOpen" class="dropdown-menu">
       <ul class="dropdown-list" aria-labelledby="dropdownDefaultButton">
         <li v-for="item in items" :key="item.value">
-          <a
-            href="#"
-            @click.prevent="selectItem(item)"
-            :class="{ 'dropdown-item-selected': isSelected(item) }"
-            class="dropdown-item"
-          >
+          <a href="#" @click.prevent="selectItem(item)" :class="{ 'dropdown-item-selected': isSelected(item) }"
+            class="dropdown-item">
             {{ item.label }}
           </a>
         </li>
@@ -85,6 +58,10 @@ const props = defineProps({
   width: {
     type: String,
     default: "auto",
+  },
+  label: {
+    type: String,
+    default: '',
   },
   multiple: {
     type: Boolean,
@@ -224,7 +201,8 @@ onBeforeUnmount(() => {
   height: 1rem;
   margin-left: 0.75rem;
   transition: transform 0.3s ease;
-  flex-shrink: 0; /* Prevent shrinking */
+  flex-shrink: 0;
+  /* Prevent shrinking */
 }
 
 .rotate-180 {
@@ -275,22 +253,31 @@ onBeforeUnmount(() => {
   align-items: center;
   gap: 8px;
   width: 100%;
-  padding: 4px 8px; /* Provide adequate padding */
+  padding: 4px 8px;
+  /* Provide adequate padding */
 }
+
 .default-label {
   padding: 3px;
 }
 
 .text-container {
-  width: 100%; /* Ensure it takes the full width of the container */
-  overflow: hidden; /* Hide any overflowing content */
+  width: 100%;
+  /* Ensure it takes the full width of the container */
+  overflow: hidden;
+  /* Hide any overflowing content */
 }
 
 .no-wrap {
-  white-space: nowrap; /* Prevent text from wrapping */
-  overflow: hidden; /* Hide the overflow text */
-  text-overflow: ellipsis; /* Add ellipsis (...) to the end of the text */
-  display: inline-block; /* Ensure it acts as an inline block to respect container width */
-  max-width: 100%; /* Constrain the text to the container width */
+  white-space: nowrap;
+  /* Prevent text from wrapping */
+  overflow: hidden;
+  /* Hide the overflow text */
+  text-overflow: ellipsis;
+  /* Add ellipsis (...) to the end of the text */
+  display: inline-block;
+  /* Ensure it acts as an inline block to respect container width */
+  max-width: 100%;
+  /* Constrain the text to the container width */
 }
 </style>

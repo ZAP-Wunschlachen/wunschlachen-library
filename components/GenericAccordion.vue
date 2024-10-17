@@ -85,7 +85,7 @@ const toggleAccordion = () => {
 
 .accordion-container {
   border-top: 2px solid var(--dental-blue-0);
-  border-bottom: 2px solid var(--dental-blue-0);
+  border-bottom: 2px solid var(--dental-blue-0) !important;
   border-left: 0;
   border-right: 0;
   border-radius: 0.125rem; /* rounded-sm */

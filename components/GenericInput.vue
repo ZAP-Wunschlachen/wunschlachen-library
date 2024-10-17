@@ -1,55 +1,39 @@
 <template>
   <div>
-    <label
-      v-if="label"
-      :for="id"
-      :class="[
-        'label',
-        success ? 'label-success' : '',
-        error ? 'label-error' : '',
-        warning ? 'label-warning' : '',
-        isDisabled ? 'label-disabled' : '',
-      ]"
-    >
+    <label v-if="label" :for="id" :class="[
+      'label',
+      success ? 'label-success' : '',
+      error ? 'label-error' : '',
+      warning ? 'label-warning' : '',
+      isDisabled ? 'label-disabled' : '',
+    ]">
       {{ label }}
     </label>
     <div class="input-container">
       <div v-if="prependIcon" class="input-icon left">
         <slot name="prependIcon"></slot>
       </div>
-      <input
-        :type="type"
-        :id="id"
-        :aria-label="ariaLabel"
-        :placeholder="placeholder"
-        :value="modelValue"
-        @input="updateValue"
-        @blur="checkEmpty"
-        :class="[
+      <input :type="type" :id="id" :aria-label="ariaLabel" :placeholder="placeholder" :value="modelValue"
+        @input="updateValue" @blur="checkEmpty" :class="[
           'input',
           isDisabled ? 'input-disabled' : '',
           warning ? 'input-warning' : '',
           success ? 'input-success' : '',
           error ? 'input-error' : '',
           paddingClass,
-        ]"
-        :disabled="isDisabled"
-      />
+        ]" :disabled="isDisabled" />
       <div v-if="appendIcon" class="input-icon right">
         <slot name="appendIcon"></slot>
       </div>
     </div>
     <div class="message-container">
-      <p
-        v-if="message"
-        :class="[
-          'message',
-          success ? 'text-success' : '',
-          error ? 'text-error' : '',
-          warning ? 'text-warning' : '',
-          isDisabled ? 'text-disabled' : '',
-        ]"
-      >
+      <p v-if="message" :class="[
+        'message',
+        success ? 'text-success' : '',
+        error ? 'text-error' : '',
+        warning ? 'text-warning' : '',
+        isDisabled ? 'text-disabled' : '',
+      ]">
         <span class="font-medium">{{
           success ? "" : error ? "" : warning ? "" : ""
         }}</span>
@@ -135,8 +119,9 @@ const updateValue = (event) => {
   emit("input-error", { id: props.id, isError: !inputValue.value.trim() });
 };
 
-const checkEmpty = () => {
+const checkEmpty = (event) => {
   isTouched.value = true;
+  emit('input-blured', event);
   emit("input-error", { id: props.id, isError: !inputValue.value.trim() });
 };
 </script>
@@ -214,30 +199,35 @@ const checkEmpty = () => {
 .input-warning {
   box-shadow: 0 0 0 2px var(--warning-0);
   color: var(--warm-light-3);
-  background-color: #fffae5; /* Equivalent to bg-yellow-50 */
+  background-color: #fffae5;
+  /* Equivalent to bg-yellow-50 */
 }
 
 .input-success {
   box-shadow: 0 0 0 2px var(--success-green-0);
   color: var(--success-green-1);
-  background-color: #e6ffed; /* Equivalent to bg-green-50 */
+  background-color: #e6ffed;
+  /* Equivalent to bg-green-50 */
 }
 
 .input-success:focus {
   box-shadow: 0 0 0 2px var(--success-green-0);
   color: var(--success-green-1);
-  background-color: #e6ffed; /* Equivalent to bg-green-50 */
+  background-color: #e6ffed;
+  /* Equivalent to bg-green-50 */
 }
 
 .input-error {
   box-shadow: 0 0 0 2px var(--error-red-0);
-  background-color: #ffe5e5; /* Equivalent to bg-red-50 */
+  background-color: #ffe5e5;
+  /* Equivalent to bg-red-50 */
   color: var(--error-red-0);
 }
 
 .input-error:focus {
   box-shadow: 0 0 0 2px var(--error-red-0);
-  background-color: #ffe5e5; /* Equivalent to bg-red-50 */
+  background-color: #ffe5e5;
+  /* Equivalent to bg-red-50 */
   color: var(--error-red-0);
 }
 
