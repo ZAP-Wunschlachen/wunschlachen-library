@@ -305,6 +305,7 @@ const visibleAvailableTimes = computed(() => {
   grid-template-columns: repeat(3, 1fr);
   gap: 10px;
   overflow-y: auto;
+  max-height: 240px;
 }
 
 .appointment-button {
