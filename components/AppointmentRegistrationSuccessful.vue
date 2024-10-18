@@ -172,7 +172,7 @@ const formattedAddress = computed(() => {
 });
 
 const formattedDate = computed(() => {
-  const date = item.value.appointment.start_date_time;
+  const date = new Date(item.value.appointment.start_date_time);
 
   const optionsDate: Intl.DateTimeFormatOptions = {
     weekday: "long",
