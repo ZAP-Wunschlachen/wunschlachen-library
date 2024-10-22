@@ -79,9 +79,12 @@
 </template>
 
 <script setup lang="ts">
+
 import { computed, PropType, watch } from "vue";
 import { ref, defineEmits } from "vue";
 import { Dentist } from "../types/types";
+const directusUrl = useDirectusUrl();
+
 
 const props = defineProps({
   dentistArray: {
@@ -91,7 +94,7 @@ const props = defineProps({
 });
 
 const dentistImageUrl = computed(() => (image: any) => {
-  return `https://starfish-app-ypxxf.ondigitalocean.app/assets/${image.id}`;
+  return `${directusUrl}/assets/${image.id}`;
 });
 
 const cappedArray = computed(() => (array: any[], maxItems: number = 5) => {
