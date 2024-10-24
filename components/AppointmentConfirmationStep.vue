@@ -36,6 +36,8 @@
         <div class="information-container">
           <h3>Patient</h3>
           <p class="p-large">{{ formattedPatient }}</p>
+          <GenericInput placeholder="Email" v-model="patient.email" />
+          <GenericInput placeholder="Telefon" v-model="patient.telephone" />
         </div>
       </div>
 
@@ -49,9 +51,7 @@
       </div>
 
       <div class="action-buttons" style="gap: 32px">
-        <GenericButton 
-        :outlined="false" 
-        :plain="false" :disabled="buttonDisabled" @click="confirmAppointment"
+        <GenericButton :outlined="false" :plain="false" :disabled="buttonDisabled" @click="confirmAppointment"
           class="select-button">
           <template #label>
             <p class="p-large">Bestätigen</p>
@@ -72,6 +72,7 @@
 <script setup lang="ts">
 import { computed, PropType } from "vue";
 import { AvailableTime, TreatmentTemplate } from "../types/types";
+import GenericInput from "./GenericInput.vue";
 
 type SelectedAppointment = {
   date: AvailableTime;
@@ -99,10 +100,8 @@ const buttonDisabled = ref(false);
 const emit = defineEmits(["confirm", "cancel"]);
 
 const formattedDentist = computed(() => {
-  const dentist=props.dentist;
-  return `Dr. ${dentist.first_name} ${props.dentist.last_name}`;
-
-  // return `Dr. `;
+  const dentist = props.dentist;
+  return `${dentist.first_name} ${props.dentist.last_name}`;
 });
 
 const formattedPatient = computed(() => {

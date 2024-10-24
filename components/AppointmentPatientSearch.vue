@@ -5,16 +5,8 @@
     </div>
     <h2 class="title">Patientenauswahl</h2>
     <div class="flex items-center rounded-lg">
-      <GenericInput
-        class="w-full"
-        id="name"
-        placeholder="Patientenname..."
-        v-model="inputRef"
-        :success="nameState === 'success'"
-        :error="nameState === 'error'"
-        @input="updateName"
-        :message="nameMessage"
-      />
+      <GenericInput class="w-full" id="name" placeholder="Patientenname..." v-model="inputRef"
+        :success="nameState === 'success'" :error="nameState === 'error'" :message="nameMessage" />
       <!-- <input
         v-model="inputRef"
         type="text"
@@ -26,17 +18,10 @@
       </button> -->
     </div>
 
-    <div
-      v-if="patients.length > 0"
-      class="bg-white shadow-lg rounded-lg mt-2 w-full max-h-60 overflow-auto z-10"
-    >
+    <div v-if="patients.length > 0" class="bg-white shadow-lg rounded-lg mt-2 w-full max-h-60 overflow-auto z-10">
       <ul>
-        <li
-          v-for="patient in patients"
-          :key="patient.id"
-          @click="selectPatient(patient)"
-          class="px-4 py-2 hover:bg-gray-200 cursor-pointer"
-        >
+        <li v-for="patient in patients" :key="patient.id" @click="selectPatient(patient)"
+          class="px-4 py-2 hover:bg-gray-200 cursor-pointer">
           {{ getFullName(patient) }}
         </li>
       </ul>
@@ -45,13 +30,8 @@
       <p style="text-align: center; margin-bottom: 8px; color: #172774">
         Neuer Patient?
       </p>
-      <GenericButton
-        :outlined="false"
-        :plain="false"
-        :disabled="false"
-        label="Neuer Patient"
-        @click="handleCreateNewPatient"
-      >
+      <GenericButton :outlined="false" :plain="false" :disabled="false" label="Neuer Patient"
+        @click="handleCreateNewPatient">
         <template #label>
           <p class="choose-text">Patient Erstellen</p>
         </template>

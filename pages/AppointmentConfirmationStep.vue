@@ -102,7 +102,7 @@ const buttonDisabled = ref(false);
 const emit = defineEmits(["confirm", "cancel"]);
 
 const formattedDentist = computed(() => {
-  return `Dr. ${props.appointment.date.dentist.first_name} ${props.appointment.date.dentist.last_name}`;
+  return `${props.appointment.date.dentist.first_name} ${props.appointment.date.dentist.last_name}`;
 });
 
 const formattedPatient = computed(() => {

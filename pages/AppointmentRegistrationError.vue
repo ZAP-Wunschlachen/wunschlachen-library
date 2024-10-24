@@ -58,7 +58,7 @@ const appointment = ref<Appointment>({
     address: "Gotthardstr. 29",
   },
   dentist: {
-    name: "Dr. Werner",
+    name: "",
   },
 });
 </script>
