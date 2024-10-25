@@ -22,7 +22,6 @@
       </div>
       <!-- ENDS -->
       <div v-if="treatments.length">
-
         <!-- Treatments Table Starts -->
         <div class="header mb-5" style="color: var(--dental-blue-0)">
           <h2 style="font-weight: bold; font-size: 25px">

@@ -42,7 +42,7 @@
     </template>
     <template #favicon>
       <div class="image-back custom-width" :style="{
-        backgroundImage: `url(${directusUrl}/assets/91b7accc-ebb9-4b7c-bf3b-69aad9de5b20)`
+        backgroundImage: `url(${directusUrl}/assets/240725_WUNSCHLACHEN_DENTISTS_PROFILIMAGE_MARTIN_PAETZ.png)`
       }"></div>
     </template>
   </AppointmentRegistrationError>
