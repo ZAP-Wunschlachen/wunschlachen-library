@@ -24,10 +24,9 @@ const formData = ref({
   'first_name': '',
   'last_name': '',
   'birthday': '',
-  'patient_number': ''
+  'patient_number': '',
+  'insurance_status': ''
 });
-
-
 
 const handleSubmit = (patientData: any) => {
   emit("submit", patientData);
