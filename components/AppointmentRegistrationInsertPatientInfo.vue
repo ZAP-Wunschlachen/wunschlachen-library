@@ -23,7 +23,7 @@ const emit = defineEmits('submit');
 const formData = ref({
   'first_name': '',
   'last_name': '',
-  'birthday': '',
+  'birthday': null,
   'patient_number': '',
   'insurance_status': ''
 });
