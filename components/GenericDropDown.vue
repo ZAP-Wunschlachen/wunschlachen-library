@@ -280,4 +280,7 @@ onBeforeUnmount(() => {
   max-width: 100%;
   /* Constrain the text to the container width */
 }
+p.large{
+  font-size: 14px;
+}
 </style>
