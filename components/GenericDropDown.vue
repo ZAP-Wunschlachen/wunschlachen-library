@@ -1,5 +1,5 @@
 <template>
-  <div class="dropdown" :style="{ width: dropdownWidth }" ref="dropdown">
+  <div class="dropdown" style="width: 100%" ref="dropdown">
     <slot name="label"></slot>
     <button @click="toggleDropdown" id="dropdownDefaultButton" :class="buttonClasses" type="button">
       <div class="mr-auto">
