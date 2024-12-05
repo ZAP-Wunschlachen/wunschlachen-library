@@ -30,50 +30,57 @@
             </p>
 
             <div class="accordion-content">
-              <!-- :is-last="index === visibleAvailableTimes.length - 1" -->
-              <GenericAccordion v-for="(item, index) in availableAppointments" :key="index" :is-first="index === 0"
-                :is-last="index === item.slots.length - 1" :is-open="index === activeAccordionIndex"
-                @toggle="handleToggle(index)">
-                <template #icon>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
-                    <path d="M19.5 8.75977L12 16.2598L4.5 8.75977" stroke="#172774" stroke-width="1.5"
-                      stroke-linecap="round" stroke-linejoin="round" />
-                  </svg>
-                </template>
-                <template #title>
-                  <h3>{{ item.monthDay }}</h3>
-                </template>
-                <template v-if="item.slots.length" #content>
-                  <div class="content-container">
-                    <div class="grid-container">
-                      <GenericButton v-for="(button, btnIndex) in item.slots" :key="btnIndex" :outliend="false"
-                        :disabled="appointmentsDisabled" class="appointment-button" @click="
-                          handleSelectTime({
-                            date: item,
-                            slotIndex: btnIndex,
-                          })
-                          ">
+              <div v-for="(items, key) in availableAppointments" :key="key">
+                <GenericAccordion v-for="(item, index) in items" :key="index" :is-first="index"
+                  @toggle="handleToggle(index)"
+                  :is-open="index === activeAccordionIndex"
+                  >
+                  <template #icon>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
+                      <path d="M19.5 8.75977L12 16.2598L4.5 8.75977" stroke="#172774" stroke-width="1.5"
+                        stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                  </template>
+                  <template #title>
+                    <h3>{{ stringToDate(index).format_date }}</h3>
+                  </template>
+
+                  <template v-if="item.length" #content>
+                    <div class="content-container">
+                      <div class="grid-container">
+                        <GenericButton v-for="(button, btnIndex) in item" 
+                        :key="btnIndex" :outliend="false"
+                          :disabled="appointmentsDisabled" 
+                          class="appointment-button" 
+                          @click="
+                            handleSelectTime({
+                              date: stringToDate(index).date,
+                              slotIndex: button,
+                            })
+                            ">
+                          <template #label>
+                            <h3 class="">
+                              {{ button.slot }}
+                            </h3>
+                          </template>
+                        </GenericButton>
+                      </div>
+
+                      <GenericButton v-if="item.length > visibleSlots[item.day]" :plain="true"
+                        :disabled="appointmentsDisabled" @click="loadMoreSlots(item)">
                         <template #label>
-                          <h3 class="">
-                            {{ button }}
-                          </h3>
+                          <h4 class="select-button-text">Mehr</h4>
                         </template>
                       </GenericButton>
                     </div>
-                    <GenericButton v-if="item.slots.length > visibleSlots[item.day]" :plain="true"
-                      :disabled="appointmentsDisabled" @click="loadMoreSlots(item)">
-                      <template #label>
-                        <h4 class="select-button-text">Mehr</h4>
-                      </template>
-                    </GenericButton>
-                  </div>
-                </template>
-                <template v-else #content>
-                  <div class="content-container">
-                    <p>Keine weiteren Termine an diesem Tag verfügbar.</p>
-                  </div>
-                </template>
-              </GenericAccordion>
+                  </template>
+                  <template v-else #content>
+                    <div class="content-container">
+                      <p>Keine weiteren Termine an diesem Tag verfügbar.</p>
+                    </div>
+                  </template>
+                </GenericAccordion>
+              </div>
             </div>
 
             <GenericButton style="min-height: 45px" :outlined="false" :plain="false" :disabled="buttonDisabled"
@@ -112,15 +119,6 @@ const props = defineProps({
   availableAppointments: Array as PropType<Appointment[]>,
 });
 
-onMounted(() => {
-  if (props.selected_date) {
-    const foundIndex = props.dentist.available_times.findIndex(
-      (item: AvailableTime) => item.day === props.selected_date.day
-    );
-    activeAccordionIndex.value = foundIndex;
-  }
-});
-
 const emit = defineEmits(["go-back", "select-time", "load-more-data"]);
 
 const buttonDisabled = ref(false);
@@ -132,7 +130,7 @@ const initialVisibleDatesCount = 9; // Initial number of visible dates
 
 const handleToggle = (index: number) => {
   activeAccordionIndex.value =
-    activeAccordionIndex.value === index ? null : index;
+  activeAccordionIndex.value === index ? null : index;
 };
 
 const handleSelectTime = (data: { date: AvailableTime; slotIndex: number }) => {

@@ -20,7 +20,6 @@
           <p class="p-large">{{ formattedHour }}</p>
         </div>
       </div>
-
       <div class="titles-container">
         <slot name="tooth-icon"></slot>
 
@@ -40,10 +39,8 @@
           <GenericInput placeholder="Telefon" v-model="patient.telephone" />
         </div>
       </div>
-
       <div class="titles-container">
         <slot name="schedule-icon"></slot>
-
         <div class="information-container">
           <h3>Terminart</h3>
           <p class="p-large">{{ appointment.treatment.name }}</p>
@@ -109,7 +106,7 @@ const formattedPatient = computed(() => {
 });
 
 const formattedDate = computed(() => {
-  const date = new Date(props.appointment.date.date);
+  const date = new Date(props.appointment.date);
   return `${date.toLocaleDateString("de-DE", {
     weekday: "long",
     year: "numeric",
@@ -119,12 +116,11 @@ const formattedDate = computed(() => {
 });
 
 const formattedHour = computed(() => {
-  const time = props.appointment.date.slots[props.appointment.slotIndex];
+  const slot=props.appointment;
+  // console.log('==props.appointment.date',props.appointment.date);
+
+  const time = slot.slotIndex.slot;
   return `um ${time} Uhr`;
-  // const date = new Date(props.appointment.date.date);
-  // return `um ${formatDateToTime(
-  //   props.appointment.date.slots[props.appointment.slotIndex]
-  // )} Uhr`;
 });
 
 const formatDateToTime = (dateString: string) => {

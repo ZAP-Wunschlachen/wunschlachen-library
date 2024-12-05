@@ -31,13 +31,11 @@
 
         <div class="button-container">
           <div class="button-wrapper">
-            
             <GenericButton v-for="(item, index) in treatments" :key="index" :outlined="true" :disabled="buttonsDisabled"
-              :plain="true" class="generic-button"
-              :class="{ 'pre-selected':item.id==treatmentId }" 
+              :plain="true" class="generic-button" :class="{ pre_selected: item.id === treatmentId }"
               @click="handleSelect(item)">
-              
-              <template  #label>{{ `${item.treatment_template.name} | ${item.duration} min` }}</template>
+
+              <template #label>{{ `${item.treatment_template.name} | ${item.duration} min` }}</template>
             </GenericButton>
           </div>
         </div>
@@ -79,10 +77,11 @@ const handleSelect = (item: TreatmentTemplate) => {
 </script>
 
 <style scoped>
-.pre-selected {
+.pre_selected {
   background-color: #172774;
   color: white;
 }
+
 .appointment-selector {
   display: flex;
   width: 100%;
