@@ -134,7 +134,7 @@ const handleToggle = (index: number) => {
 };
 
 const handleSelectTime = (data: { date: AvailableTime; slotIndex: number }) => {
-  appointmentsDisabled.value = true;
+  // appointmentsDisabled.value = true;
   emit("select-time", data);
 };
 
