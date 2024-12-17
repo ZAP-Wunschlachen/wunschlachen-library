@@ -30,11 +30,18 @@
             </p>
 
             <div class="accordion-content">
+
+              <div v-if="errorInBegining(availableAppointments)" class="">
+
+                <CalendarWarningLatestInMessage
+                  message="Bitte wählen Sie den nächstmöglichen verfügbaren Termin. Ihre Behandlung ist wichtig und sollte zeitnah stattfinden, um optimale Ergebnisse zu gewährleisten." />
+              </div>
               <div v-for="(items, key) in availableAppointments" :key="key">
+                <!-- in the begining -->
+
+
                 <GenericAccordion v-for="(item, index) in items" :key="index" :is-first="index"
-                  @toggle="handleToggle(index)"
-                  :is-open="index === activeAccordionIndex"
-                  >
+                  @toggle="handleToggle(index)" :is-open="index === activeAccordionIndex">
                   <template #icon>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
                       <path d="M19.5 8.75977L12 16.2598L4.5 8.75977" stroke="#172774" stroke-width="1.5"
@@ -48,11 +55,8 @@
                   <template v-if="item.length" #content>
                     <div class="content-container">
                       <div class="grid-container">
-                        <GenericButton v-for="(button, btnIndex) in item" 
-                        :key="btnIndex" :outliend="false"
-                          :disabled="appointmentsDisabled" 
-                          class="appointment-button" 
-                          @click="
+                        <GenericButton v-for="(button, btnIndex) in item" :key="btnIndex" :outliend="false"
+                          :disabled="appointmentsDisabled" class="appointment-button" @click="
                             handleSelectTime({
                               date: stringToDate(index).date,
                               slotIndex: button,
@@ -80,6 +84,12 @@
                     </div>
                   </template>
                 </GenericAccordion>
+
+                <!-- displayin the end -->
+                <div v-if="getDateIndex(items)" class="">
+                  <CalendarWarningLatestInMessage
+                    message="Die bis hier angezeigten Termine liegen im empfohlenen Zeitraum Ihres Zahnarztes für die beste Behandlung. Bitte beachten Sie, dass spätere Termine außerhalb dieser Empfehlung liegen können." />
+                </div>
               </div>
             </div>
 
@@ -97,7 +107,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, computed, type PropType, onMounted } from "vue";
+import { ref, reactive, computed, type PropType, onMounted, onUnmounted } from "vue";
 import type { AvailableTime, Appointment, Dentist } from "../types/types";
 
 const formatDateToTime = (dateString: string) => {
@@ -116,8 +126,13 @@ const props = defineProps({
     type: Object as PropType<AvailableTime>,
     required: false,
   },
+  latestIn: {
+    type: Object as PropType<AvailableTime>,
+    required: false,
+  },
   availableAppointments: Array as PropType<Appointment[]>,
 });
+// console.log('===props', props);
 
 const emit = defineEmits(["go-back", "select-time", "load-more-data"]);
 
@@ -130,7 +145,7 @@ const initialVisibleDatesCount = 9; // Initial number of visible dates
 
 const handleToggle = (index: number) => {
   activeAccordionIndex.value =
-  activeAccordionIndex.value === index ? null : index;
+    activeAccordionIndex.value === index ? null : index;
 };
 
 const handleSelectTime = (data: { date: AvailableTime; slotIndex: number }) => {
@@ -161,6 +176,36 @@ const loadMoreDates = () => {
   emit("load-more-data");
   //visibleDatesCount.value += initialVisibleDatesCount;
 };
+let warningCheck: any = null;
+let checkedInBegining = false;
+
+const getDateIndex = (items: Object) => {
+  if (!props.latestIn || checkedInBegining) return;
+
+  const dynamicDate = stringToDate(Object.keys(items)[0]).date;
+  const res = (dynamicDate >= props.latestIn && !warningCheck);
+
+  if (res) {
+    warningCheck = dynamicDate;
+  }
+
+  if (warningCheck === dynamicDate) {
+    return true;
+  }
+  return res;
+}
+
+const errorInBegining = (items: Object) => {
+  if (!props.latestIn) return;
+
+  const dynamicDate = stringToDate(Object.keys(items[0])[0]).date;
+  const res = (dynamicDate > props.latestIn && !warningCheck);
+  if (res) {
+    checkedInBegining = true;
+  }
+  return res;
+}
+
 
 const visibleAvailableTimes = computed(() => {
   return props.dentist.available_times;
