@@ -4,7 +4,7 @@
       <slot name="logo"></slot>
     </div>
     <h2 class="title">Patientenauswahl</h2>
-    <div class="flex items-center rounded-lg">
+    <div class="flex items-center rounded-lg select-patient-section">
       <GenericInput class="w-full" id="name" placeholder="Patientenname..." v-model="inputRef"
         :success="nameState === 'success'" :error="nameState === 'error'" :message="nameMessage" />
       <!-- <input
@@ -19,7 +19,7 @@
     </div>
 
     <div v-if="patients.length > 0" class="bg-white shadow-lg rounded-lg mt-2 w-full max-h-60 overflow-auto z-10">
-      <ul>
+      <ul class="patient-search-list">
         <li v-for="patient in patients" :key="patient.id" @click="selectPatient(patient)"
           class="px-4 py-2 hover:bg-gray-200 cursor-pointer">
           {{ getFullName(patient) }}
