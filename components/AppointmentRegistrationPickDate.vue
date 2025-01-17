@@ -41,8 +41,8 @@
                   @toggle="handleToggle(index)" :is-open="index === activeAccordionIndex">
                   <template #icon>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
-                      <path d="M19.5 8.75977L12 16.2598L4.5 8.75977" :stroke="siteColors['font_color_code']"  stroke-width="1.5"
-                        stroke-linecap="round" stroke-linejoin="round" />
+                      <path d="M19.5 8.75977L12 16.2598L4.5 8.75977" :stroke="siteColors['font_color_code']"
+                        stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
                   </template>
                   <template #title>
@@ -51,23 +51,17 @@
                   <template v-if="item.length" #content>
                     <div class="content-container">
                       <div class="grid-container pr-2">
-                        <GenericButton v-for="(button, btnIndex) in item" :key="btnIndex" :outliend="false"
-                          :disabled="appointmentsDisabled" 
-                          :class="[
-                            'w-[90px] py-2 my-1  text-[var(--ental-Blue-0)]',
-                            siteColors['slot-bg'],
-                          ]" @click="
-                            handleSelectTime({
-                              date: stringToDate(index).date,
-                              slotIndex: button,
-                            })
-                            ">
-                          <template #label>
-                            <h3 class="font-normal" :class="siteColors['slot-text']">
-                              {{ button.slot }}
-                            </h3>
-                          </template>
-                        </GenericButton>
+                        <button v-for="(button, btnIndex) in item" :key="btnIndex" @click="
+                          handleSelectTime({
+                            date: stringToDate(index).date,
+                            slotIndex: button,
+                          })
+                          " :class="[
+                              'py-1 text-lg w-full mb-1 rounded-md hover:opacity-80  text-[var(--ental-Blue-0)]',
+                              siteColors['slot-bg'],
+                            ]">
+                          {{ button.slot }}
+                        </button>
                       </div>
 
                       <GenericButton v-if="item.length > visibleSlots[item.day]" :plain="true"
@@ -94,12 +88,12 @@
             </div>
 
             <div class="pt-6">
-              <GenericButton  :default="true" :disabled="buttonDisabled"
-              @click="loadMoreDates" class="py-2 select-button">
-              <template #label>
-                <p class="text-white text-[16px]">Weitere Termine anzeigen</p>
-              </template>
-            </GenericButton>
+              <GenericButton :default="true" :disabled="buttonDisabled" @click="loadMoreDates"
+                class="py-2 select-button">
+                <template #label>
+                  <p class="text-white text-[16px]">Weitere Termine anzeigen</p>
+                </template>
+              </GenericButton>
             </div>
           </div>
         </div>
