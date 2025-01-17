@@ -5,11 +5,11 @@
       { 'border-t-none': !isFirst, 'border-b-none': isLast },
     ]"
   >
-    <div class="accordion-container">
-      <div>
+    <div class="accordion-container border-b-2" :class="siteColors['border-color']">
+      <div >
         <button
           type="button"
-          class="accordion-button"
+          class="flex w-full justify-between py-6"
           @click="toggleAccordion"
           :aria-expanded="isOpenInternal"
           aria-controls="accordion-body"
@@ -75,21 +75,21 @@ const toggleAccordion = () => {
   border-right: none;
 }
 
-.border-t-none .accordion-container {
+/* .border-t-none .accordion-container {
   border-top: none;
-}
+} */
 
-.border-b-none .accordion-container {
+/* .border-b-none .accordion-container {
   border-bottom: none;
-}
+} */
 
-.accordion-container {
+/* .accordion-container {
   border-top: 2px solid var(--dental-blue-0);
   border-bottom: 2px solid var(--dental-blue-0) !important;
   border-left: 0;
   border-right: 0;
-  border-radius: 0.125rem; /* rounded-sm */
-}
+  border-radius: 0.125rem; 
+} */
 
 .accordion-button {
   display: flex;

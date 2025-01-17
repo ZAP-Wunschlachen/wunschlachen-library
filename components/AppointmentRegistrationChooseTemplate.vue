@@ -5,25 +5,27 @@
       <div class="logo">
         <slot name="logo"></slot>
       </div>
-      <div class="header" style="color: var(--dental-blue-0)">
+      <div class="header">
         <h2 style="font-weight: bold; font-size: 25px">
           Wählen Sie die Terminart
         </h2>
         <span>Bestimmte Termine sind nur für bestehende Patienten verfügbar</span>
       </div>
 
-      <div class="button-container">
-        <div class="button-wrapper">
-          <GenericButton v-for="(item, index) in treatmentTemplates" :key="index" :outlined="true"
-            :disabled="buttonsDisabled" :plain="true" class="generic-button" @click="handleSelect(item)">
-            <template #label>{{ item.name }}</template>
-          </GenericButton>
+      <div class="pr-1 pt-1 bg-white border-2 rounded-lg">
+        <div class="w-[350px]">
+          <div class="button-wrapper p-5  max-h-[370px] overflow-auto">
+            <GenericButton v-for="(item, index) in treatmentTemplates" :key="index" :outlined="true"
+              :disabled="buttonsDisabled" :plain="true" class="generic-button" @click="handleSelect(item)">
+              <template #label>{{ item.name }}</template>
+            </GenericButton>
+          </div>
         </div>
       </div>
       <!-- ENDS -->
       <div v-if="treatments.length">
         <!-- Treatments Table Starts -->
-        <div class="header mb-5" style="color: var(--dental-blue-0)">
+        <div class="header mb-5">
           <h2 style="font-weight: bold; font-size: 25px">
             Suggested Treatments
           </h2>
@@ -82,7 +84,7 @@ const handleSelect = (item: TreatmentTemplate) => {
   color: white;
 }
 
-.appointment-selector {
+/* .appointment-selector {
   display: flex;
   width: 100%;
   height: 100%;
@@ -93,7 +95,7 @@ const handleSelect = (item: TreatmentTemplate) => {
   gap: 8px;
   overflow: hidden;
   background-color: var(--dental-light-blue-3);
-}
+} */
 
 .content {
   display: flex;
@@ -149,12 +151,12 @@ const handleSelect = (item: TreatmentTemplate) => {
 }
 
 /* Hide scrollbar */
-.button-container {
+/* .button-container {
   scrollbar-width: none;
   -ms-overflow-style: none;
-}
-
+} */
+/* 
 .button-container::-webkit-scrollbar {
   display: none;
-}
+} */
 </style>

@@ -1,12 +1,12 @@
 <template>
-  <div class="confirmation-container">
+  <div :class="siteColors['font_color']">
     <div class="logo-container">
       <slot name="logo"></slot>
     </div>
 
-    <div class="title-container">
+    <div class="max-w-[400px] text-center">
       <h2>Terminbestätigen</h2>
-      <p class="p-large" style="margin-top: 10px">
+      <p class="p-large pb-10" style="margin-top: 10px">
         Bitte überprüfen Sie Ihre Angaben und bestätigen Sie den gebuchten
         Termin
       </p>
@@ -14,49 +14,52 @@
     <div class="appointment-confirmation">
       <div class="titles-container">
         <slot name="clock-icon"></slot>
-
-        <div class="information-container">
+        <div>
           <h3>{{ formattedDate }}</h3>
           <p class="p-large">{{ formattedHour }}</p>
         </div>
       </div>
       <div class="titles-container">
-        <slot name="tooth-icon"></slot>
+        <!-- <slot name="tooth-icon"></slot> -->
+         <IconsTooth width="24px"  />
 
-        <div class="information-container">
+        <div>
           <h3>Behandler</h3>
           <p class="p-large">{{ formattedDentist }}</p>
         </div>
       </div>
 
-      <div class="titles-container">
+      <div class="flex gap-2">
         <slot name="person-icon"></slot>
 
-        <div class="information-container">
+        <div class="mb-2">
           <h3>Patient</h3>
           <p class="p-large">{{ formattedPatient }}</p>
-          <GenericInput placeholder="Email" v-model="patient.email" />
-          <GenericInput placeholder="Telefon" v-model="patient.telephone" />
+          <div v-if="!checkIfPatient()" class="mt-2">
+            <GenericInput placeholder="Email" v-model="patient.email" />
+            <GenericInput placeholder="Telefon" v-model="patient.telephone" />
+          </div>
         </div>
       </div>
       <div class="titles-container">
         <slot name="schedule-icon"></slot>
-        <div class="information-container">
+        <div>
           <h3>Terminart</h3>
           <p class="p-large">{{ appointment.treatment.name }}</p>
         </div>
       </div>
 
-      <div class="action-buttons" style="gap: 32px">
-        <GenericButton :outlined="false" :plain="false" :disabled="buttonDisabled" @click="confirmAppointment"
-          class="select-button">
+      <div class="action-buttons flex" style="gap: 32px">
+        
+        <GenericButton :outlined="false" :default="true" :disabled="buttonDisabled" @click="confirmAppointment"
+          class="select-button py-2 flex-1">
           <template #label>
-            <p class="p-large">Bestätigen</p>
+            <p class="p-large text-white">Bestätigen</p>
           </template>
         </GenericButton>
 
         <GenericButton :outlined="true" :plain="true" :disabled="false" @click="cancelAppointment"
-          class="select-button">
+          class="select-button py-2 flex-1">
           <template #label>
             <p class="p-large">Abbrechen</p>
           </template>

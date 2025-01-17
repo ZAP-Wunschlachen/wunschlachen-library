@@ -46,7 +46,7 @@ const props = defineProps({
 });
 
 const buttonClasses = computed(() => {
-  let classes = ["button"];
+  let classes = ["button text-white py-2 hover:opacity-70", siteColors['btn_bg']];
 
   if (props.disabled) classes.push("button-disabled");
   if (props.sending) classes.push("button-sending");
@@ -56,11 +56,11 @@ const buttonClasses = computed(() => {
     );
   if (props.plain)
     classes.push(
-      props.disabled ? "button-plain-disabled" : "button-plain-enabled"
+      props.disabled ? "button-plain-disabled" : siteColors['border-color'] + " !bg-white " + siteColors['font_color']
     );
   if (props.outlined)
     classes.push(
-      props.disabled ? "button-outlined-disabled" : "button-outlined-enabled"
+      props.disabled ? "button-outlined-disabled" : siteColors['font_color'] + " border-2 " + siteColors['border-color']
     );
   if (!props.disabled && !props.default && !props.plain && !props.outlined)
     classes.push("button-enabled");
@@ -71,49 +71,27 @@ const buttonClasses = computed(() => {
 
 <style scoped>
 .button {
-  position: relative;
+  /* position: relative; */
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: normal;
   text-align: center;
   font-size: 1rem;
-  border: 0;
+  /* border: 0; */
   width: 100%;
   height: 2.5rem;
   line-height: 1.25rem;
   border-radius: 0.5rem;
   outline: none;
   cursor: pointer;
-  background-color: var(--dental-blue-0);
-  color: white;
-}
-
-.button:not(.button-disabled, .button-plain-enabled):hover {
-  background-color: var(--dental-blue--3);
-}
-.button:not(.button-disabled, .button-plain-enabled):active {
-  background-color: var(--dental-blue-1);
+  /* color: white; */
 }
 
 .button-disabled {
   cursor: not-allowed;
   background-color: var(--soft-concrete-2);
   color: white;
-}
-
-.button-default-enabled {
-  background-color: var(--dental-blue-0);
-  color: white;
-  border: 2px solid var(--dental-blue-0);
-}
-
-.button-default-enabled:hover {
-  background-color: var(--dental-blue--3);
-}
-
-.button-default-enabled:active {
-  background-color: var(--dental-blue-1);
 }
 
 .button-default-disabled {
@@ -124,17 +102,17 @@ const buttonClasses = computed(() => {
 
 .button-plain-enabled {
   background-color: transparent;
-  color: var(--dental-blue-0);
+  /* color: var(--dental-blue-0); */
 }
 
 .button-plain-enabled:hover {
   background-color: transparent;
-  color: var(--dental-blue--3);
+  /* color: var(--dental-blue--3); */
 }
 
 .button-plain-enabled:active {
   background-color: transparent;
-  color: var(--dental-blue-1);
+  /* color: var(--dental-blue-1); */
 }
 
 .button-plain-disabled {
@@ -142,22 +120,11 @@ const buttonClasses = computed(() => {
   color: var(--soft-concrete-2);
 }
 
-.button-outlined-enabled {
-  border: 2px solid var(--dental-blue-0);
-  color: var(--dental-blue-0);
-}
+/* .button-outlined-enabled { */
+/* border: 2px solid var(--dental-blue-0); */
 
-.button-outlined-enabled:hover {
-  background-color: var(--dental-blue--4);
-  color: var(--dental-blue-0);
-}
 
-.button-outlined-enabled:active {
-  background-color: var(--dental-blue--3);
-  color: white;
-  border-color: var(--dental-blue-0);
-}
-
+/* } */
 .button-outlined-disabled {
   border: 2px solid var(--soft-concrete-2);
   color: var(--soft-concrete-2);
@@ -189,24 +156,28 @@ const buttonClasses = computed(() => {
   justify-content: center;
   flex-direction: row;
   gap: 8px;
-  font-size: 1rem; /* Default size */
+  font-size: 1rem;
+  /* Default size */
 }
 
 @media (min-width: 640px) {
   .button-content {
-    font-size: 1rem; /* sm:text-[16px] */
+    font-size: 1rem;
+    /* sm:text-[16px] */
   }
 }
 
 @media (min-width: 768px) {
   .button-content {
-    font-size: 1.125rem; /* md:text-[18px] */
+    font-size: 1.125rem;
+    /* md:text-[18px] */
   }
 }
 
 @media (min-width: 1024px) {
   .button-content {
-    font-size: 1.25rem; /* lg:text-[20px] */
+    font-size: 1.25rem;
+    /* lg:text-[20px] */
   }
 }
 
@@ -225,6 +196,7 @@ const buttonClasses = computed(() => {
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }

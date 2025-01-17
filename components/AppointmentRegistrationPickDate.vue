@@ -1,6 +1,6 @@
 <template>
-  <div class="container">
-    <div class="content">
+  <div class="">
+    <div class="">
       <div class="logo">
         <slot name="logo"></slot>
       </div>
@@ -15,17 +15,15 @@
               <p class="p-large">
                 {{ dentist.gender === "M" ? "Herr" : "Frau" }}
                 | {{ dentist.last_name }}
-                {{ dentist.gender === "M" ? "Zahnärzt" : "Zahnärztin" }}
+                {{ dentist.gender === "M" ? "Zahnarzt" : "Zahnärztin" }}
               </p>
             </div>
           </div>
         </div>
 
         <div class="accordion-section">
-          <div class="accordion-container">
-            <div class="divider"></div>
-
-            <p class="p-large accordion-paragraph">
+          <div class="border p-6 rounded-lg">
+            <p class="p-large  w-[350px] pb-8 border-b-2" :class="siteColors['border-color']">
               Wählen Sie das für Sie passende Datum für den Termin
             </p>
 
@@ -39,31 +37,33 @@
               <div v-for="(items, key) in availableAppointments" :key="key">
                 <!-- in the begining -->
 
-
                 <GenericAccordion v-for="(item, index) in items" :key="index" :is-first="index"
                   @toggle="handleToggle(index)" :is-open="index === activeAccordionIndex">
                   <template #icon>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
-                      <path d="M19.5 8.75977L12 16.2598L4.5 8.75977" stroke="#172774" stroke-width="1.5"
+                      <path d="M19.5 8.75977L12 16.2598L4.5 8.75977" :stroke="siteColors['font_color_code']"  stroke-width="1.5"
                         stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
                   </template>
                   <template #title>
                     <h3>{{ stringToDate(index).format_date }}</h3>
                   </template>
-
                   <template v-if="item.length" #content>
                     <div class="content-container">
-                      <div class="grid-container">
+                      <div class="grid-container pr-2">
                         <GenericButton v-for="(button, btnIndex) in item" :key="btnIndex" :outliend="false"
-                          :disabled="appointmentsDisabled" class="appointment-button" @click="
+                          :disabled="appointmentsDisabled" 
+                          :class="[
+                            'w-[90px] py-2 my-1  text-[var(--ental-Blue-0)]',
+                            siteColors['slot-bg'],
+                          ]" @click="
                             handleSelectTime({
                               date: stringToDate(index).date,
                               slotIndex: button,
                             })
                             ">
                           <template #label>
-                            <h3 class="">
+                            <h3 class="font-normal" :class="siteColors['slot-text']">
                               {{ button.slot }}
                             </h3>
                           </template>
@@ -93,12 +93,14 @@
               </div>
             </div>
 
-            <GenericButton style="min-height: 45px" :outlined="false" :plain="false" :disabled="buttonDisabled"
-              @click="loadMoreDates" class="select-button">
+            <div class="pt-6">
+              <GenericButton  :default="true" :disabled="buttonDisabled"
+              @click="loadMoreDates" class="py-2 select-button">
               <template #label>
-                <p class="p-large">Weitere Termine anzeigen</p>
+                <p class="text-white text-[16px]">Weitere Termine anzeigen</p>
               </template>
             </GenericButton>
+            </div>
           </div>
         </div>
       </div>
@@ -308,11 +310,10 @@ const visibleAvailableTimes = computed(() => {
 }
 
 .accordion-container {
-  display: flex;
-  flex-direction: column;
+  /* display: flex; */
+  /* flex-direction: column; */
   padding: 24px;
-  gap: 24px;
-  border-radius: 8px;
+  /* border-radius: 8px; */
   border: 1px solid var(--soft-concrete-1, #dddddf);
   background: #fff;
 }
@@ -357,13 +358,6 @@ const visibleAvailableTimes = computed(() => {
   background: var(--dental-light-blue-0);
   color: var(--ental-Blue-0);
   margin: 5px 0px;
-}
-
-.appointment-button:hover {
-  max-width: 80px;
-  border-radius: 8px;
-
-  color: white;
 }
 
 .button-text {

@@ -1,6 +1,6 @@
 <template>
-  <div class="container">
-    <div class="content-wrapper">
+  <div>
+    <div class="">
       <div class="logo-container">
         <!-- <p>Loading logo...</p> -->
         <slot name="logo"></slot>
@@ -37,8 +37,8 @@
                   <p class="p-large">Ggf. bitte rechtzeitig absagen</p>
                 </div>
               </div>
-              <div class="separator"></div>
-              <div class="info-row">
+
+              <div class="info-row border-t-2 pt-8" :class="siteColors['border-color']">
                 <div class="icon-container">
                   <!-- Add map icon here -->
                   <slot name="map-icon"></slot>
@@ -58,15 +58,13 @@
               <IconsSuccessAppointment></IconsSuccessAppointment>
             </div>
             <GenericButton
-              :outlined="false"
-              :plain="false"
-              :disabled="false"
+              :default="true"
               label="Auswählen"
               style="margin-top: 24px"
               @click="handleClick()"
             >
               <template #label>
-                <p class="p-large" style="font-weight: 300; color: white">
+                <p class="p-large py-2" style="font-weight: 300; color: white">
                   Zurück zur Übersicht
                 </p>
               </template>
