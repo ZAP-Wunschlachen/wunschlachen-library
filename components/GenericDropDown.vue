@@ -1,12 +1,26 @@
 <template>
-  <div class="dropdown" style="width: 100%" ref="dropdown">
+  <div
+    class="dropdown"
+    :class="{ 'dropdown-error': error, 'dropdown-disabled': disabled }"
+    style="width: 100%"
+    ref="dropdown"
+  >
     <slot name="label"></slot>
-    <button @click="toggleDropdown" id="dropdownDefaultButton" :class="buttonClasses" type="button">
+    <button
+      @click="toggleDropdown"
+      id="dropdownDefaultButton"
+      :class="[buttonClasses, { 'dropdown-button-error': error, 'dropdown-button-disabled': disabled }]"
+      type="button"
+      :disabled="disabled"
+    >
       <div class="mr-auto">
         <template v-if="props.multiple && selectedLabel.length > 0">
           <div class="grid grid-cols-3 gap-2">
-            <GenericButton v-for="(item, index) in selectedLabel" :key="index"
-              class="px-2 no-wrap mx-1 appointment-button">
+            <GenericButton
+              v-for="(item, index) in selectedLabel"
+              :key="index"
+              class="px-2 no-wrap mx-1 appointment-button"
+            >
               <template #label>
                 <div class="text-container">
                   <p class="large">{{ item }}</p>
@@ -15,24 +29,44 @@
             </GenericButton>
           </div>
         </template>
-        <span class="default-label" v-else-if="!props.multiple && selectedLabel.length > 0">
+        <span
+          class="default-label"
+          v-else-if="!props.multiple && selectedLabel.length > 0"
+        >
           {{ selectedLabel[0] }}
         </span>
         <span class="default-label" v-else>{{ defaultLabel }}</span>
       </div>
 
-      <svg class="dropdown-icon" :class="{ 'rotate-180': isDropdownOpen }" width="16" height="17" viewBox="0 0 16 17"
-        fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M13 6L8 11L3 6" stroke="#172774" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+      <svg
+        class="dropdown-icon"
+        :class="{ 'rotate-180': isDropdownOpen }"
+        width="16"
+        height="17"
+        viewBox="0 0 16 17"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M13 6L8 11L3 6"
+          stroke="#172774"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
       </svg>
     </button>
 
     <!-- Dropdown menu -->
-    <div v-if="isDropdownOpen" class="dropdown-menu">
+    <div v-if="isDropdownOpen && !disabled" class="dropdown-menu">
       <ul class="dropdown-list" aria-labelledby="dropdownDefaultButton">
         <li v-for="item in items" :key="item.value">
-          <a href="#" @click.prevent="selectItem(item)" :class="{ 'dropdown-item-selected': isSelected(item) }"
-            class="dropdown-item">
+          <a
+            href="#"
+            @click.prevent="selectItem(item)"
+            :class="{ 'dropdown-item-selected': isSelected(item) }"
+            class="dropdown-item"
+          >
             {{ item.label }}
           </a>
         </li>
@@ -61,7 +95,7 @@ const props = defineProps({
   },
   label: {
     type: String,
-    default: '',
+    default: "",
   },
   multiple: {
     type: Boolean,
@@ -70,6 +104,14 @@ const props = defineProps({
   defaultLabel: {
     type: String,
     default: "Choose options",
+  },
+  error: {
+    type: Boolean,
+    default: false,
+  },
+  disabled: {
+    type: Boolean,
+    default: false, // Existing prop for disabled state
   },
 });
 
@@ -103,7 +145,9 @@ const selectedLabel = computed(() => {
 
 // Methods
 function toggleDropdown() {
-  isDropdownOpen.value = !isDropdownOpen.value;
+  if (!props.disabled) {
+    isDropdownOpen.value = !isDropdownOpen.value;
+  }
 }
 
 function selectItem(item: { label: string; value: any }) {
@@ -163,6 +207,15 @@ onBeforeUnmount(() => {
   display: inline-block;
 }
 
+.dropdown-error {
+  background-color: #ffe5e5; /* Light red background */
+}
+
+.dropdown-disabled {
+  opacity: 0.5; /* Greyed-out appearance */
+  pointer-events: none; /* Disable interactions */
+}
+
 .dropdown-button,
 .dropdown-button-active {
   background-color: white;
@@ -181,9 +234,26 @@ onBeforeUnmount(() => {
   transition: background-color 0.3s ease;
 }
 
+.dropdown-button-error {
+  background-color: #ffe5e5; /* Light red background */
+  color: #d32f2f; /* Dark red text color */
+  border-color: #d32f2f; /* Dark red border */
+}
+
+.dropdown-button-disabled {
+  background-color: #f5f5f5; /* Light grey background */
+  color: #a0a0a0; /* Grey text color */
+  border-color: #dcdcdc; /* Grey border */
+  cursor: not-allowed; /* Disabled cursor */
+}
+
 .dropdown-button:hover,
 .dropdown-button-active:hover {
   background-color: var(--dental-blue-minus-6);
+}
+
+.dropdown-button-error:hover {
+  background-color: #ffcccc; /* Slightly darker red on hover */
 }
 
 .dropdown-button:focus,
@@ -202,7 +272,6 @@ onBeforeUnmount(() => {
   margin-left: 0.75rem;
   transition: transform 0.3s ease;
   flex-shrink: 0;
-  /* Prevent shrinking */
 }
 
 .rotate-180 {
